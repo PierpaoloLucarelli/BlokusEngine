@@ -1,1 +1,1 @@
-g++ *.cpp -o blokkus-ai
+g++ *.cpp -o blokus
