@@ -1,0 +1,1 @@
+g++ *.cpp -o blokkus-ai
