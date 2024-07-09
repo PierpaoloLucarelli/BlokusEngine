@@ -1,10 +1,11 @@
 #include <iostream>
 #include <piece.h>
 
-BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric) : shape(myShape){
+BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string myId) : shape(myShape){
     
     width = myShape[0].size();
     height = myShape.size();
+    id = myId;
     symmetric = isSymmetric;
 }
 
@@ -40,4 +41,8 @@ bool BlokusPiece::getXY(int x, int y){
 
 bool BlokusPiece::isSymmetric(){
     return symmetric;
+}
+
+bool BlokusPiece::operator==(const BlokusPiece& other) const {
+    return id == other.id;
 }
