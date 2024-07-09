@@ -46,3 +46,7 @@ bool BlokusPiece::isSymmetric(){
 bool BlokusPiece::operator==(const BlokusPiece& other) const {
     return id == other.id;
 }
+
+std::string BlokusPiece::getId() const{
+    return id;
+}

@@ -6,7 +6,6 @@ BlokusBoard::BlokusBoard(){
     height = HEIGHT;
     width = WIDTH;
     cpuTurn = true;
-    BlokusBoard::reset();
 }
 
 
@@ -18,7 +17,6 @@ void BlokusBoard::reset(){
             state[i][j] = false;
         }
     }
-    printBoardState();
 }
 
 
