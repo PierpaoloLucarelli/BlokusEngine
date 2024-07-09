@@ -2,10 +2,11 @@
 #include "piece.h"
 
 
-BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape) : shape(myShape){
+BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric) : shape(myShape){
     
     width = myShape[0].size();
     height = myShape.size();
+    symmetric = isSymmetric;
 }
 
 void BlokusPiece::printPiece(){
@@ -36,4 +37,8 @@ int BlokusPiece::getHeight(){
 
 bool BlokusPiece::getXY(int x, int y){
     return shape[x][y];
+}
+
+bool BlokusPiece::isSymmetric(){
+    return symmetric;
 }
