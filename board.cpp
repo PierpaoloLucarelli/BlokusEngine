@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "board.h"
+#include <board.h>
 
 BlokusBoard::BlokusBoard(){
     height = HEIGHT;
     width = WIDTH;
+    cpuTurn = true;
     BlokusBoard::reset();
 }
 
@@ -74,4 +75,8 @@ int BlokusBoard::getWidth(){
 
 int BlokusBoard::getHeight(){
     return height;
+}
+
+bool BlokusBoard::isCpuTurn(){
+    return cpuTurn;
 }

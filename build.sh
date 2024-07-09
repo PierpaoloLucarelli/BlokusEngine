@@ -1,1 +1,1 @@
-g++ *.cpp -o blokus
+g++ -I ./include *.cpp -o blokus

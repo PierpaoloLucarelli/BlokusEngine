@@ -1,6 +1,5 @@
 #include <iostream>
-#include "piece.h"
-
+#include <piece.h>
 
 BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric) : shape(myShape){
     

@@ -1,8 +1,8 @@
 #include <iostream>
-#include "board.h"
-#include "piece.h"
-#include "pieceFactory.h"
-#include "pieceShapes.h"
+#include <board.h>
+#include <piece.h>
+#include <pieceFactory.h>
+#include <pieceShapes.h>
 
 
 
@@ -38,6 +38,8 @@ int main(){
     board.placePiece(iPiece, 6, 5);
 
     board.placePiece(bigCornerPiece, 0, board.getHeight()-3);
+
+    board.placePiece(bigCornerPiece, 1, board.getHeight()-4);
 
     board.printBoardState();
 
