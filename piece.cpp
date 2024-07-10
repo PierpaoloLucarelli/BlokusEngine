@@ -1,11 +1,12 @@
 #include <iostream>
 #include <piece.h>
 
-BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string myId) : shape(myShape){
+BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string myId, int pieceSize) : shape(myShape){
     
     width = myShape[0].size();
     height = myShape.size();
     id = myId;
+    size = pieceSize;
     symmetric = isSymmetric;
 }
 

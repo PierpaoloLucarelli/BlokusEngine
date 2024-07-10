@@ -12,11 +12,12 @@ class BlokusPiece{
         int width;
         int height;
         bool symmetric;
+        int size;
         std::string id;
 
     public:
 
-        BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string id);
+        BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string id, int pieceSize);
         void printPiece();
         int getWidth();
         int getHeight();

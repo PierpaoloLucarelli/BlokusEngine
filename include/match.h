@@ -14,7 +14,6 @@ class BlokusMatch{
         std::unordered_set<blokusShapeType> p1Pieces;
         std::unordered_set<blokusShapeType> p2Pieces;
 
-
     public:
 
         BlokusMatch(BlokusBoard& aBoard, bool isCPuTurn);

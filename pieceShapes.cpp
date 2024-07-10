@@ -4,50 +4,50 @@
 Matrix iShape = {
     {1,1,1,1,1}
 };
-BlokusPiece iPiece = BlokusPiece(iShape, false, "iPiece");
+BlokusPiece iPiece = BlokusPiece(iShape, false, "iPiece", 5);
 
 Matrix smallCornerShape = {
     {1,0},
     {1,1}
 };
-BlokusPiece smallCornerPiece = BlokusPiece(smallCornerShape, false, "smallCornerPiece");
+BlokusPiece smallCornerPiece = BlokusPiece(smallCornerShape, false, "smallCornerPiece", 3);
 
 Matrix bigCornerShape = {
     {1,0,0},
     {1,0,0},
     {1,1,1}
 };
-BlokusPiece bigCornerPiece = BlokusPiece(bigCornerShape, false, "bigCornerPiece");
+BlokusPiece bigCornerPiece = BlokusPiece(bigCornerShape, false, "bigCornerPiece", 5);
 
 Matrix singleShape = {
     {1}
 };
-BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece");
+BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
 
 Matrix crossShape = {
     {0,1,0},
     {1,1,1},
     {0,1,0}
 };
-BlokusPiece crossPiece = BlokusPiece(crossShape, false, "crossPiece");
+BlokusPiece crossPiece = BlokusPiece(crossShape, false, "crossPiece", 5);
 
 Matrix tShape = {
     {0,1,0},
     {1,1,1}
 };
-BlokusPiece tPiece = BlokusPiece(tShape, false, "tPiece");
+BlokusPiece tPiece = BlokusPiece(tShape, false, "tPiece", 4);
 
 Matrix zShape = {
     {1,1,0},
     {0,1,1}
 };
-BlokusPiece zPiece = BlokusPiece(zShape, false, "zPiece");
+BlokusPiece zPiece = BlokusPiece(zShape, false, "zPiece", 4);
 
 Matrix oShape = {
     {1,1},
     {1,1}
 };
-BlokusPiece oPiece = BlokusPiece(oShape, false, "oPiece");
+BlokusPiece oPiece = BlokusPiece(oShape, false, "oPiece", 4);
 
 std::unordered_map<blokusShapeType, BlokusPiece> piecesMap; 
 void initializePieceMap() {

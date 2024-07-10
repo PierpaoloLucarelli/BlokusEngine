@@ -10,7 +10,6 @@ int main(){
     BlokusMatch match(board, true);
     match.newGame();
 
-    auto iPiece = blokusShapeType::iShapeType;
     // auto bigCornerPiece = pieceFactory.getPiece(blokusShapeType::BigCornerShapeType);
 
     // board.placePiece(iPiece, 5, 5);
@@ -23,9 +22,9 @@ int main(){
 
     // board.printBoardState();
 
-    // seems kinda stupid to have a set containing the actual pieces. Maybe best to just have the enums in the sets and have the piece objects as global vars.
-
-    match.playMove(iPiece, 0, 0);
+    match.playMove(blokusShapeType::iShapeType, 0, 0);
+    match.playMove(blokusShapeType::oShapeType, 2, 2);
+    match.playMove(blokusShapeType::zShapeType, 6, 6);
     match.getBoard().printBoardState();
 
 
