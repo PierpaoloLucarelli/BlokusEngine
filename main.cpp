@@ -1,17 +1,16 @@
 #include <iostream>
 #include <board.h>
-
+#include <pieceShapes.h>
 #include <match.h>
 
 
 int main(){
     BlokusBoard board;
+    initializePieceMap();
     BlokusMatch match(board, true);
-    PieceFactory pieceFactory;
+    match.newGame();
 
-    match.newGame(pieceFactory);
-
-    auto iPiece = pieceFactory.getPiece(blokusShapeType::iShapeType);
+    auto iPiece = blokusShapeType::iShapeType;
     // auto bigCornerPiece = pieceFactory.getPiece(blokusShapeType::BigCornerShapeType);
 
     // board.placePiece(iPiece, 5, 5);

@@ -45,19 +45,30 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(std::unique_ptr<BlokusPiece>& p, int x, int y){
+bool BlokusBoard::placePiece(blokusShapeType p, int x, int y){
+
+    auto it = piecesMap.find(p);
+    
+    if(it == piecesMap.end()){
+        return false;
+    }
+
+    auto piece = it->second;
+
+
     if(x<0 || y <0 ){
         return false;
     }
 
-    if(x + p->getWidth() > WIDTH || y + p->getHeight() > HEIGHT){
+    if(x + piece.getWidth() > WIDTH || y + piece.getHeight() > HEIGHT){
         return false;
     }
 
-    for(int i = 0 ; i < p->getWidth() ; i++){
-        for(int j = 0 ; j < p->getHeight(); j++){
+    
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+        for(int j = 0 ; j < piece.getHeight(); j++){
             bool blockUsed = state[y+j][x+i];
-            bool pieceBlockUsed = p->getXY(j, i);
+            bool pieceBlockUsed = piece.getXY(j, i);
             if(blockUsed && pieceBlockUsed){
                 return false;
             }

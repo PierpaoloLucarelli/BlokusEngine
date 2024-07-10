@@ -4,27 +4,27 @@
 #include <unordered_set>
 
 #include <board.h>
-#include <pieceFactory.h>
+#include <pieceShapes.h>
 
 
 class BlokusMatch{
     private:
         bool turn;
         BlokusBoard& board;
-        std::unordered_set<BlokusPiece, BlokusPiece::HashFunction> p1Pieces;
-        std::unordered_set<BlokusPiece, BlokusPiece::HashFunction> p2Pieces;
+        std::unordered_set<blokusShapeType> p1Pieces;
+        std::unordered_set<blokusShapeType> p2Pieces;
 
 
     public:
 
         BlokusMatch(BlokusBoard& aBoard, bool isCPuTurn);
 
-        void newGame(PieceFactory& pieceFactory);
-        bool playMove(std::unique_ptr<BlokusPiece>& p, int x, int y);
+        void newGame();
+        bool playMove(blokusShapeType p, int x, int y);
         bool gameOver();
         int evaluatePosition();
         BlokusBoard& getBoard();
-        std::unordered_set<BlokusPiece, BlokusPiece::HashFunction>& getP1Pieces();
-        std::unordered_set<BlokusPiece, BlokusPiece::HashFunction>& getP2Pieces();
+        std::unordered_set<blokusShapeType>& getP1Pieces();
+        std::unordered_set<blokusShapeType>& getP2Pieces();
 
 };

@@ -1,24 +1,27 @@
 #include <match.h>
 #include <memory>
+#include <pieceShapes.h>
 
 BlokusMatch::BlokusMatch(BlokusBoard& aBoard, bool isCpuTurn): board(aBoard){
     turn = isCpuTurn;
 }
 
-void BlokusMatch::newGame(PieceFactory& pieceFactory){
+void BlokusMatch::newGame(){
+    for(const auto& pair : piecesMap){
+        p1Pieces.insert(pair.first);
+        p2Pieces.insert(pair.first);
+    }
     board.reset();
-    pieceFactory.fillPieceSet(p1Pieces);
-    pieceFactory.fillPieceSet(p2Pieces);
 }
 
-bool BlokusMatch::playMove(std::unique_ptr<BlokusPiece>& p, int x, int y){
-    std::unordered_set<BlokusPiece, BlokusPiece::HashFunction> playerPieces;
+bool BlokusMatch::playMove(blokusShapeType p, int x, int y){
+    std::unordered_set<blokusShapeType> playerPieces;
     if(turn){
         playerPieces = getP1Pieces();
     } else{
         playerPieces = getP2Pieces();
     }
-    if(!(playerPieces.find(*p) != playerPieces.end())){
+    if(!(playerPieces.find(p) != playerPieces.end())){
         return false;
     }
     turn = !turn;
@@ -37,10 +40,10 @@ BlokusBoard& BlokusMatch::getBoard(){
     return board;
 }
 
-std::unordered_set<BlokusPiece, BlokusPiece::HashFunction>& BlokusMatch::getP1Pieces(){
+std::unordered_set<blokusShapeType>& BlokusMatch::getP1Pieces(){
     return p1Pieces;
 }
 
-std::unordered_set<BlokusPiece, BlokusPiece::HashFunction>& BlokusMatch::getP2Pieces(){
+std::unordered_set<blokusShapeType>& BlokusMatch::getP2Pieces(){
     return p2Pieces;
 }

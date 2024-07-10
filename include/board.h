@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "piece.h"
+#include "pieceShapes.h"
 #include <memory>
 
 const int WIDTH = 10;
@@ -19,7 +19,7 @@ class BlokusBoard{
         BlokusBoard();
         void reset();
         void printBoardState();
-        bool placePiece(std::unique_ptr<BlokusPiece>& p, int x, int y);
+        bool placePiece(blokusShapeType p, int x, int y);
         int getWidth();
         int getHeight();
         bool isCpuTurn();
