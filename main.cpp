@@ -27,8 +27,6 @@ int main(){
         std::cout << blokusShapeTypeNames[std::get<0>(move)] << ", row: " << std::get<1>(move) << ", col: " << std::get<2>(move)<<std::endl;
     }
 
-
-    std::cout << "MyWidth" << match.getBoard().getWidth();
     match.getBoard().printBoardState();
     return 0;
 }

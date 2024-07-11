@@ -20,7 +20,7 @@ std::vector<BlokusMove> getMovesFromMatch(BlokusMatch& match) {
             BlokusMatch matchCopy(match); 
             if(matchCopy.playMove(piece, (int)i/w, i%w)){ // can play move
                 moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
-                matchCopy.getBoard().printBoardState();
+                // matchCopy.getBoard().printBoardState();
             };
         }
     }
