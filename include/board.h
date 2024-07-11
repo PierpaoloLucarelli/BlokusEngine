@@ -24,4 +24,5 @@ class BlokusBoard{
         int getHeight();
         std::string getstrReprForBlock(int x, int y);
         bool isInCorner(blokusShapeType p, int row, int col);
+        std::string hash();
 };

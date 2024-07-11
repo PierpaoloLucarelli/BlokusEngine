@@ -12,11 +12,7 @@ int main(){
 
     match.playMove(blokusShapeType::zShapeType, 0, 0);
     match.playMove(blokusShapeType::iShapeType, 9, 5);
-    // match.playMove(blokusShapeType::iShapeType, 1, 5);
-    // match.playMove(blokusShapeType::oShapeType, 2, 2);
-    // match.playMove(blokusShapeType::zShapeType, 6, 6);
     match.getBoard().printBoardState();
-
 
     return 0;
 }

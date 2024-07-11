@@ -126,3 +126,14 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
     }
     return false;
 }
+
+std::string BlokusBoard::hash(){
+    std::string hash = "";
+    for(int i = 0 ; i < WIDTH ; i++){
+        for(int j = 0 ; j < HEIGHT; j++){
+            hash += std::to_string(state[i][j]);
+        }
+
+    }
+    return hash;
+}
