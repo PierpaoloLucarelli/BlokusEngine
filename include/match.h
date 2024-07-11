@@ -19,7 +19,7 @@ class BlokusMatch{
         BlokusMatch(BlokusBoard& aBoard, bool isCPuTurn);
 
         void newGame();
-        bool playMove(blokusShapeType p, int x, int y);
+        bool playMove(blokusShapeType p, int row, int col);
         bool gameOver();
         int evaluatePosition();
         BlokusBoard& getBoard();

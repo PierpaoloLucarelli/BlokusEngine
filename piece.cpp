@@ -18,7 +18,7 @@ void BlokusPiece::printPiece(){
             std::string x;
             if(filled){
                 x = "[X]";
-            } else{
+            } else {
                 x = "[ ]";
             }
             strRepr += x + " ";

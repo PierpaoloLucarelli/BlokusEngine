@@ -5,7 +5,6 @@
 BlokusBoard::BlokusBoard(){
     height = HEIGHT;
     width = WIDTH;
-    cpuTurn = true;
 }
 
 
@@ -14,7 +13,7 @@ void BlokusBoard::reset(){
 
     for(int i = 0; i < WIDTH ; i++){
         for(int j = 0 ; j < HEIGHT ; j++){
-            state[i][j] = false;
+            state[i][j] = 0;
         }
     }
 }
@@ -26,26 +25,17 @@ void BlokusBoard::printBoardState(){
     std::cout<< "****************BLOKUS*******************" << std::endl; 
     std::cout<< "*****************************************" << std::endl; 
 
-
-
     std::string strRepr;
     for(int i = 0; i < WIDTH ; i++){
         for(int j = 0 ; j < HEIGHT ; j++){
-            bool filled = state[i][j];
-            std::string x;
-            if(filled){
-                x = "[X]";
-            } else{
-                x = "[ ]";
-            }
-            strRepr += x + " ";
+            strRepr += getstrReprForBlock(i, j) + " ";
         }
         strRepr += "\n";
     }
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(blokusShapeType p, int x, int y){
+bool BlokusBoard::placePiece(blokusShapeType p, int x, int y, uint8_t turn){
 
     auto it = piecesMap.find(p);
     
@@ -55,7 +45,6 @@ bool BlokusBoard::placePiece(blokusShapeType p, int x, int y){
 
     auto piece = it->second;
 
-
     if(x<0 || y <0 ){
         return false;
     }
@@ -64,18 +53,45 @@ bool BlokusBoard::placePiece(blokusShapeType p, int x, int y){
         return false;
     }
 
-    
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
-            bool blockUsed = state[y+j][x+i];
+            bool blockUsed = state[y+j][x+i] != 0;
             bool pieceBlockUsed = piece.getXY(j, i);
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
-            state[y+j][x+i] = pieceBlockUsed;
+            if(pieceBlockUsed && (
+                y-1 >= 0 && state[y+j-1][x+i] == turn || // UP
+                y+1 < HEIGHT && state[y+j+1][x+i] == turn || // DOWN
+                x-1 >= 0 && state[y+j][x+i-1] == turn || // LEFT
+                x+1 < WIDTH && state[y+j][x+i+1] == turn // RIGHT
+            )){
+                return false;
+            }
+        }
+    }
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+        for(int j = 0 ; j < piece.getHeight(); j++){
+            bool pieceBlockUsed = piece.getXY(j, i);
+            if(pieceBlockUsed){
+                state[y+j][x+i] = turn;
+            }
         }
     }
     return true;
+}
+
+std::string BlokusBoard::getstrReprForBlock(int row, int col){
+    std::string strRep;
+    uint8_t tileState = state[row][col];
+    if(tileState == 1){
+        strRep = "[X]";
+    } else if(tileState == 2){
+        strRep = "[O]";
+    } else{
+        strRep = "[ ]";
+    }
+    return strRep;
 }
 
 int BlokusBoard::getWidth(){
@@ -84,8 +100,4 @@ int BlokusBoard::getWidth(){
 
 int BlokusBoard::getHeight(){
     return height;
-}
-
-bool BlokusBoard::isCpuTurn(){
-    return cpuTurn;
 }

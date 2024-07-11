@@ -14,7 +14,7 @@ void BlokusMatch::newGame(){
     board.reset();
 }
 
-bool BlokusMatch::playMove(blokusShapeType p, int x, int y){
+bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
     std::unordered_set<blokusShapeType> playerPieces;
     if(turn){
         playerPieces = getP1Pieces();
@@ -24,8 +24,11 @@ bool BlokusMatch::playMove(blokusShapeType p, int x, int y){
     if(!(playerPieces.find(p) != playerPieces.end())){
         return false;
     }
+
+    uint8_t turnRep = turn == 1 ? 1 : 2;
+    bool success = board.placePiece(p, col, row, turnRep);
     turn = !turn;
-    return board.placePiece(p, x, y);
+    return success;
 }
 
 bool BlokusMatch::gameOver(){
