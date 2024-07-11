@@ -13,9 +13,10 @@ class BlokusMatch{
         BlokusBoard& board;
         std::unordered_set<blokusShapeType> p1Pieces;
         std::unordered_set<blokusShapeType> p2Pieces;
+        bool p1Played;
+        bool p2Played;
 
     public:
-
         BlokusMatch(BlokusBoard& aBoard, bool isCPuTurn);
 
         void newGame();

@@ -35,7 +35,7 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(blokusShapeType p, int x, int y, uint8_t turn){
+bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
 
     auto it = piecesMap.find(p);
     
@@ -45,26 +45,26 @@ bool BlokusBoard::placePiece(blokusShapeType p, int x, int y, uint8_t turn){
 
     auto piece = it->second;
 
-    if(x<0 || y <0 ){
+    if(col<0 || row <0 ){
         return false;
     }
 
-    if(x + piece.getWidth() > WIDTH || y + piece.getHeight() > HEIGHT){
+    if(col + piece.getWidth() > WIDTH || row + piece.getHeight() > HEIGHT){
         return false;
     }
 
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
-            bool blockUsed = state[y+j][x+i] != 0;
+            bool blockUsed = state[row+j][col+i] != 0;
             bool pieceBlockUsed = piece.getXY(j, i);
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
             if(pieceBlockUsed && (
-                y-1 >= 0 && state[y+j-1][x+i] == turn || // UP
-                y+1 < HEIGHT && state[y+j+1][x+i] == turn || // DOWN
-                x-1 >= 0 && state[y+j][x+i-1] == turn || // LEFT
-                x+1 < WIDTH && state[y+j][x+i+1] == turn // RIGHT
+                row+j-1 >= 0 && state[row+j-1][col+i] == turn || // UP
+                row+j+1 < HEIGHT && state[row+j+1][col+i] == turn || // DOWN
+                col+i-1 >= 0 && state[row+j][col+i-1] == turn || // LEFT
+                col+i+1 < WIDTH && state[row+j][col+i+1] == turn // RIGHT
             )){
                 return false;
             }
@@ -74,7 +74,7 @@ bool BlokusBoard::placePiece(blokusShapeType p, int x, int y, uint8_t turn){
         for(int j = 0 ; j < piece.getHeight(); j++){
             bool pieceBlockUsed = piece.getXY(j, i);
             if(pieceBlockUsed){
-                state[y+j][x+i] = turn;
+                state[row+j][col+i] = turn;
             }
         }
     }
@@ -100,4 +100,29 @@ int BlokusBoard::getWidth(){
 
 int BlokusBoard::getHeight(){
     return height;
+}
+
+bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
+    bool usesCorner = false;
+    auto it = piecesMap.find(p);
+    if(it == piecesMap.end()){
+        return false;
+    }
+    auto piece = it->second;
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+        for(int j = 0 ; j < piece.getHeight(); j++){
+            bool pieceBlockUsed = piece.getXY(j, i);
+            int boardRow = row+j;
+            int boardCol = col+i; 
+            if (pieceBlockUsed && ( // is corner
+                (boardRow == 0 && boardCol == 0) || 
+                (boardRow == 0 && boardCol == WIDTH - 1) || 
+                (boardRow == HEIGHT - 1 && boardCol == 0) || 
+                (boardRow == HEIGHT - 1 && boardCol == WIDTH - 1)
+            )){
+                return true;
+            }
+        }
+    }
+    return false;
 }
