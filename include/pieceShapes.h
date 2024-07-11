@@ -18,6 +18,8 @@ enum blokusShapeType {
     oShapeType
 };
 
+extern const char* blokusShapeTypeNames[];
+
 extern Matrix iShape;
 extern BlokusPiece iPiece;
 

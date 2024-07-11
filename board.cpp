@@ -1,20 +1,22 @@
 #include <iostream>
+#include <cstring>
 
 #include <board.h>
 
 BlokusBoard::BlokusBoard(){
-    height = HEIGHT;
-    width = WIDTH;
+
+}
+
+
+BlokusBoard::BlokusBoard(BlokusBoard& otherBoard){
+    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(uint8_t) );
 }
 
 
 void BlokusBoard::reset(){
     std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
-
-    for(int i = 0; i < WIDTH ; i++){
-        for(int j = 0 ; j < HEIGHT ; j++){
-            state[i][j] = 0;
-        }
+    for(int i = 0; i < WIDTH*HEIGHT ; i++){
+        state[i] = 0;
     }
 }
 
@@ -26,11 +28,11 @@ void BlokusBoard::printBoardState(){
     std::cout<< "*****************************************" << std::endl; 
 
     std::string strRepr;
-    for(int i = 0; i < WIDTH ; i++){
-        for(int j = 0 ; j < HEIGHT ; j++){
-            strRepr += getstrReprForBlock(i, j) + " ";
+    for(int i = 0; i < WIDTH * HEIGHT ; i++){
+        strRepr += getStrReprForBlock(i) + " ";
+        if((i+1) % WIDTH == 0){
+            strRepr += "\n";
         }
-        strRepr += "\n";
     }
     std::cout<<strRepr;
 }
@@ -55,16 +57,16 @@ bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
 
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
-            bool blockUsed = state[row+j][col+i] != 0;
+            bool blockUsed = state[(row+j)*WIDTH + col+i] != 0;
             bool pieceBlockUsed = piece.getXY(j, i);
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
             if(pieceBlockUsed && (
-                row+j-1 >= 0 && state[row+j-1][col+i] == turn || // UP
-                row+j+1 < HEIGHT && state[row+j+1][col+i] == turn || // DOWN
-                col+i-1 >= 0 && state[row+j][col+i-1] == turn || // LEFT
-                col+i+1 < WIDTH && state[row+j][col+i+1] == turn // RIGHT
+                row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn || // UP
+                row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn || // DOWN
+                col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn || // LEFT
+                col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn // RIGHT
             )){
                 return false;
             }
@@ -74,16 +76,16 @@ bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
         for(int j = 0 ; j < piece.getHeight(); j++){
             bool pieceBlockUsed = piece.getXY(j, i);
             if(pieceBlockUsed){
-                state[row+j][col+i] = turn;
+                state[(row+j)*WIDTH + col+i] = turn;
             }
         }
     }
     return true;
 }
 
-std::string BlokusBoard::getstrReprForBlock(int row, int col){
+std::string BlokusBoard::getStrReprForBlock(int i){
     std::string strRep;
-    uint8_t tileState = state[row][col];
+    uint8_t tileState = state[i];
     if(tileState == 1){
         strRep = "[X]";
     } else if(tileState == 2){
@@ -95,11 +97,11 @@ std::string BlokusBoard::getstrReprForBlock(int row, int col){
 }
 
 int BlokusBoard::getWidth(){
-    return width;
+    return WIDTH;
 }
 
 int BlokusBoard::getHeight(){
-    return height;
+    return HEIGHT;
 }
 
 bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
@@ -129,10 +131,8 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
 
 std::string BlokusBoard::hash(){
     std::string hash = "";
-    for(int i = 0 ; i < WIDTH ; i++){
-        for(int j = 0 ; j < HEIGHT; j++){
-            hash += std::to_string(state[i][j]);
-        }
+    for(int i = 0 ; i < WIDTH * HEIGHT; i++){
+        hash += std::to_string(state[i]);
     }
     return hash;
 }

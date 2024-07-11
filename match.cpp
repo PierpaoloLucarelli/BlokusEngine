@@ -24,6 +24,18 @@ BlokusMatch::BlokusMatch(BlokusBoard& aBoard, bool isCpuTurn): board(aBoard){
     p2Played = false;
 }
 
+BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
+    turn = otherMatch.turn;
+    p1Played = otherMatch.p1Played;
+    p2Played = otherMatch.p2Played;
+    for (blokusShapeType p : otherMatch.p1Pieces) {
+        p1Pieces.insert(p);
+    }
+    for (blokusShapeType p : otherMatch.p2Pieces) {
+        p2Pieces.insert(p);
+    }
+}
+
 void BlokusMatch::newGame(){
     for(const auto& pair : piecesMap){
         p1Pieces.insert(pair.first);
@@ -35,21 +47,15 @@ void BlokusMatch::newGame(){
 }
 
 bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
-    // std::cout<<turn<< " " << p2Played ;
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
     
         if (!board.isInCorner(p, row, col)){
-            std::cout<<"First move must be placed in a corner"<<std::endl;
+            // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
     }
 
-    std::unordered_set<blokusShapeType> playerPieces;
-    if(turn){
-        playerPieces = getP1Pieces();
-    } else{
-        playerPieces = getP2Pieces();
-    }
+    std::unordered_set<blokusShapeType> playerPieces = getPiecesForCurretPlayer();;
     if(!(playerPieces.find(p) != playerPieces.end())){
         std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
@@ -74,7 +80,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
 }
 
 bool BlokusMatch::gameOver(){
-    return false; // todo
+    return false;
 }
 
 int BlokusMatch::evaluatePosition(){
@@ -85,10 +91,10 @@ BlokusBoard& BlokusMatch::getBoard(){
     return board;
 }
 
-std::unordered_set<blokusShapeType>& BlokusMatch::getP1Pieces(){
-    return p1Pieces;
-}
-
-std::unordered_set<blokusShapeType>& BlokusMatch::getP2Pieces(){
-    return p2Pieces;
+std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForCurretPlayer(){
+    if(turn){
+        return p1Pieces;
+    } else {
+        return p2Pieces;
+    }
 }

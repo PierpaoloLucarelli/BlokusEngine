@@ -1,4 +1,10 @@
 #pragma once
+#include <vector>
 #include <match.h>
+#include <pieceShapes.h>
 
-int minimax(BlokusMatch& board, int depth, bool maximising); 
+using BlokusMove = std::tuple<blokusShapeType, int, int>;
+
+int minimax(BlokusMatch match, int depth, bool maximising); 
+
+std::vector<BlokusMove> getMovesFromMatch(BlokusMatch& match);

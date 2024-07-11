@@ -9,20 +9,20 @@ const int HEIGHT = 10;
 
 class BlokusBoard{
     private:
-        int height;
-        int width;
-        uint8_t state[WIDTH][HEIGHT];
+        uint8_t state[WIDTH * HEIGHT];
 
 
     public:
 
         BlokusBoard();
+        BlokusBoard(BlokusBoard& otherBoard);
+
         void reset();
         void printBoardState();
         bool placePiece(blokusShapeType p, int x, int y, uint8_t turn);
         int getWidth();
         int getHeight();
-        std::string getstrReprForBlock(int x, int y);
+        std::string getStrReprForBlock(int i);
         bool isInCorner(blokusShapeType p, int row, int col);
         std::string hash();
 };

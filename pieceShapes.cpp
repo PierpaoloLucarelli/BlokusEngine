@@ -1,6 +1,17 @@
 #include <pieceShapes.h>
 #include <utility>
 
+const char* blokusShapeTypeNames[] = {
+    "iShapeType", 
+    "smallCornerShapeType",
+    "bigCornerShapeType",
+    "singleShapeType",
+    "crossShapeType",
+    "tShapeType",
+    "zShapeType",
+    "oShapeType"
+};
+
 Matrix iShape = {
     {1,1,1,1,1}
 };
@@ -60,3 +71,4 @@ void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::zShapeType, zPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::oShapeType, oPiece));
 }
+
