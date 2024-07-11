@@ -133,7 +133,6 @@ std::string BlokusBoard::hash(){
         for(int j = 0 ; j < HEIGHT; j++){
             hash += std::to_string(state[i][j]);
         }
-
     }
     return hash;
 }

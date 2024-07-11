@@ -51,3 +51,7 @@ bool BlokusPiece::operator==(const BlokusPiece& other) const {
 std::string BlokusPiece::getId() const{
     return id;
 }
+
+int BlokusPiece::getSize(){
+    return size;
+}

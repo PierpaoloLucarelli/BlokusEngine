@@ -3,6 +3,21 @@
 #include <iostream>
 #include <pieceShapes.h>
 
+namespace {
+    int evalPieces(std::unordered_set<blokusShapeType> pieces){
+        int eval = 0;
+        for (const auto piece : pieces){
+            auto it = piecesMap.find(piece);
+            if(it == piecesMap.end()){
+                throw std::runtime_error("Piece not found in piece map");
+            }
+            BlokusPiece& p = it->second; // todo check if its a reference.
+            eval += p.getSize();
+        }
+        return eval;
+    }
+}
+
 BlokusMatch::BlokusMatch(BlokusBoard& aBoard, bool isCpuTurn): board(aBoard){
     turn = isCpuTurn;
     p1Played = false;
@@ -36,16 +51,24 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
         playerPieces = getP2Pieces();
     }
     if(!(playerPieces.find(p) != playerPieces.end())){
+        std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
     }
 
     uint8_t turnRep = turn == 1 ? 1 : 2;
     bool success = board.placePiece(p, col, row, turnRep);
-    if(turn){
-        p1Played = true;
-    } else{
-        p2Played = true;
+
+    if (success){
+        if(turn){
+            p1Played = true;
+            p1Pieces.erase(p);
+        } else{
+            p2Played = true;
+            p2Pieces.erase(p);
+        }
     }
+
+    
     turn = !turn;
     return success;
 }
@@ -55,7 +78,7 @@ bool BlokusMatch::gameOver(){
 }
 
 int BlokusMatch::evaluatePosition(){
-    return 1; // todo
+    return evalPieces(p2Pieces)-evalPieces(p1Pieces);
 }
 
 BlokusBoard& BlokusMatch::getBoard(){
