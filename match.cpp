@@ -20,9 +20,9 @@ void BlokusMatch::newGame(){
 }
 
 bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
-
+    // std::cout<<turn<< " " << p2Played ;
+    if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
     
-    if ((turn == false && !p1Played) || (turn == true && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(p, row, col)){
             std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
