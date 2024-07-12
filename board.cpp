@@ -67,15 +67,17 @@ bool BlokusBoard::placePiece(blokusShapeType p,  int row, int col, int8_t turn){
 }
 
 
-bool BlokusBoard::canPlacePiece(blokusShapeType p, int col, int row, int8_t turn){
+bool BlokusBoard::canPlacePiece(blokusShapeType p, int row, int col, int8_t turn){
     BlokusPiece& piece = getPiece(p);
-    if(col<0 || row <0 ){
+    if(col<0 || row <0){
         return false;
     }
 
-    if(col + piece.getHeight() > HEIGHT || row + piece.getWidth() > WIDTH){
+    if(row + piece.getHeight() > HEIGHT || col + piece.getWidth() > WIDTH){
         return false;
     }
+
+    bool touchesSelfCorner = false;
 
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
@@ -84,15 +86,32 @@ bool BlokusBoard::canPlacePiece(blokusShapeType p, int col, int row, int8_t turn
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
-            if(pieceBlockUsed && (
-                (row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn) || // UP
-                (row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn) || // DOWN
-                (col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn) || // LEFT
-                (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
-            )){
-                return false;
+            if(pieceBlockUsed) {  
+                if( // touches own piece
+                    (row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn) // UP
+                    // (row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn) || // DOWN
+                    // (col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn) || // LEFT
+                    // (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
+                ){
+                    std::cout << "Cant play that move."<<row<<col<<i<<j<<pieceBlockUsed<<std::endl;
+
+                    std::cout << (row+j-1)*WIDTH + col+i<<std::endl;
+                    return false;
+                }
+
+                // if(
+                //     !touchesSelfCorner && (
+                //         (row+j-1 >= 0 && col+i-1 >= 0 && state[(row+j-1)*WIDTH + col+i-1] == turn) || // UP-LEFT
+                //         (row+j+1 < HEIGHT && col+i-1 >= 0 && state[(row+j+1) * WIDTH + col+i-1] == turn) || // DOWN-LEFT
+                //         (row+j+1 < HEIGHT && col+i+1 < WIDTH && state[(row+j+1) * WIDTH + col+i+1] == turn) || // DOWN-RIGHT
+                //         (row+j-1 >= 0 && col+i+1 < WIDTH && state[(row+j-1) * WIDTH + col+i+1] == turn) // UP-RIGHT
+                //     )
+                // ){
+                //     touchesSelfCorner = true;
+                // }
             }
         }
+
     }
     return true;
 }
