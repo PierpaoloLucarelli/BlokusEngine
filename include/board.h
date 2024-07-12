@@ -20,7 +20,7 @@ class BlokusBoard{
         void reset();
         void printBoardState();
         bool placePiece(blokusShapeType p, int row, int col, int8_t turn);
-        bool canPlacePiece(blokusShapeType p, int row, int col, int8_t turn);
+        bool canPlacePiece(blokusShapeType p, int row, int col, int8_t turn, bool firstMove);
         int getWidth();
         int getHeight();
         std::string getStrReprForBlock(int i);

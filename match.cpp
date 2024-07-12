@@ -75,7 +75,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(p, row, col)){
-            std::cout<<"First move must be placed in a corner"<<std::endl;
+            // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
     }
@@ -84,7 +84,9 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
         std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
     }
-    return board.canPlacePiece(p, row, col, turn);
+    int8_t turnRep = turn == 1 ? 1 : -1;
+    bool firstMove = turn ? !p1Played : !p2Played;
+    return board.canPlacePiece(p, row, col, turnRep, firstMove);
 }
 
 bool BlokusMatch::gameOver(){
