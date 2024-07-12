@@ -5,7 +5,8 @@ int minimax(BlokusMatch match, int depth, bool maximising){
     if(depth == 0 || match.gameOver()){
         match.evaluatePosition();
     }
-    return 1;
+    maximising = false; // todo remove
+    return maximising;
 }
 
 std::vector<BlokusMove> getMovesFromMatch(BlokusMatch& match) {

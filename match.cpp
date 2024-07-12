@@ -61,7 +61,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
         return false;
     }
 
-    uint8_t turnRep = turn == 1 ? 1 : 2;
+    int8_t turnRep = turn == 1 ? 1 : -1;
     bool success = board.placePiece(p, col, row, turnRep);
 
     if (success){

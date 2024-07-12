@@ -9,7 +9,7 @@ BlokusBoard::BlokusBoard(){
 
 
 BlokusBoard::BlokusBoard(BlokusBoard& otherBoard){
-    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(uint8_t) );
+    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(int8_t) );
 }
 
 
@@ -37,7 +37,7 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
+bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, int8_t turn){
 
     auto it = piecesMap.find(p);
     
@@ -63,10 +63,10 @@ bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
                 return false;
             }
             if(pieceBlockUsed && (
-                row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn || // UP
-                row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn || // DOWN
-                col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn || // LEFT
-                col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn // RIGHT
+                (row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn) || // UP
+                (row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn) || // DOWN
+                (col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn) || // LEFT
+                (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
             )){
                 return false;
             }
@@ -85,10 +85,10 @@ bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, uint8_t turn){
 
 std::string BlokusBoard::getStrReprForBlock(int i){
     std::string strRep;
-    uint8_t tileState = state[i];
+    int8_t tileState = state[i];
     if(tileState == 1){
         strRep = "[X]";
-    } else if(tileState == 2){
+    } else if(tileState == -1){
         strRep = "[O]";
     } else{
         strRep = "[ ]";
@@ -105,7 +105,6 @@ int BlokusBoard::getHeight(){
 }
 
 bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
-    bool usesCorner = false;
     auto it = piecesMap.find(p);
     if(it == piecesMap.end()){
         return false;

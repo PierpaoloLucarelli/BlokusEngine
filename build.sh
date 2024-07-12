@@ -1,1 +1,1 @@
-g++ -I ./include *.cpp -o blokus
+g++ -Wall  -Wextra -I ./include *.cpp -o blokus

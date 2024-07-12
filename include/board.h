@@ -9,7 +9,7 @@ const int HEIGHT = 20;
 
 class BlokusBoard{
     private:
-        uint8_t state[WIDTH * HEIGHT];
+        int8_t state[WIDTH * HEIGHT];
 
 
     public:
@@ -19,7 +19,7 @@ class BlokusBoard{
 
         void reset();
         void printBoardState();
-        bool placePiece(blokusShapeType p, int x, int y, uint8_t turn);
+        bool placePiece(blokusShapeType p, int x, int y, int8_t turn);
         int getWidth();
         int getHeight();
         std::string getStrReprForBlock(int i);
