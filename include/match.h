@@ -6,6 +6,7 @@
 #include <board.h>
 #include <pieceShapes.h>
 
+using BlokusMove = std::tuple<blokusShapeType, int, int>;
 
 class BlokusMatch{
     private:
@@ -27,5 +28,5 @@ class BlokusMatch{
         int evaluatePosition();
         BlokusBoard& getBoard();
         std::unordered_set<blokusShapeType>& getPiecesForCurretPlayer();
-
+        std::vector<BlokusMove> getMovesFromPos();
 };

@@ -2,6 +2,7 @@
 #include <memory>
 #include <iostream>
 #include <pieceShapes.h>
+#include <minimax.h>
 
 namespace {
     int evalPieces(std::unordered_set<blokusShapeType> pieces){
@@ -50,7 +51,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
     
         if (!board.isInCorner(p, row, col)){
-            // std::cout<<"First move must be placed in a corner"<<std::endl;
+            std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
     }
@@ -62,7 +63,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
     }
 
     int8_t turnRep = turn == 1 ? 1 : -1;
-    bool success = board.placePiece(p, col, row, turnRep);
+    bool success = board.placePiece(p, row, col, turnRep);
 
     if (success){
         if(turn){
@@ -72,14 +73,14 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
             p2Played = true;
             p2Pieces.erase(p);
         }
+        turn = !turn;
     }
 
-    
-    turn = !turn;
     return success;
 }
 
 bool BlokusMatch::gameOver(){
+    // std::vector<BlokusMove> getMovesFromMatch;
     return false;
 }
 
@@ -97,4 +98,23 @@ std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForCurretPlayer(){
     } else {
         return p2Pieces;
     }
+}
+
+std::vector<BlokusMove> BlokusMatch::getMovesFromPos() {
+    std::vector<BlokusMove> moves; 
+    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForCurretPlayer();
+
+    BlokusBoard& board = getBoard();
+    int w = board.getWidth();
+
+    for(const auto& piece : playerPieces){
+        for(int i = 0 ; i < board.getHeight() * board.getWidth(); i++){
+            BlokusMatch matchCopy(*this);
+            if(matchCopy.playMove(piece, (int)i/w, i%w)){ // can play move
+                moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
+                // matchCopy.getBoard().printBoardState();
+            };
+        }
+    }
+   return moves;
 }

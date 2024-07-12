@@ -3,6 +3,16 @@
 
 #include <board.h>
 
+namespace {
+    BlokusPiece& getPiece(blokusShapeType p){
+        auto it = piecesMap.find(p);
+        if(it == piecesMap.end()){
+            throw std::runtime_error("Piece not found in piece map");
+        }
+        return it->second;
+    }
+}
+
 BlokusBoard::BlokusBoard(){
 
 }
@@ -37,21 +47,33 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, int8_t turn){
-
-    auto it = piecesMap.find(p);
-    
-    if(it == piecesMap.end()){
+bool BlokusBoard::placePiece(blokusShapeType p,  int row, int col, int8_t turn){
+    bool canPlace = canPlacePiece(p, row, col, turn);
+    if(!canPlace){
         return false;
     }
 
-    auto piece = it->second;
+    BlokusPiece& piece = getPiece(p);
 
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+            for(int j = 0 ; j < piece.getHeight(); j++){
+                bool pieceBlockUsed = piece.getXY(j, i);
+                if(pieceBlockUsed){
+                    state[(row+j)*WIDTH + col+i] = turn;
+                }
+            }
+        }
+    return true;
+}
+
+
+bool BlokusBoard::canPlacePiece(blokusShapeType p, int col, int row, int8_t turn){
+    BlokusPiece& piece = getPiece(p);
     if(col<0 || row <0 ){
         return false;
     }
 
-    if(col + piece.getWidth() > WIDTH || row + piece.getHeight() > HEIGHT){
+    if(col + piece.getHeight() > HEIGHT || row + piece.getWidth() > WIDTH){
         return false;
     }
 
@@ -69,14 +91,6 @@ bool BlokusBoard::placePiece(blokusShapeType p, int col, int row, int8_t turn){
                 (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
             )){
                 return false;
-            }
-        }
-    }
-    for(int i = 0 ; i < piece.getWidth() ; i++){
-        for(int j = 0 ; j < piece.getHeight(); j++){
-            bool pieceBlockUsed = piece.getXY(j, i);
-            if(pieceBlockUsed){
-                state[(row+j)*WIDTH + col+i] = turn;
             }
         }
     }
