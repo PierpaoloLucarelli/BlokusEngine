@@ -6,5 +6,3 @@
 using BlokusMove = std::tuple<blokusShapeType, int, int>;
 
 int minimax(BlokusMatch match, int depth, bool maximising); 
-
-std::vector<BlokusMove> getMovesFromMatch(BlokusMatch& match);

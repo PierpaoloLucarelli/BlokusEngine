@@ -48,17 +48,10 @@ void BlokusMatch::newGame(){
 }
 
 bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
-    if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
-    
-        if (!board.isInCorner(p, row, col)){
-            std::cout<<"First move must be placed in a corner"<<std::endl;
-            return false;
-        }
-    }
 
-    std::unordered_set<blokusShapeType> playerPieces = getPiecesForCurretPlayer();;
-    if(!(playerPieces.find(p) != playerPieces.end())){
-        std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
+    bool canPlay = canPlayMove(p, row, col);
+
+    if (!canPlay){
         return false;
     }
 
@@ -77,6 +70,21 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
     }
 
     return success;
+}
+
+bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
+    if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
+        if (!board.isInCorner(p, row, col)){
+            // std::cout<<"First move must be placed in a corner"<<std::endl;
+            return false;
+        }
+    }
+    std::unordered_set<blokusShapeType> playerPieces = getPiecesForCurretPlayer();;
+    if(!(playerPieces.find(p) != playerPieces.end())){
+        std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
+        return false;
+    }
+    return board.canPlacePiece(p, row, col, turn);
 }
 
 bool BlokusMatch::gameOver(){
@@ -109,12 +117,11 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos() {
 
     for(const auto& piece : playerPieces){
         for(int i = 0 ; i < board.getHeight() * board.getWidth(); i++){
-            BlokusMatch matchCopy(*this);
-            if(matchCopy.playMove(piece, (int)i/w, i%w)){ // can play move
+            // BlokusMatch matchCopy(*this);
+            if(canPlayMove(piece, (int)i/w, i%w)){ // can play move
                 moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
-                // matchCopy.getBoard().printBoardState();
             };
         }
     }
-   return moves;
+    return moves;
 }
