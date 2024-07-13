@@ -48,28 +48,27 @@ void BlokusMatch::newGame(){
 }
 
 bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
-
     bool canPlay = canPlayMove(p, row, col);
-
     if (!canPlay){
         return false;
     }
+    return applyMove(p, row, col);
+}
 
+bool BlokusMatch::applyMove(blokusShapeType p, int row, int col){
     int8_t turnRep = turn == 1 ? 1 : -1;
-    bool success = board.placePiece(p, row, col, turnRep);
-
-    if (success){
-        if(turn){
-            p1Played = true;
-            p1Pieces.erase(p);
-        } else{
-            p2Played = true;
-            p2Pieces.erase(p);
+        bool success = board.placePiece(p, row, col, turnRep);
+        if (success){
+            if(turn){
+                p1Played = true;
+                p1Pieces.erase(p);
+            } else{
+                p2Played = true;
+                p2Pieces.erase(p);
+            }
+            turn = !turn;
         }
-        turn = !turn;
-    }
-
-    return success;
+        return success;
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){

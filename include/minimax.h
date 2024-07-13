@@ -3,6 +3,7 @@
 #include <match.h>
 #include <pieceShapes.h>
 
-using BlokusMove = std::tuple<blokusShapeType, int, int>;
+// using BlokusMove = std::tuple<blokusShapeType, int, int>;
 
-int minimax(BlokusMatch match, int depth, bool maximising); 
+int minimax(BlokusMatch& match, int depth, bool maximising); 
+BlokusMove getNextMove(BlokusMatch& match, int maxDepth);

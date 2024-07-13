@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [ "$1" == "main" ]; then
     g++ -Wall  -Wextra -I ./include ./src/*.cpp -o blokus
 elif [ "$1" == "test" ]; then

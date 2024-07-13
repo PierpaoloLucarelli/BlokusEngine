@@ -26,7 +26,7 @@ int testGameOver(){
     match.playMove(blokusShapeType::oShapeType, 4, 13);
     match.playMove(blokusShapeType::oShapeType, 13, 16);
 
-    // match.getBoard().printBoardState();
+    match.getBoard().printBoardState();
 
     return match.gameOver();
 

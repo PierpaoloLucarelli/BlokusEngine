@@ -24,6 +24,7 @@ class BlokusMatch{
 
         void newGame();
         bool playMove(blokusShapeType p, int row, int col);
+        bool applyMove(blokusShapeType p, int row, int col);
         bool canPlayMove(blokusShapeType p, int row, int col);
         bool gameOver();
         int evaluatePosition();
