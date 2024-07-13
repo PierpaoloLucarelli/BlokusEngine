@@ -89,10 +89,16 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
 }
 
 bool BlokusMatch::gameOver(){
+    bool gameOver = false;
     if (p1Pieces.size() == 0 || p2Pieces.size() == 0){
-        return true;
+        gameOver = true;
+    }else{
+        gameOver = getMovesFromPos().size() == 0;
     }
-    return getMovesFromPos().size() == 0;
+    if(gameOver){
+        std::cout << "Game over. Score is: P1: " << evalPieces(p1Pieces) << " P2: " << evalPieces(p2Pieces) << std::endl;
+    }
+    return gameOver;
 }
 
 int BlokusMatch::evaluatePosition(){
