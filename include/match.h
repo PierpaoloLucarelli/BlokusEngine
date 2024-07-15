@@ -33,4 +33,5 @@ class BlokusMatch{
         std::unordered_set<blokusShapeType>& getPiecesForPlayer(bool turn);
         std::vector<BlokusMove> getMovesFromPos(bool turn);
         bool hasMoves(bool turn);
+        void printMatch();
 };

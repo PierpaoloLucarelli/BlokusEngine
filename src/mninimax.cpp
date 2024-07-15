@@ -1,7 +1,11 @@
 #include <iostream>
 #include <minimax.h>
 
+int evalued = 0;
+
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
+    evalued++;
+    std::cout<<depth<<std::endl;
     if(depth == 0 || match.gameOver(maximising)){
         return match.evaluatePosition();
     }
@@ -9,6 +13,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
         int maxEval = -10000;
         for (const auto& move : match.getMovesFromPos(maximising)){ // todo: might ge tout of sync with turn. best to handle turn as an arg.
             // BlokusMatch matchCopy(match);
+            std::cout<<"max try"<<std::endl;
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, false);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
@@ -25,6 +30,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
         
         for (const auto& move : moves){ // todo: might ge tout of sync with turn. best to handle turn as an arg.
             // BlokusMatch matchCopy(match);
+            std::cout<<"min try"<<std::endl;
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, true);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
@@ -40,6 +46,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
 }
 
 BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
+    evalued = 0;
     if (maximising){ // super dirty
         int maxEval = -10000;
         BlokusMove bestMove;
@@ -56,6 +63,7 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
             }
         }
         std::cout << "Max chose move with eval " << std::to_string(maxEval) << std::endl; 
+        std::cout<<"Evalued: "<<evalued<<std::endl;
         return bestMove;
     } else {
         int maxEval = 10000;
@@ -70,6 +78,7 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
                 maxEval = eval;
             }
         }
+        std::cout<<"Evalued: "<<evalued<<std::endl;
         std::cout << "MIN chose move with eval " << std::to_string(maxEval) << std::endl; 
         return bestMove;
     }

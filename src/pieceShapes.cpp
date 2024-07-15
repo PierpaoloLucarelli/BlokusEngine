@@ -12,7 +12,10 @@ const char* blokusShapeTypeNames[] = {
     "smallCornerShapeType",
     "singleShapeType",
     "snakeShapeType",
-    "dinoShapeType"
+    "dinoShapeType",
+    "submarineShapeType",
+    "zigzagShapeType",
+    "bigtShapeType"
 };
 
 Matrix iShape = {
@@ -28,7 +31,7 @@ Matrix bigCornerShape = {
 
 BlokusPiece bigCornerPiece = BlokusPiece(bigCornerShape, false, "bigCornerPiece", 5);
 
-Matrix crossShape = {
+Matrix crossShape = { //4
     {0,1,0},
     {1,1,1},
     {0,1,0}
@@ -42,7 +45,7 @@ Matrix snakeShape = {
 };
 BlokusPiece snakePiece = BlokusPiece(snakeShape, false, "snakePiece", 5);
 
-Matrix dinoShape = {
+Matrix dinoShape = { // 9
     {1,1,0},
     {0,1,1},
     {0,1,0}
@@ -72,6 +75,38 @@ Matrix bigtShape = {
 BlokusPiece bigtPiece = BlokusPiece(bigtShape, false, "bigtPiece", 5);
 
 
+Matrix uShape = {
+    {1,0,1},
+    {1,1,1}
+};
+BlokusPiece uPiece = BlokusPiece(uShape, false, "uPiece", 5);
+
+
+Matrix longlShape = { // 14
+    {1,0},
+    {1,0},
+    {1,0},
+    {1,1}
+};
+BlokusPiece longlPiece = BlokusPiece(longlShape, false, "longlPiece", 5);
+
+
+Matrix diggerShape = {
+    {0,1},
+    {0,1},
+    {1,1},
+    {1,0}
+};
+BlokusPiece diggerPiece = BlokusPiece(diggerShape, false, "diggerPiece", 5);
+
+Matrix sixShape = {
+    {0,1},
+    {1,1},
+    {1,1}
+};
+BlokusPiece sixPiece = BlokusPiece(sixShape, false, "sixPiece", 5);
+
+
 Matrix tShape = {
     {0,1,0},
     {1,1,1}
@@ -90,12 +125,29 @@ Matrix oShape = {
 };
 BlokusPiece oPiece = BlokusPiece(oShape, false, "oPiece", 4);
 
+Matrix mediumlShape = {
+    {1,0},
+    {1,0},
+    {1,1}
+};
+BlokusPiece mediumlPiece = BlokusPiece(mediumlShape, false, "mediumlPiece", 4);
+
 
 Matrix smallCornerShape = {
     {1,0},
     {1,1}
 };
 BlokusPiece smallCornerPiece = BlokusPiece(smallCornerShape, false, "smallCornerPiece", 3);
+
+Matrix threeShape = {
+    {1,1,1}
+};
+BlokusPiece threePiece = BlokusPiece(threeShape, false, "threePiece", 3);
+
+Matrix twoShape = {
+    {1,1}
+};
+BlokusPiece twoPiece = BlokusPiece(twoShape, false, "twoPiece", 2);
 
 Matrix singleShape = {
     {1}
@@ -119,4 +171,11 @@ void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::submarineShapeType, submarinePiece));
     piecesMap.insert(std::make_pair(blokusShapeType::zigzagShapeType, zigzagPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::bigtShapeType, bigtPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::uShapeType, uPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::longlShapeType, longlPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::diggerShapeType, diggerPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::mediumlShapeType, mediumlPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::threeShapeType, threePiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::twoShapeType, twoPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::sixShapeType, sixPiece));
 }

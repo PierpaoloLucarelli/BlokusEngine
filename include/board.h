@@ -5,8 +5,8 @@
 #include <cstdint> 
 #include <bitset>
 
-const int WIDTH = 20;
-const int HEIGHT = 20;
+const int WIDTH = 14;
+const int HEIGHT = 14;
 const int BOARDSIZE = WIDTH*HEIGHT;
 
 class BlokusBoard{
