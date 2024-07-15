@@ -1,5 +1,6 @@
 #include <match.h>
 #include <memory>
+#include <algorithm>
 #include <iostream>
 #include <pieceShapes.h>
 #include <minimax.h>
@@ -19,14 +20,12 @@ namespace {
     }
 }
 
-BlokusMatch::BlokusMatch(BlokusBoard& aBoard, bool isCpuTurn): board(aBoard){
-    turn = isCpuTurn;
+BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
     p1Played = false;
     p2Played = false;
 }
 
 BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
-    turn = otherMatch.turn;
     p1Played = otherMatch.p1Played;
     p2Played = otherMatch.p2Played;
     for (blokusShapeType p : otherMatch.p1Pieces) {
@@ -47,15 +46,15 @@ void BlokusMatch::newGame(){
     board.reset();
 }
 
-bool BlokusMatch::playMove(blokusShapeType p, int row, int col){
-    bool canPlay = canPlayMove(p, row, col);
+bool BlokusMatch::playMove(blokusShapeType p, int row, int col, bool turn){
+    bool canPlay = canPlayMove(p, row, col, turn);
     if (!canPlay){
         return false;
     }
-    return applyMove(p, row, col);
+    return applyMove(p, row, col, turn);
 }
 
-bool BlokusMatch::applyMove(blokusShapeType p, int row, int col){
+bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
     int8_t turnRep = turn == 1 ? 1 : -1;
         bool success = board.placePiece(p, row, col, turnRep);
         if (success){
@@ -66,19 +65,32 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col){
                 p2Played = true;
                 p2Pieces.erase(p);
             }
-            turn = !turn;
         }
         return success;
 }
 
-bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
+void BlokusMatch::removeMove(blokusShapeType p, int row, int col, bool turn){
+    int8_t turnRep = turn == 1 ? 1 : -1;
+        bool success = board.placePiece(p, row, col, turnRep);
+        if (success){
+            if(turn){
+                p1Played = true;
+                p1Pieces.erase(p);
+            } else{
+                p2Played = true;
+                p2Pieces.erase(p);
+            }
+        }
+}
+
+bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(p, row, col)){
             // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
     }
-    std::unordered_set<blokusShapeType> playerPieces = getPiecesForCurretPlayer();;
+    std::unordered_set<blokusShapeType> playerPieces = getPiecesForPlayer(turn);;
     if(!(playerPieces.find(p) != playerPieces.end())){
         std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
@@ -88,12 +100,12 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col){
     return board.canPlacePiece(p, row, col, turnRep, firstMove);
 }
 
-bool BlokusMatch::gameOver(){
+bool BlokusMatch::gameOver(bool turn){
     bool gameOver = false;
     if (p1Pieces.size() == 0 || p2Pieces.size() == 0){
         gameOver = true;
     }else{
-        gameOver = getMovesFromPos().size() == 0;
+        gameOver = !hasMoves(turn);
     }
     if(gameOver){
         std::cout << "Game over. Score is: P1: " << evalPieces(p1Pieces) << " P2: " << evalPieces(p2Pieces) << std::endl;
@@ -109,7 +121,7 @@ BlokusBoard& BlokusMatch::getBoard(){
     return board;
 }
 
-std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForCurretPlayer(){
+std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForPlayer(bool turn){
     if(turn){
         return p1Pieces;
     } else {
@@ -117,19 +129,43 @@ std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForCurretPlayer(){
     }
 }
 
-std::vector<BlokusMove> BlokusMatch::getMovesFromPos() {
+struct less_than_key
+{
+    inline bool operator() (const BlokusMove& move1, const BlokusMove& move2)
+    {
+        return (std::get<0>(move1) < std::get<0>(move2));
+    }
+};
+
+std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
     std::vector<BlokusMove> moves; 
-    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForCurretPlayer();
+    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
 
     BlokusBoard& board = getBoard();
     int w = board.getWidth();
 
     for(const auto& piece : playerPieces){
         for(int i = 0 ; i < board.getHeight() * w; i++){
-            if(canPlayMove(piece, (int)i/w, i%w)){ // can play move
+            if(canPlayMove(piece, (int)i/w, i%w, turn)){ // can play move
                 moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
             };
         }
     }
+    std::sort(moves.begin(), moves.end(), less_than_key());
     return moves;
+}
+
+bool BlokusMatch::hasMoves(bool turn){
+    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
+    BlokusBoard& board = getBoard();
+    int w = board.getWidth();
+
+    for(const auto& piece : playerPieces){
+        for(int i = 0 ; i < board.getHeight() * w; i++){
+            if(canPlayMove(piece, (int)i/w, i%w, turn)){ // can play move
+                return true;
+            };
+        }
+    }
+    return false;
 }

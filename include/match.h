@@ -10,7 +10,7 @@ using BlokusMove = std::tuple<blokusShapeType, int, int>;
 
 class BlokusMatch{
     private:
-        bool turn;
+        // bool turn;
         BlokusBoard board;
         std::unordered_set<blokusShapeType> p1Pieces;
         std::unordered_set<blokusShapeType> p2Pieces;
@@ -18,17 +18,19 @@ class BlokusMatch{
         bool p2Played;
 
     public:
-        BlokusMatch(BlokusBoard& aBoard, bool isCPuTurn);
+        BlokusMatch(BlokusBoard& aBoard);
         BlokusMatch(BlokusMatch& otherMatch);
 
 
         void newGame();
-        bool playMove(blokusShapeType p, int row, int col);
-        bool applyMove(blokusShapeType p, int row, int col);
-        bool canPlayMove(blokusShapeType p, int row, int col);
-        bool gameOver();
+        bool playMove(blokusShapeType p, int row, int col, bool turn);
+        bool applyMove(blokusShapeType p, int row, int col, bool turn);
+        void removeMove(blokusShapeType p, int row, int col, bool turn);
+        bool canPlayMove(blokusShapeType p, int row, int col, bool turn);
+        bool gameOver(bool turn);
         int evaluatePosition();
         BlokusBoard& getBoard();
-        std::unordered_set<blokusShapeType>& getPiecesForCurretPlayer();
-        std::vector<BlokusMove> getMovesFromPos();
+        std::unordered_set<blokusShapeType>& getPiecesForPlayer(bool turn);
+        std::vector<BlokusMove> getMovesFromPos(bool turn);
+        bool hasMoves(bool turn);
 };

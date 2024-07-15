@@ -3,13 +3,13 @@
 
 const char* blokusShapeTypeNames[] = {
     "iShapeType", 
-    "smallCornerShapeType",
     "bigCornerShapeType",
-    "singleShapeType",
     "crossShapeType",
     "tShapeType",
     "zShapeType",
     "oShapeType"
+    "smallCornerShapeType",
+    "singleShapeType",
 };
 
 Matrix iShape = {
@@ -17,23 +17,13 @@ Matrix iShape = {
 };
 BlokusPiece iPiece = BlokusPiece(iShape, false, "iPiece", 5);
 
-Matrix smallCornerShape = {
-    {1,0},
-    {1,1}
-};
-BlokusPiece smallCornerPiece = BlokusPiece(smallCornerShape, false, "smallCornerPiece", 3);
-
 Matrix bigCornerShape = {
     {1,0,0},
     {1,0,0},
     {1,1,1}
 };
-BlokusPiece bigCornerPiece = BlokusPiece(bigCornerShape, false, "bigCornerPiece", 5);
 
-Matrix singleShape = {
-    {1}
-};
-BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
+BlokusPiece bigCornerPiece = BlokusPiece(bigCornerShape, false, "bigCornerPiece", 5);
 
 Matrix crossShape = {
     {0,1,0},
@@ -59,6 +49,19 @@ Matrix oShape = {
     {1,1}
 };
 BlokusPiece oPiece = BlokusPiece(oShape, false, "oPiece", 4);
+
+
+Matrix smallCornerShape = {
+    {1,0},
+    {1,1}
+};
+BlokusPiece smallCornerPiece = BlokusPiece(smallCornerShape, false, "smallCornerPiece", 3);
+
+Matrix singleShape = {
+    {1}
+};
+BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
+
 
 std::unordered_map<blokusShapeType, BlokusPiece> piecesMap; 
 void initializePieceMap() {

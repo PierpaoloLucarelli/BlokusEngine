@@ -9,7 +9,7 @@
 int main(){
     BlokusBoard board;
     initializePieceMap();
-    BlokusMatch match(board, true);
+    BlokusMatch match(board);
     match.newGame();
 
     std::cout << match.evaluatePosition() << std::endl;
@@ -17,12 +17,16 @@ int main(){
     match.getBoard().printBoardState();
 
 
-    bool maximise = true;
+    bool maxPlayer = true;
 
-    while(!match.gameOver()){
-        BlokusMove bestMove = getNextMove(match, 4, maximise);
-        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove));
+    auto start = std::chrono::high_resolution_clock::now();
+    while(!match.gameOver(maxPlayer)){
+        BlokusMove bestMove = getNextMove(match, 4, maxPlayer);
+        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), maxPlayer);
         match.getBoard().printBoardState();
-        maximise = !maximise;
+        maxPlayer = !maxPlayer;
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Duration: " << duration.count() << " seconds" << std::endl;
 }

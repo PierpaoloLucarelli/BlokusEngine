@@ -7,28 +7,28 @@ std::string FAILED = "TEST FAILED";
 int testGameOver(){
     BlokusBoard board;
     initializePieceMap();
-    BlokusMatch match(board, true);
+    BlokusMatch match(board);
     match.newGame();
-    match.playMove(blokusShapeType::zShapeType, 0, 0);
-    match.playMove(blokusShapeType::zShapeType, 18, 17);
-    match.playMove(blokusShapeType::iShapeType, 2, 3);
-    match.playMove(blokusShapeType::iShapeType, 17, 12);
-    match.playMove(blokusShapeType::smallCornerShapeType, 3, 8);
-    match.playMove(blokusShapeType::smallCornerShapeType, 15, 10);
-    match.playMove(blokusShapeType::bigCornerShapeType, 5, 7);
-    match.playMove(blokusShapeType::bigCornerShapeType, 12, 7);
-    match.playMove(blokusShapeType::singleShapeType, 1, 8);
-    match.playMove(blokusShapeType::singleShapeType, 15, 6);
-    match.playMove(blokusShapeType::crossShapeType, 8, 9);
-    match.playMove(blokusShapeType::crossShapeType, 12, 10);
-    match.playMove(blokusShapeType::tShapeType, 2, 10);
-    match.playMove(blokusShapeType::tShapeType, 15, 17);
-    match.playMove(blokusShapeType::oShapeType, 4, 13);
-    match.playMove(blokusShapeType::oShapeType, 13, 16);
+    match.playMove(blokusShapeType::zShapeType, 0, 0, true);
+    match.playMove(blokusShapeType::zShapeType, 18, 17, false);
+    match.playMove(blokusShapeType::iShapeType, 2, 3, true);
+    match.playMove(blokusShapeType::iShapeType, 17, 12, false);
+    match.playMove(blokusShapeType::smallCornerShapeType, 3, 8, true);
+    match.playMove(blokusShapeType::smallCornerShapeType, 15, 10, false);
+    match.playMove(blokusShapeType::bigCornerShapeType, 5, 7, true);
+    match.playMove(blokusShapeType::bigCornerShapeType, 12, 7, false);
+    match.playMove(blokusShapeType::singleShapeType, 1, 8, true);
+    match.playMove(blokusShapeType::singleShapeType, 15, 6, false);
+    match.playMove(blokusShapeType::crossShapeType, 8, 9, true);
+    match.playMove(blokusShapeType::crossShapeType, 12, 10, false);
+    match.playMove(blokusShapeType::tShapeType, 2, 10, true);
+    match.playMove(blokusShapeType::tShapeType, 15, 17, false);
+    match.playMove(blokusShapeType::oShapeType, 4, 13, true);
+    match.playMove(blokusShapeType::oShapeType, 13, 16, false);
 
     match.getBoard().printBoardState();
 
-    return match.gameOver();
+    return match.gameOver(true);
 
 }
 
