@@ -15,7 +15,12 @@ enum blokusShapeType {
     crossShapeType,
     tShapeType,
     zShapeType,
-    oShapeType
+    oShapeType,
+    snakeShapeType,
+    dinoShapeType,
+    submarineShapeType,
+    zigzagShapeType,
+    bigtShapeType
 };
 
 extern const char* blokusShapeTypeNames[];
@@ -43,6 +48,21 @@ extern BlokusPiece izPiece;
 
 extern Matrix oShape;
 extern BlokusPiece oPiece;
+
+extern Matrix snakeShape;
+extern BlokusPiece snakePiece;
+
+extern Matrix dinoShape;
+extern BlokusPiece dinoPiece;
+
+extern Matrix submarineShape;
+extern BlokusPiece submarinePiece;
+
+extern Matrix zigzagShape;
+extern BlokusPiece zigzagPiece;
+
+extern Matrix bigtShape;
+extern BlokusPiece bigtPiece;
 
 extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
 
