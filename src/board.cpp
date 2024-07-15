@@ -166,3 +166,16 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
 //     }
 //     return hash;
 // }
+
+void BlokusBoard::removePiece(blokusShapeType p, int row, int col, bool turn){
+    BlokusPiece& piece = getPiece(p);
+    std::bitset<BOARDSIZE>& playerState = turn ? p1State : p2State;
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+        for(int j = 0 ; j < piece.getHeight(); j++){
+            bool pieceBlockUsed = piece.getXY(j, i);
+            if(pieceBlockUsed){
+                playerState.reset((row+j)*WIDTH + col+i);
+            }
+        }
+    }
+}

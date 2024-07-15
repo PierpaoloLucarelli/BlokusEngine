@@ -28,4 +28,5 @@ class BlokusBoard{
         int getHeight();
         std::string getStrReprForBlock(int i);
         bool isInCorner(blokusShapeType p, int row, int col);
+        void removePiece(blokusShapeType p, int row, int col, bool turn);
 };
