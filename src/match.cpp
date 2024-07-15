@@ -69,18 +69,8 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
         return success;
 }
 
-void BlokusMatch::removeMove(blokusShapeType p, int row, int col, bool turn){
-    int8_t turnRep = turn == 1 ? 1 : -1;
-        bool success = board.placePiece(p, row, col, turnRep);
-        if (success){
-            if(turn){
-                p1Played = true;
-                p1Pieces.erase(p);
-            } else{
-                p2Played = true;
-                p2Pieces.erase(p);
-            }
-        }
+void BlokusMatch::removeMove(blokusShapeType p, int row, int col){
+        board.removePiece(p, row, col);
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){

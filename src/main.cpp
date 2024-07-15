@@ -21,7 +21,8 @@ int main(){
 
     auto start = std::chrono::high_resolution_clock::now();
     while(!match.gameOver(maxPlayer)){
-        BlokusMove bestMove = getNextMove(match, 4, maxPlayer);
+        BlokusMatch matchCopy(match);
+        BlokusMove bestMove = getNextMove(matchCopy, 20, maxPlayer);
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), maxPlayer);
         match.getBoard().printBoardState();
         maxPlayer = !maxPlayer;

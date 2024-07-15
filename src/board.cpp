@@ -158,10 +158,14 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
     return false;
 }
 
-std::string BlokusBoard::hash(){
-    std::string hash = "";
-    for(int i = 0 ; i < WIDTH * HEIGHT; i++){
-        hash += std::to_string(state[i]);
+void BlokusBoard::removePiece(blokusShapeType p, int row, int col){
+    BlokusPiece& piece = getPiece(p);
+    for(int i = 0 ; i < piece.getWidth() ; i++){
+        for(int j = 0 ; j < piece.getHeight(); j++){
+            bool pieceBlockUsed = piece.getXY(j, i);
+            if(pieceBlockUsed){
+                state[(row+j)*WIDTH + col+i] = 0;
+            }
+        }
     }
-    return hash;
 }
