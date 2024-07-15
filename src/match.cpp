@@ -98,7 +98,7 @@ bool BlokusMatch::gameOver(bool turn){
         gameOver = !hasMoves(turn);
     }
     if(gameOver){
-        std::cout << "Game over. Score is: P1: " << evalPieces(p1Pieces) << " P2: " << evalPieces(p2Pieces) << std::endl;
+        // std::cout << "Game over. Score is: P1: " << evalPieces(p1Pieces) << " P2: " << evalPieces(p2Pieces) << std::endl;
     }
     return gameOver;
 }
