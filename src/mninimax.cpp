@@ -43,8 +43,8 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
         BlokusMove bestMove;
         for (const auto& move : match.getMovesFromPos(maximising)){
             BlokusMatch matchCopy(match);
-            matchCopy.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), !maximising);
-            int eval = minimax(matchCopy, maxDepth-1, -1000, 1000, false);
+            matchCopy.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
+            int eval = minimax(matchCopy, maxDepth-1, -1000, 1000, !maximising);
             if(eval > maxEval){
                 std::cout << "found better one" <<std::endl;
                 bestMove = move;
@@ -58,8 +58,8 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
         BlokusMove bestMove;
         for (const auto& move : match.getMovesFromPos(maximising)){
             BlokusMatch matchCopy(match);
-            matchCopy.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), !maximising);
-            int eval = minimax(matchCopy, maxDepth-1, -1000, 1000,false);
+            matchCopy.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), maximising);
+            int eval = minimax(matchCopy, maxDepth-1, -1000, 1000, !maximising);
             if(eval < maxEval){
                 bestMove = move;
                 maxEval = eval;
