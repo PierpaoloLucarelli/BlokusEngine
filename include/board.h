@@ -3,13 +3,16 @@
 #include "pieceShapes.h"
 #include <memory>
 #include <cstdint> 
+#include <bitset>
 
 const int WIDTH = 20;
 const int HEIGHT = 20;
+const int BOARDSIZE = WIDTH*HEIGHT;
 
 class BlokusBoard{
     private:
-        int8_t state[WIDTH * HEIGHT];
+        std::bitset<BOARDSIZE> p1State;
+        std::bitset<BOARDSIZE> p2State;
 
 
     public:
@@ -25,5 +28,4 @@ class BlokusBoard{
         int getHeight();
         std::string getStrReprForBlock(int i);
         bool isInCorner(blokusShapeType p, int row, int col);
-        std::string hash();
 };

@@ -1,5 +1,6 @@
 #include <pieceShapes.h>
 #include <utility>
+#include <bitset>
 
 const char* blokusShapeTypeNames[] = {
     "iShapeType", 
@@ -64,6 +65,7 @@ BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
 
 
 std::unordered_map<blokusShapeType, BlokusPiece> piecesMap; 
+
 void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::iShapeType, iPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::smallCornerShapeType, smallCornerPiece));
@@ -74,4 +76,3 @@ void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::zShapeType, zPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::oShapeType, oPiece));
 }
-

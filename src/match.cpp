@@ -55,8 +55,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col, bool turn){
 }
 
 bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
-    int8_t turnRep = turn == 1 ? 1 : -1;
-        bool success = board.placePiece(p, row, col, turnRep);
+        bool success = board.placePiece(p, row, col, turn);
         if (success){
             if(turn){
                 p1Played = true;
@@ -86,7 +85,7 @@ void BlokusMatch::removeMove(blokusShapeType p, int row, int col, bool turn){
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(p, row, col)){
-            // std::cout<<"First move must be placed in a corner"<<std::endl;
+            // std::cout<<"First move must be placed in a corner"<<std::endl;e
             return false;
         }
     }
@@ -95,9 +94,8 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
         std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
     }
-    int8_t turnRep = turn == 1 ? 1 : -1;
     bool firstMove = turn ? !p1Played : !p2Played;
-    return board.canPlacePiece(p, row, col, turnRep, firstMove);
+    return board.canPlacePiece(p, row, col, turn, firstMove);
 }
 
 bool BlokusMatch::gameOver(bool turn){

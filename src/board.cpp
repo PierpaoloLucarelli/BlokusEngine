@@ -17,17 +17,16 @@ BlokusBoard::BlokusBoard(){
 
 }
 
-
 BlokusBoard::BlokusBoard(BlokusBoard& otherBoard){
-    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(int8_t) );
+    p1State = otherBoard.p1State;
+    p2State = otherBoard.p2State;
 }
 
 
 void BlokusBoard::reset(){
     std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
-    for(int i = 0; i < WIDTH*HEIGHT ; i++){
-        state[i] = 0;
-    }
+    p1State.reset();
+    p2State.reset();
 }
 
 
@@ -54,12 +53,12 @@ void BlokusBoard::printBoardState(){
 
 bool BlokusBoard::placePiece(blokusShapeType p,  int row, int col, int8_t turn){
     BlokusPiece& piece = getPiece(p);
-
+    std::bitset<BOARDSIZE>& playerState = turn ? p1State : p2State;
     for(int i = 0 ; i < piece.getWidth() ; i++){
             for(int j = 0 ; j < piece.getHeight(); j++){
                 bool pieceBlockUsed = piece.getXY(j, i);
                 if(pieceBlockUsed){
-                    state[(row+j)*WIDTH + col+i] = turn;
+                    playerState.set((row+j)*WIDTH + col+i);
                 }
             }
         }
@@ -78,30 +77,31 @@ bool BlokusBoard::canPlacePiece(blokusShapeType p, int row, int col, int8_t turn
     }
 
     bool touchesSelfCorner = firstMove;
-
+    std::bitset<BOARDSIZE>& playerState = turn ? p1State : p2State;
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
-            bool blockUsed = state[(row+j)*WIDTH + col+i] != 0;
+            bool blockUsed = p1State.test((row+j)*WIDTH + col+i) || p2State.test((row+j)*WIDTH + col+i);
             bool pieceBlockUsed = piece.getXY(j, i);
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
             if(pieceBlockUsed) {  
                 if( // touches own piece
-                    (row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn) || // UP
-                    (row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn) || // DOWN
-                    (col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn) || // LEFT
-                    (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
+                    (row+j-1 >= 0 && playerState.test((row+j-1)*WIDTH + col+i)) || // UP
+                    (row+j+1 < HEIGHT && playerState.test((row+j+1) * WIDTH + col+i)) || // DOWN
+                    (col+i-1 >= 0 && playerState.test((row+j)*WIDTH + col+i-1)) || // LEFT
+                    (col+i+1 < WIDTH && playerState.test((row+j)*WIDTH + col+i+1)) // RIGHT
                 ){
+                    // std::cout<<"Touches own piece"<<std::endl;
                     return false;
                 }
 
                 if(
                     !firstMove && !touchesSelfCorner && (
-                        (row+j-1 >= 0 && col+i-1 >= 0 && state[(row+j-1)*WIDTH + col+i-1] == turn) || // UP-LEFT
-                        (row+j+1 < HEIGHT && col+i-1 >= 0 && state[(row+j+1) * WIDTH + col+i-1] == turn) || // DOWN-LEFT
-                        (row+j+1 < HEIGHT && col+i+1 < WIDTH && state[(row+j+1) * WIDTH + col+i+1] == turn) || // DOWN-RIGHT
-                        (row+j-1 >= 0 && col+i+1 < WIDTH && state[(row+j-1) * WIDTH + col+i+1] == turn) // UP-RIGHT
+                        (row+j-1 >= 0 && col+i-1 >= 0 && playerState.test((row+j-1)*WIDTH + col+i-1)) || // UP-LEFT
+                        (row+j+1 < HEIGHT && col+i-1 >= 0 && playerState.test((row+j+1) * WIDTH + col+i-1)) || // DOWN-LEFT
+                        (row+j+1 < HEIGHT && col+i+1 < WIDTH && playerState.test((row+j+1) * WIDTH + col+i+1)) || // DOWN-RIGHT
+                        (row+j-1 >= 0 && col+i+1 < WIDTH && playerState.test((row+j-1) * WIDTH + col+i+1)) // UP-RIGHT
                     )
                 ){
                     touchesSelfCorner = true;
@@ -114,16 +114,17 @@ bool BlokusBoard::canPlacePiece(blokusShapeType p, int row, int col, int8_t turn
 }
 
 std::string BlokusBoard::getStrReprForBlock(int i){
-    std::string strRep;
-    int8_t tileState = state[i];
-    if(tileState == 1){
-        strRep = "[X]";
-    } else if(tileState == -1){
-        strRep = "[O]";
-    } else{
-        strRep = "[ ]";
+    bool p1PosState = p1State.test(i);
+    if (p1PosState){
+        return "[X]";
+    } else {
+        bool p2PosState = p2State.test(i);
+        if(p2PosState){
+            return "[O]";
+        } else{
+            return "[ ]";
+        }
     }
-    return strRep;
 }
 
 int BlokusBoard::getWidth(){
@@ -158,10 +159,10 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
     return false;
 }
 
-std::string BlokusBoard::hash(){
-    std::string hash = "";
-    for(int i = 0 ; i < WIDTH * HEIGHT; i++){
-        hash += std::to_string(state[i]);
-    }
-    return hash;
-}
+// std::string BlokusBoard::hash(){
+//     std::string hash = "";
+//     for(int i = 0 ; i < WIDTH * HEIGHT; i++){
+//         hash += std::to_string(state[i]);
+//     }
+//     return hash;
+// }
