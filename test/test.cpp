@@ -4,6 +4,16 @@
 std::string PASSED = "TEST PASSED";
 std::string FAILED = "TEST FAILED";
 
+namespace {
+    BlokusPiece& getPiece(blokusShapeType p){
+        auto it = piecesMap.find(p);
+        if(it == piecesMap.end()){
+            throw std::runtime_error("Piece not found in piece map");
+        }
+        return it->second;
+    }
+}
+
 int testGameOver(){
     BlokusBoard board;
     initializePieceMap();
@@ -29,6 +39,17 @@ int testGameOver(){
     match.getBoard().printBoardState();
 
     return match.gameOver(true);
+
+}
+
+int testRotatePiece(){
+    BlokusBoard board;
+    initializePieceMap();
+    BlokusMatch match(board);
+    match.newGame();
+
+    BlokusPiece& p = getPiece(blokusShapeType::longlShapeType);
+    match.getBoard().placePiece(p, 5, 5);
 
 }
 

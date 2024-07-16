@@ -12,8 +12,8 @@ BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetr
 
 void BlokusPiece::printPiece(){
     std::string strRepr;
-    for(int i = 0 ; i < width ; i++){
-        for(int j = 0 ; j < height ; j++){
+    for(size_t i = 0 ; i < shape[0].size() ; i++){
+        for(size_t j = 0 ; j < shape.size() ; j++){
             bool filled = shape[i][j];
             std::string x;
             if(filled){
@@ -29,11 +29,11 @@ void BlokusPiece::printPiece(){
 }
 
 int BlokusPiece::getWidth(){
-    return width;
+    return shape[0].size();
 }
 
 int BlokusPiece::getHeight(){
-    return height;
+    return shape.size();
 }
 
 bool BlokusPiece::getXY(int x, int y){
@@ -54,4 +54,14 @@ std::string BlokusPiece::getId() const{
 
 int BlokusPiece::getSize(){
     return size;
+}
+
+void BlokusPiece::rotate(){
+    std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
+    for(size_t row = 0; row < shape.size(); row++){
+        for(size_t col = 0; col < shape[0].size() ; col++){
+            rotatedShape[col][shape.size() -1 - row];
+        }
+    }
+    shape = rotatedShape;
 }

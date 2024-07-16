@@ -26,6 +26,8 @@ class BlokusPiece{
         bool isSymmetric();
         std::string getId() const;
         bool operator==(const BlokusPiece& other) const;
+        void rotate();
+
         
         struct HashFunction{
             size_t operator()(const BlokusPiece& piece) const {
