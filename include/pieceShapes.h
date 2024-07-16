@@ -93,6 +93,6 @@ extern Matrix twoShape;
 extern BlokusPiece twoPiece;
 
 
-extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
+extern std::unordered_map<blokusShapeType, std::vector<BlokusPiece>> piecesMap;
 
 void initializePieceMap();

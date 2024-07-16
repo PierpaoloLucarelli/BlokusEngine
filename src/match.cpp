@@ -13,10 +13,18 @@ namespace {
             if(it == piecesMap.end()){
                 throw std::runtime_error("Piece not found in piece map");
             }
-            BlokusPiece& p = it->second; // todo check if its a reference.
+            BlokusPiece& p = it->second[0]; // todo check if its a reference.
             eval += p.getSize();
         }
         return eval;
+    }
+
+    BlokusPiece& getPiece(blokusShapeType p, uint8_t rotation){
+        auto it = piecesMap.find(p);
+        if(it == piecesMap.end()){
+            throw std::runtime_error("Piece not found in piece map");
+        }
+        return it->second[rotation];
     }
 }
 
@@ -46,36 +54,39 @@ void BlokusMatch::newGame(){
     board.reset();
 }
 
-bool BlokusMatch::playMove(blokusShapeType p, int row, int col, bool turn){
-    bool canPlay = canPlayMove(p, row, col, turn);
+bool BlokusMatch::playMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
+    bool canPlay = canPlayMove(p, row, col, rotation, turn);
     if (!canPlay){
         return false;
     }
-    return applyMove(p, row, col, turn);
+    return applyMove(p, row, col, rotation, turn);
 }
 
-bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
+bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
     int8_t turnRep = turn == 1 ? 1 : -1;
-        bool success = board.placePiece(p, row, col, turnRep);
-        if (success){
-            if(turn){
-                p1Played = true;
-                p1Pieces.erase(p);
-            } else{
-                p2Played = true;
-                p2Pieces.erase(p);
-            }
+    BlokusPiece& piece = getPiece(p, rotation);
+    bool success = board.placePiece(piece, row, col, turnRep);
+    if (success){
+        if(turn){
+            p1Played = true;
+            p1Pieces.erase(p);
+        } else{
+            p2Played = true;
+            p2Pieces.erase(p);
         }
-        return success;
+    }
+    return success;
 }
 
-void BlokusMatch::removeMove(blokusShapeType p, int row, int col){
-        board.removePiece(p, row, col);
+void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation){
+    BlokusPiece& piece = getPiece(p, rotation);
+    board.removePiece(piece, row, col);
 }
 
-bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
+bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col,  uint8_t rotation, bool turn){
+    BlokusPiece& piece = getPiece(p, rotation);
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
-        if (!board.isInCorner(p, row, col)){
+        if (!board.isInCorner(piece, row, col)){
             // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
@@ -87,7 +98,7 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
     }
     int8_t turnRep = turn == 1 ? 1 : -1;
     bool firstMove = turn ? !p1Played : !p2Played;
-    return board.canPlacePiece(p, row, col, turnRep, firstMove);
+    return board.canPlacePiece(piece, row, col, turnRep, firstMove);
 }
 
 bool BlokusMatch::gameOver(bool turn){
@@ -136,9 +147,11 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
 
     for(const auto& piece : playerPieces){
         for(int i = 0 ; i < board.getHeight() * w; i++){
-            if(canPlayMove(piece, (int)i/w, i%w, turn)){ // can play move
-                moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
-            };
+            for (int rotation = 0 ; rotation < 3 ; rotation++){
+                if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
+                    moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
+                }
+            }
         }
     }
     std::sort(moves.begin(), moves.end(), less_than_key());
@@ -152,9 +165,11 @@ bool BlokusMatch::hasMoves(bool turn){
 
     for(const auto& piece : playerPieces){
         for(int i = 0 ; i < board.getHeight() * w; i++){
-            if(canPlayMove(piece, (int)i/w, i%w, turn)){ // can play move
-                return true;
-            };
+            for (int rotation = 0 ; rotation < 3 ; rotation++){
+                if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){
+                    return true;
+                }
+            }
         }
     }
     return false;

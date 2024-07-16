@@ -155,27 +155,39 @@ Matrix singleShape = {
 BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
 
 
-std::unordered_map<blokusShapeType, BlokusPiece> piecesMap; 
+std::unordered_map<blokusShapeType, std::vector<BlokusPiece>> piecesMap; 
+
+std::vector<BlokusPiece> getRotations(BlokusPiece p){
+    std::vector<BlokusPiece> rotations;
+    for(int i = 0 ; i < 4 ; i++){
+        rotations.push_back(p);
+    }
+    return rotations;
+}
 
 void initializePieceMap() {
-    piecesMap.insert(std::make_pair(blokusShapeType::iShapeType, iPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::smallCornerShapeType, smallCornerPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::bigCornerShapeType,  bigCornerPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::singleShapeType, singlePiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::crossShapeType, crossPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::tShapeType, tPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::zShapeType, zPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::oShapeType, oPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::snakeShapeType, snakePiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::dinoShapeType, dinoPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::submarineShapeType, submarinePiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::zigzagShapeType, zigzagPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::bigtShapeType, bigtPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::uShapeType, uPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::longlShapeType, longlPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::diggerShapeType, diggerPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::mediumlShapeType, mediumlPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::threeShapeType, threePiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::twoShapeType, twoPiece));
-    piecesMap.insert(std::make_pair(blokusShapeType::sixShapeType, sixPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::iShapeType, getRotations(iPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::smallCornerShapeType, getRotations(smallCornerPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::bigCornerShapeType,  getRotations(bigCornerPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::singleShapeType, getRotations(singlePiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::crossShapeType, getRotations(crossPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::tShapeType, getRotations(tPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::zShapeType, getRotations(zPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::oShapeType, getRotations(oPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::snakeShapeType, getRotations(snakePiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::dinoShapeType, getRotations(dinoPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::submarineShapeType, getRotations(submarinePiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::zigzagShapeType, getRotations(zigzagPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::bigtShapeType, getRotations(bigtPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::uShapeType, getRotations(uPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::longlShapeType, getRotations(longlPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::diggerShapeType, getRotations(diggerPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::mediumlShapeType, getRotations(mediumlPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::threeShapeType, getRotations(threePiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::twoShapeType, getRotations(twoPiece)));
+    piecesMap.insert(std::make_pair(blokusShapeType::sixShapeType, getRotations(sixPiece)));
 }
+
+
+
+

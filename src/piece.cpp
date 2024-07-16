@@ -1,13 +1,16 @@
 #include <iostream>
 #include <piece.h>
 
-BlokusPiece::BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string myId, int pieceSize) : shape(myShape){
-    
-    width = myShape[0].size();
-    height = myShape.size();
+BlokusPiece::BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string myId, int pieceSize) : shape(myShape){
     id = myId;
     size = pieceSize;
     symmetric = isSymmetric;
+}
+
+BlokusPiece::BlokusPiece(const BlokusPiece& otherPiece): shape(otherPiece.shape){
+    id = otherPiece.id;
+    size = otherPiece.size;
+    symmetric = otherPiece.symmetric;
 }
 
 void BlokusPiece::printPiece(){
@@ -29,10 +32,13 @@ void BlokusPiece::printPiece(){
 }
 
 int BlokusPiece::getWidth(){
+
     return shape[0].size();
 }
 
 int BlokusPiece::getHeight(){
+     std::cout<<"getting"<<std::endl;
+            std::cout<<shape.size()<<std::endl;
     return shape.size();
 }
 
@@ -56,12 +62,32 @@ int BlokusPiece::getSize(){
     return size;
 }
 
-void BlokusPiece::rotate(){
-    std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
+BlokusPiece BlokusPiece::rotate(uint8_t rotation){
+
+    if(rotation > 3){
+        throw std::runtime_error("Invalid rotation");
+    }
+
+    if(rotation==0){
+        return BlokusPiece(shape, symmetric, id, size);
+    }
+
+    if(rotation == 1 || rotation == 3){
+        std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
+    } else{
+        std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
+    }
+    std::vector<std::vector<bool>> rotatedShape;
     for(size_t row = 0; row < shape.size(); row++){
         for(size_t col = 0; col < shape[0].size() ; col++){
-            rotatedShape[col][shape.size() -1 - row];
+            if(rotation==1){
+                rotatedShape[col][shape.size() -1 - row] = shape[row][col];
+            } else if(rotation==3){
+                rotatedShape[shape.size() -1 - col][row] = shape[row][col];
+            } else if(rotation==2){
+                rotatedShape[col][row] = shape[row][col];
+            }
         }
     }
-    shape = rotatedShape;
+    return BlokusPiece(rotatedShape, symmetric, id, size);
 }

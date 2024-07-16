@@ -9,15 +9,16 @@
 class BlokusPiece{
     private:
         std::vector<std::vector<bool>> shape;
-        int width;
-        int height;
         bool symmetric;
         int size;
         std::string id;
 
     public:
 
-        BlokusPiece(std::vector<std::vector<bool>>& myShape, bool isSymmetric, std::string id, int pieceSize);
+        BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string id, int pieceSize);
+
+        BlokusPiece(const BlokusPiece& otherPiece);
+
         void printPiece();
         int getWidth();
         int getHeight();
@@ -26,7 +27,7 @@ class BlokusPiece{
         bool isSymmetric();
         std::string getId() const;
         bool operator==(const BlokusPiece& other) const;
-        void rotate();
+        BlokusPiece rotate(uint8_t rotation);
 
         
         struct HashFunction{
