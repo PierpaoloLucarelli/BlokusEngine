@@ -49,17 +49,32 @@ int testRotatePiece(){
     match.newGame();
 
     BlokusPiece& p = getPiece(blokusShapeType::longlShapeType);
-    match.getBoard().placePiece(p, 5, 5);
-
+    match.getBoard().placePiece(p, 5, 5, true);
+    match.getBoard().printBoardState();
+    match.getBoard().removePiece(p, 5, 5);
+    p.rotate();
+    match.getBoard().placePiece(p, 5, 5, true);
+    match.getBoard().printBoardState();
+    match.getBoard().removePiece(p, 5, 5);
+    p.rotate();
+    match.getBoard().placePiece(p, 5, 5, true);
+    match.getBoard().printBoardState();
+    match.getBoard().removePiece(p, 5, 5);
+    p.rotate();
+    match.getBoard().placePiece(p, 5, 5, true);
+    match.getBoard().printBoardState();
+    match.getBoard().removePiece(p, 5, 5);
+    return 1;
 }
 
 int main(){
     std::cout << "Running tests." << std::endl;
 
-    if(testGameOver()){
+    if(testRotatePiece()){
         std::cout << "testGameOver(): " + PASSED << std::endl;
     } else{
         std::cout << "testGameOver(): " + FAILED << std::endl;
     }
     return 0;
+
 }

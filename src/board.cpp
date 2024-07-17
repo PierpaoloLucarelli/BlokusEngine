@@ -3,16 +3,6 @@
 
 #include <board.h>
 
-// namespace {
-//     BlokusPiece& getPiece(blokusShapeType p){
-//         auto it = piecesMap.find(p);
-//         if(it == piecesMap.end()){
-//             throw std::runtime_error("Piece not found in piece map");
-//         }
-//         return it->second;
-//     }
-// }
-
 BlokusBoard::BlokusBoard(){
 
 }
