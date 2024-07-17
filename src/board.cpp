@@ -3,15 +3,15 @@
 
 #include <board.h>
 
-namespace {
-    BlokusPiece& getPiece(blokusShapeType p){
-        auto it = piecesMap.find(p);
-        if(it == piecesMap.end()){
-            throw std::runtime_error("Piece not found in piece map");
-        }
-        return it->second;
-    }
-}
+// namespace {
+//     BlokusPiece& getPiece(blokusShapeType p){
+//         auto it = piecesMap.find(p);
+//         if(it == piecesMap.end()){
+//             throw std::runtime_error("Piece not found in piece map");
+//         }
+//         return it->second;
+//     }
+// }
 
 BlokusBoard::BlokusBoard(){
 
@@ -52,9 +52,7 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(blokusShapeType p,  int row, int col, int8_t turn){
-    BlokusPiece& piece = getPiece(p);
-
+bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, int8_t turn){
     for(int i = 0 ; i < piece.getWidth() ; i++){
             for(int j = 0 ; j < piece.getHeight(); j++){
                 bool pieceBlockUsed = piece.getXY(j, i);
@@ -67,8 +65,7 @@ bool BlokusBoard::placePiece(blokusShapeType p,  int row, int col, int8_t turn){
 }
 
 
-bool BlokusBoard::canPlacePiece(blokusShapeType p, int row, int col, int8_t turn, bool firstMove){
-    BlokusPiece& piece = getPiece(p);
+bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, int8_t turn, bool firstMove){
     if(col<0 || row <0){
         return false;
     }
@@ -134,12 +131,7 @@ int BlokusBoard::getHeight(){
     return HEIGHT;
 }
 
-bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
-    auto it = piecesMap.find(p);
-    if(it == piecesMap.end()){
-        return false;
-    }
-    auto piece = it->second;
+bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col){
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
             bool pieceBlockUsed = piece.getXY(j, i);
@@ -158,8 +150,7 @@ bool BlokusBoard::isInCorner(blokusShapeType p, int row, int col){
     return false;
 }
 
-void BlokusBoard::removePiece(blokusShapeType p, int row, int col){
-    BlokusPiece& piece = getPiece(p);
+void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col){
     for(int i = 0 ; i < piece.getWidth() ; i++){
         for(int j = 0 ; j < piece.getHeight(); j++){
             bool pieceBlockUsed = piece.getXY(j, i);

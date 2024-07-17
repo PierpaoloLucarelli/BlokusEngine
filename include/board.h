@@ -19,11 +19,11 @@ class BlokusBoard{
 
         void reset();
         void printBoardState();
-        bool placePiece(blokusShapeType p, int row, int col, int8_t turn);
-        bool canPlacePiece(blokusShapeType p, int row, int col, int8_t turn, bool firstMove);
+        bool placePiece(BlokusPiece& piece, int row, int col, int8_t turn);
+        bool canPlacePiece(BlokusPiece& piece, int row, int col, int8_t turn, bool firstMove);
         int getWidth();
         int getHeight();
         std::string getStrReprForBlock(int i);
-        bool isInCorner(blokusShapeType p, int row, int col);
-        void removePiece(blokusShapeType p, int row, int col);
+        bool isInCorner(BlokusPiece& piece, int row, int col);
+        void removePiece(BlokusPiece& piece, int row, int col);
 };

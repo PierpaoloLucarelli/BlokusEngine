@@ -18,6 +18,14 @@ namespace {
         }
         return eval;
     }
+
+    BlokusPiece& getPiece(blokusShapeType p){
+        auto it = piecesMap.find(p);
+        if(it == piecesMap.end()){
+            throw std::runtime_error("Piece not found in piece map");
+        }
+        return it->second;
+    }
 }
 
 BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
@@ -55,8 +63,9 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col, bool turn){
 }
 
 bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
+    BlokusPiece& piece = getPiece(p);
     int8_t turnRep = turn == 1 ? 1 : -1;
-        bool success = board.placePiece(p, row, col, turnRep);
+        bool success = board.placePiece(piece, row, col, turnRep);
         if (success){
             if(turn){
                 p1Played = true;
@@ -70,12 +79,14 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, bool turn){
 }
 
 void BlokusMatch::removeMove(blokusShapeType p, int row, int col){
-        board.removePiece(p, row, col);
+    BlokusPiece& piece = getPiece(p);
+    board.removePiece(piece, row, col);
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
+    BlokusPiece& piece = getPiece(p);
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
-        if (!board.isInCorner(p, row, col)){
+        if (!board.isInCorner(piece, row, col)){
             // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
@@ -87,7 +98,7 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, bool turn){
     }
     int8_t turnRep = turn == 1 ? 1 : -1;
     bool firstMove = turn ? !p1Played : !p2Played;
-    return board.canPlacePiece(p, row, col, turnRep, firstMove);
+    return board.canPlacePiece(piece, row, col, turnRep, firstMove);
 }
 
 bool BlokusMatch::gameOver(bool turn){
