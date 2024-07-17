@@ -24,7 +24,7 @@ int main(){
     while(!match.gameOver(maxPlayer)){
         BlokusMatch matchCopy(match);
         BlokusMove bestMove = getNextMove(matchCopy, 20, maxPlayer);
-        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), maxPlayer);
+        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), 0, maxPlayer);
         match.getBoard().printBoardState();
         maxPlayer = !maxPlayer;
 
