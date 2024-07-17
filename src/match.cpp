@@ -6,19 +6,6 @@
 #include <minimax.h>
 
 namespace {
-    int evalPieces(std::unordered_set<blokusShapeType> pieces){
-        int eval = 0;
-        for (const auto piece : pieces){
-            auto it = piecesMap.find(piece);
-            if(it == piecesMap.end()){
-                throw std::runtime_error("Piece not found in piece map");
-            }
-            BlokusPiece& p = it->second; // todo check if its a reference.
-            eval += p.getSize();
-        }
-        return eval;
-    }
-
     BlokusPiece& getPiece(blokusShapeType p){
         auto it = piecesMap.find(p);
         if(it == piecesMap.end()){
@@ -26,6 +13,16 @@ namespace {
         }
         return it->second;
     }
+
+    int evalPieces(std::unordered_set<blokusShapeType> pieces){
+        int eval = 0;
+        for (const auto piece : pieces){
+            BlokusPiece& p = getPiece(piece);
+            eval += p.getSize();
+        }
+        return eval;
+    }
+
 }
 
 BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
