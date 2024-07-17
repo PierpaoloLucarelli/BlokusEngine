@@ -56,12 +56,16 @@ int BlokusPiece::getSize(){
     return size;
 }
 
-void BlokusPiece::rotate(){
+std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
+
+    if(rotation == 0){
+        return shape;
+    }
     std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
     for(size_t row = 0; row < shape.size(); row++){
         for(size_t col = 0; col < shape[0].size() ; col++){
             rotatedShape[col][shape.size() -1 - row] = shape[row][col];
         }
     }
-    shape = rotatedShape;
+    return shape;
 }

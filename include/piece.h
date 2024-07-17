@@ -26,7 +26,7 @@ class BlokusPiece{
         bool isSymmetric();
         std::string getId() const;
         bool operator==(const BlokusPiece& other) const;
-        void rotate();
+        std::vector<std::vector<bool>> rotate(uint8_t rotation);
 
         
         struct HashFunction{

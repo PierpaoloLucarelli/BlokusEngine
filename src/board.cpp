@@ -42,34 +42,41 @@ void BlokusBoard::printBoardState(){
     std::cout<<strRepr;
 }
 
-bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, int8_t turn){
-    for(int i = 0 ; i < piece.getWidth() ; i++){
-            for(int j = 0 ; j < piece.getHeight(); j++){
-                bool pieceBlockUsed = piece.getXY(j, i);
-                if(pieceBlockUsed){
-                    state[(row+j)*WIDTH + col+i] = turn;
-                }
+bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn){
+    std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
+    int w = static_cast<int>(rotated[0].size());
+    int h = static_cast<int>(rotated.size());
+    for(int i = 0 ; i < w ; i++){
+        for(int j = 0 ; j < h; j++){
+            bool pieceBlockUsed = rotated[j][i];
+            if(pieceBlockUsed){
+                state[(row+j)*WIDTH + col+i] = turn;
             }
         }
+    }
     return true;
 }
 
 
-bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, int8_t turn, bool firstMove){
+bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn, bool firstMove){
     if(col<0 || row <0){
         return false;
     }
 
-    if(row + piece.getHeight() > HEIGHT || col + piece.getWidth() > WIDTH){
+    std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
+    int w = static_cast<int>(rotated[0].size());
+    int h = static_cast<int>(rotated.size());
+
+    if(row + h > HEIGHT || col + w > WIDTH){
         return false;
     }
 
     bool touchesSelfCorner = firstMove;
 
-    for(int i = 0 ; i < piece.getWidth() ; i++){
-        for(int j = 0 ; j < piece.getHeight(); j++){
+    for(int i = 0 ; i < w ; i++){
+        for(int j = 0 ; j < h; j++){
             bool blockUsed = state[(row+j)*WIDTH + col+i] != 0;
-            bool pieceBlockUsed = piece.getXY(j, i);
+            bool pieceBlockUsed = rotated[j][i];
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
@@ -121,10 +128,14 @@ int BlokusBoard::getHeight(){
     return HEIGHT;
 }
 
-bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col){
-    for(int i = 0 ; i < piece.getWidth() ; i++){
-        for(int j = 0 ; j < piece.getHeight(); j++){
-            bool pieceBlockUsed = piece.getXY(j, i);
+bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col, uint8_t rotation){
+
+    std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
+    int w = static_cast<int>(rotated[0].size());
+    int h = static_cast<int>(rotated.size());
+    for(int i = 0 ; i < w ; i++){
+        for(int j = 0 ; j < h; j++){
+            bool pieceBlockUsed = rotated[j][i];
             int boardRow = row+j;
             int boardCol = col+i; 
             if (pieceBlockUsed && ( // is corner
@@ -140,10 +151,13 @@ bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col){
     return false;
 }
 
-void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col){
-    for(int i = 0 ; i < piece.getWidth() ; i++){
-        for(int j = 0 ; j < piece.getHeight(); j++){
-            bool pieceBlockUsed = piece.getXY(j, i);
+void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col, uint8_t rotation){
+    std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
+    int w = static_cast<int>(rotated[0].size());
+    int h = static_cast<int>(rotated.size());
+    for(int i = 0 ; i < w ; i++){
+        for(int j = 0 ; j < h; j++){
+            bool pieceBlockUsed = rotated[j][i];
             if(pieceBlockUsed){
                 state[(row+j)*WIDTH + col+i] = 0;
             }

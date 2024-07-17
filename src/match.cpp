@@ -14,7 +14,7 @@ namespace {
         return it->second;
     }
 
-    int evalPieces(std::unordered_set<blokusShapeType> pieces){
+    int evalPieces(std::unordered_set<blokusShapeType>& pieces){
         int eval = 0;
         for (const auto piece : pieces){
             BlokusPiece& p = getPiece(piece);
@@ -62,7 +62,7 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col, uint8_t rotation
 bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
     BlokusPiece& piece = getPiece(p);
     int8_t turnRep = turn == 1 ? 1 : -1;
-        bool success = board.placePiece(piece, row, col, turnRep);
+        bool success = board.placePiece(piece, row, col, rotation, turnRep);
         if (success){
             if(turn){
                 p1Played = true;
@@ -77,13 +77,13 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotatio
 
 void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation){
     BlokusPiece& piece = getPiece(p);
-    board.removePiece(piece, row, col);
+    board.removePiece(piece, row, col, rotation);
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
     BlokusPiece& piece = getPiece(p);
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
-        if (!board.isInCorner(piece, row, col)){
+        if (!board.isInCorner(piece, row, col, rotation)){
             // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
@@ -95,7 +95,7 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotat
     }
     int8_t turnRep = turn == 1 ? 1 : -1;
     bool firstMove = turn ? !p1Played : !p2Played;
-    return board.canPlacePiece(piece, row, col, turnRep, firstMove);
+    return board.canPlacePiece(piece, row, col, rotation, turnRep, firstMove);
 }
 
 bool BlokusMatch::gameOver(bool turn){
