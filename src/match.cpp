@@ -146,7 +146,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
         for(int i = 0 ; i < board.getHeight() * w; i++){
             for(int rotation = 0 ; rotation < 2 ; rotation++){
                 if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
-                    moves.push_back(std::make_tuple(piece, (int)i/w, i%w));
+                    moves.push_back(std::make_tuple(piece, (int)i/w, i%w, rotation));
                 };
             }
         }

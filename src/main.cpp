@@ -15,8 +15,15 @@ int main(){
     match.newGame();
 
 
+    
+    // match.playMove(blokusShapeType::iShapeType, 0, 0, 0, true);
     // match.getBoard().printBoardState();
+    // return 0;
 
+    // auto moves = match.getMovesFromPos(true);
+    // for(auto m : moves){
+    //     std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
+    // }
 
     bool maxPlayer = true;
 
@@ -24,7 +31,8 @@ int main(){
     while(!match.gameOver(maxPlayer)){
         BlokusMatch matchCopy(match);
         BlokusMove bestMove = getNextMove(matchCopy, 20, maxPlayer);
-        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), 0, maxPlayer);
+        std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
+        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
         match.getBoard().printBoardState();
         maxPlayer = !maxPlayer;
 

@@ -67,5 +67,5 @@ std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
             rotatedShape[col][shape.size() -1 - row] = shape[row][col];
         }
     }
-    return shape;
+    return rotatedShape;
 }

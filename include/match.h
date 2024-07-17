@@ -6,7 +6,7 @@
 #include <board.h>
 #include <pieceShapes.h>
 
-using BlokusMove = std::tuple<blokusShapeType, int, int>;
+using BlokusMove = std::tuple<blokusShapeType, int, int, uint8_t>;
 
 class BlokusMatch{
     private:
