@@ -16,6 +16,8 @@ class BlokusMatch{
         std::unordered_set<blokusShapeType> p2Pieces;
         bool p1Played;
         bool p2Played;
+        bool p1Passed;
+        bool p2Passed;
 
     public:
         BlokusMatch(BlokusBoard& aBoard);
@@ -25,9 +27,9 @@ class BlokusMatch{
         void newGame();
         bool playMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn);
         bool applyMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn);
-        void removeMove(blokusShapeType p, int row, int col, uint8_t rotation);
+        void removeMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn);
         bool canPlayMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn);
-        bool gameOver(bool turn);
+        bool gameOver();
         int evaluatePosition();
         BlokusBoard& getBoard();
         std::unordered_set<blokusShapeType>& getPiecesForPlayer(bool turn);

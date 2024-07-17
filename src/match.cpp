@@ -28,6 +28,8 @@ namespace {
 BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
     p1Played = false;
     p2Played = false;
+    p1Passed = false;
+    p2Passed = false;
 }
 
 BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
@@ -48,6 +50,8 @@ void BlokusMatch::newGame(){
     }
     p1Played = false;
     p2Played = false;
+    p1Passed = false;
+    p2Passed = false;
     board.reset();
 }
 
@@ -60,6 +64,16 @@ bool BlokusMatch::playMove(blokusShapeType p, int row, int col, uint8_t rotation
 }
 
 bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
+
+    if(p == blokusShapeType::passShapeType){
+        if(turn){
+            p1Passed = true;
+        } else{
+            p2Passed = true;
+        }
+        return true;
+    }
+
     BlokusPiece& piece = getPiece(p);
     int8_t turnRep = turn == 1 ? 1 : -1;
         bool success = board.placePiece(piece, row, col, rotation, turnRep);
@@ -75,12 +89,25 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotatio
         return success;
 }
 
-void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation){
+void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
+    if(p == blokusShapeType::passShapeType){
+        return;
+    }
     BlokusPiece& piece = getPiece(p);
     board.removePiece(piece, row, col, rotation);
+    if(turn){
+        p1Pieces.insert(p);
+    } else{
+        p2Pieces.insert(p);
+    }
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
+
+    if(p == blokusShapeType::passShapeType){
+        return row == 0 && col == 0 && rotation == 0;
+    }
+
     BlokusPiece& piece = getPiece(p);
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(piece, row, col, rotation)){
@@ -98,17 +125,9 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotat
     return board.canPlacePiece(piece, row, col, rotation, turnRep, firstMove);
 }
 
-bool BlokusMatch::gameOver(bool turn){
-    bool gameOver = false;
-    if (p1Pieces.size() == 0 || p2Pieces.size() == 0){
-        gameOver = true;
-    }else{
-        gameOver = !hasMoves(turn);
-    }
-    if(gameOver){
-        // std::cout << "Game over. Score is: P1: " << evalPieces(p1Pieces) << " P2: " << evalPieces(p2Pieces) << std::endl;
-    }
-    return gameOver;
+bool BlokusMatch::gameOver(){
+    
+    return p1Passed && p2Passed;
 }
 
 int BlokusMatch::evaluatePosition(){
@@ -143,13 +162,18 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
     int w = board.getWidth();
 
     for(const auto& piece : playerPieces){
-        for(int i = 0 ; i < board.getHeight() * w; i++){
-            for(int rotation = 0 ; rotation < 2 ; rotation++){
-                if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
-                    moves.push_back(std::make_tuple(piece, (int)i/w, i%w, rotation));
-                };
+        if(piece != blokusShapeType::passShapeType){
+            for(int i = 0 ; i < board.getHeight() * w; i++){
+                for(int rotation = 0 ; rotation < 2 ; rotation++){
+                    if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
+                        moves.push_back(std::make_tuple(piece, (int)i/w, i%w, rotation));
+                    };
+                }
             }
         }
+    }
+    if(moves.size() == 0){
+        moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
     }
     std::sort(moves.begin(), moves.end(), less_than_key());
     return moves;

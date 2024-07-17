@@ -24,13 +24,14 @@ int main(){
     // for(auto m : moves){
     //     std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
     // }
+    // return 0;
 
     bool maxPlayer = true;
 
     auto start = std::chrono::high_resolution_clock::now();
-    while(!match.gameOver(maxPlayer)){
+    while(!match.gameOver()){
         BlokusMatch matchCopy(match);
-        BlokusMove bestMove = getNextMove(matchCopy, 20, maxPlayer);
+        BlokusMove bestMove = getNextMove(matchCopy, 4, maxPlayer);
         std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
         match.getBoard().printBoardState();
@@ -56,7 +57,18 @@ int main(){
         //     valid = match.playMove(static_cast<blokusShapeType>(p), r, c, false);
         // }
     }
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     std::cout << "Duration: " << duration.count() << " seconds" << std::endl;
+
+    std::cout<<"P1 has: "<<match.getPiecesForPlayer(0).size()<<" pieces"<<std::endl;
+    std::cout<<"P2 has: "<<match.getPiecesForPlayer(1).size()<<" pieces"<<std::endl;
+
+    std::cout<<"Match eval: "<<match.evaluatePosition()<<std::endl;
+
+    auto moves = match.getMovesFromPos(true);
+    for(auto m : moves){
+        std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
+    }
 }

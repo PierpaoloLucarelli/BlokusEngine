@@ -154,6 +154,11 @@ Matrix singleShape = {
 };
 BlokusPiece singlePiece = BlokusPiece(singleShape, false, "singlePiece", 1);
 
+Matrix passShape = {
+{1}
+};
+BlokusPiece passPiece = BlokusPiece(passShape, false, "passPiece", 1);
+
 
 std::unordered_map<blokusShapeType, BlokusPiece> piecesMap; 
 
@@ -178,4 +183,5 @@ void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::threeShapeType, threePiece));
     piecesMap.insert(std::make_pair(blokusShapeType::twoShapeType, twoPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::sixShapeType, sixPiece));
+    piecesMap.insert(std::make_pair(blokusShapeType::passShapeType, passPiece));
 }

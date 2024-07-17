@@ -27,7 +27,8 @@ enum blokusShapeType {
     sixShapeType,//16
     mediumlShapeType,//17
     threeShapeType,//18
-    twoShapeType//19
+    twoShapeType,//19
+    passShapeType
 };
 
 extern const char* blokusShapeTypeNames[];
@@ -91,6 +92,9 @@ extern BlokusPiece threePiece;
 
 extern Matrix twoShape;
 extern BlokusPiece twoPiece;
+
+extern Matrix passShape;
+extern BlokusPiece passPiece;
 
 
 extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;

@@ -2,7 +2,12 @@
 #include <minimax.h>
 
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
-    if(depth == 0 || match.gameOver(maximising)){
+    if(depth == 0 || match.gameOver()){
+        std::cout<<"siuuuuuuuuuuuuuu"<<std::endl;
+        std::cout<<depth<<std::endl;
+        std::cout<<match.getPiecesForPlayer(0).size()<<std::endl;
+        std::cout<<match.getPiecesForPlayer(1).size()<<std::endl;
+        match.getBoard().printBoardState();
         return match.evaluatePosition();
     }
     if(maximising){
@@ -11,7 +16,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
             // BlokusMatch matchCopy(match);
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, false);
-            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move));
+            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             maxEval = std::max(maxEval, eval);
             alpha = std::max(alpha, eval);
             if(beta <= alpha){
@@ -27,7 +32,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
             // BlokusMatch matchCopy(match);
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, true);
-            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move));
+            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             minEval = std::min(minEval, eval);
             beta = std::min(beta, eval);
             if(beta <= alpha){
@@ -47,9 +52,8 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
             // BlokusMatch matchCopy(match);
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, maxDepth-1, -1000, 1000, !maximising);
-            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move));
+            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             if(eval > maxEval){
-                std::cout << "found better one" <<std::endl;
                 bestMove = move;
                 maxEval = eval;
             }
@@ -63,7 +67,7 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
             // BlokusMatch matchCopy(match);
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, maxDepth-1, -1000, 1000, !maximising);
-            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move));
+            match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             if(eval < maxEval){
                 bestMove = move;
                 maxEval = eval;
