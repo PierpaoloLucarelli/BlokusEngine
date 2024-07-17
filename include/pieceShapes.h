@@ -90,9 +90,9 @@ extern Matrix threeShape;
 extern BlokusPiece threePiece;
 
 extern Matrix twoShape;
-extern BlokusPiece twoPiece;
+extern BlokusPiece twoPiece;    
 
 
-extern std::unordered_map<blokusShapeType, std::vector<BlokusPiece>> piecesMap;
+extern std::unordered_map<blokusShapeType, std::vector<Matrix>> piecesMap;
 
 void initializePieceMap();

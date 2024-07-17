@@ -5,7 +5,7 @@ std::string PASSED = "TEST PASSED";
 std::string FAILED = "TEST FAILED";
 
 namespace {
-    BlokusPiece& getPiece(blokusShapeType p, uint8_t rotation){
+    Matrix& getPiece(blokusShapeType p, uint8_t rotation){
         auto it = piecesMap.find(p);
         if(it == piecesMap.end()){
             throw std::runtime_error("Piece not found in piece map");
@@ -48,8 +48,7 @@ int testRotatePiece(){
     BlokusMatch match(board);
     match.newGame();
 
-    BlokusPiece& p = getPiece(blokusShapeType::longlShapeType, 0);
-    p.rotate(1);
+    Matrix& p = getPiece(blokusShapeType::longlShapeType, 0);
     // match.getBoard().placePiece(p, 5, 5, true);
     // match.getBoard().printBoardState();
     // match.getBoard().removePiece(p, 5, 5);

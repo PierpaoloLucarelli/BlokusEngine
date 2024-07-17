@@ -4,18 +4,18 @@
 #include <functional> 
 
 
-
+using Matrix = std::vector<std::vector<bool>>;
 
 class BlokusPiece{
     private:
-        std::vector<std::vector<bool>> shape;
+        std::vector<Matrix> shape;
         bool symmetric;
         int size;
         std::string id;
 
     public:
 
-        BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string id, int pieceSize);
+        BlokusPiece(std::vector<Matrix> myShape, bool isSymmetric, std::string id, int pieceSize);
 
         BlokusPiece(const BlokusPiece& otherPiece);
 
@@ -26,8 +26,6 @@ class BlokusPiece{
         int getSize();
         bool isSymmetric();
         std::string getId() const;
-        bool operator==(const BlokusPiece& other) const;
-        BlokusPiece rotate(uint8_t rotation);
 
         
         struct HashFunction{
