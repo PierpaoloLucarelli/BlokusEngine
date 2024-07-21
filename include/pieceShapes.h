@@ -8,26 +8,26 @@
 using Matrix = std::vector<std::vector<bool>>;
 
 enum blokusShapeType {
-    iShapeType, // 0
-    smallCornerShapeType, // 1
-    bigCornerShapeType, //2
-    singleShapeType, // 3
-    crossShapeType, //4
-    tShapeType, //5
-    zShapeType, //6
-    oShapeType,//7
-    snakeShapeType,//8
-    dinoShapeType,//9
-    submarineShapeType,//10
-    zigzagShapeType,//11
-    bigtShapeType,//12
-    uShapeType,//13
-    longlShapeType,//14
-    diggerShapeType,//15
-    sixShapeType,//16
-    mediumlShapeType,//17
-    threeShapeType,//18
-    twoShapeType,//19
+    iShapeType, // 0 (5)
+    bigCornerShapeType, //1 (5)
+    crossShapeType, //2 (5)
+    tShapeType, //3 (5)
+    snakeShapeType,//4 (5)
+    dinoShapeType,//5 (5)
+    submarineShapeType,//6 (5)
+    zigzagShapeType,//7 (5)
+    bigtShapeType,//8 (5)
+    uShapeType,//9 (5)
+    longlShapeType,//10 (5)
+    diggerShapeType,//11 (5)
+    sixShapeType,//12 (5)
+    zShapeType, //13 (4)
+    oShapeType,//14 (4)
+    mediumlShapeType,//15 (4)
+    threeShapeType,//16 (3)
+    smallCornerShapeType, // 17 (3)
+    twoShapeType,//18 (2)
+    singleShapeType, // 19 (1)
     passShapeType
 };
 
