@@ -32,7 +32,7 @@ int main(){
     while(!match.gameOver()){
         BlokusMatch matchCopy(match);
         BlokusMove bestMove = getNextMove(matchCopy, 4, maxPlayer);
-        std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
+        // std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
         match.getBoard().printBoardState();
         maxPlayer = !maxPlayer;
@@ -67,8 +67,8 @@ int main(){
 
     std::cout<<"Match eval: "<<match.evaluatePosition()<<std::endl;
 
-    auto moves = match.getMovesFromPos(true);
-    for(auto m : moves){
-        std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
-    }
+    // auto moves = match.getMovesFromPos(true);
+    // for(auto m : moves){
+    //     std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
+    // }
 }

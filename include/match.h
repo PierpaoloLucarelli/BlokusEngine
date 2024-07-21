@@ -18,6 +18,7 @@ class BlokusMatch{
         bool p2Played;
         bool p1Passed;
         bool p2Passed;
+        int moveNum;
 
     public:
         BlokusMatch(BlokusBoard& aBoard);

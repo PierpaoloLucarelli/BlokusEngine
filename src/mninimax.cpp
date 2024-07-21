@@ -3,11 +3,10 @@
 
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
     if(depth == 0 || match.gameOver()){
-        std::cout<<"siuuuuuuuuuuuuuu"<<std::endl;
-        std::cout<<depth<<std::endl;
-        std::cout<<match.getPiecesForPlayer(0).size()<<std::endl;
-        std::cout<<match.getPiecesForPlayer(1).size()<<std::endl;
-        match.getBoard().printBoardState();
+        // std::cout<<depth<<std::endl;
+        // std::cout<<match.getPiecesForPlayer(0).size()<<std::endl;
+        // std::cout<<match.getPiecesForPlayer(1).size()<<std::endl;
+        // match.getBoard().printBoardState();
         return match.evaluatePosition();
     }
     if(maximising){
