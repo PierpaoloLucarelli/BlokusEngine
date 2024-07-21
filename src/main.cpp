@@ -31,7 +31,7 @@ int main(){
     auto start = std::chrono::high_resolution_clock::now();
     while(!match.gameOver()){
         BlokusMatch matchCopy(match);
-        BlokusMove bestMove = getNextMove(matchCopy, 4, maxPlayer);
+        BlokusMove bestMove = getNextMove(matchCopy, 3, maxPlayer);
         // std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
         match.getBoard().printBoardState();

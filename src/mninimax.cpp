@@ -1,7 +1,11 @@
 #include <iostream>
 #include <minimax.h>
 
+int seen = 0;
+
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
+    seen++;
+    // std::cout<<seen<<std::endl;
     if(depth == 0 || match.gameOver()){
         // std::cout<<depth<<std::endl;
         // std::cout<<match.getPiecesForPlayer(0).size()<<std::endl;
@@ -11,8 +15,9 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
     }
     if(maximising){
         int maxEval = -10000;
-        for (const auto& move : match.getMovesFromPos(maximising)){ // todo: might ge tout of sync with turn. best to handle turn as an arg.
-            // BlokusMatch matchCopy(match);
+        std::vector<BlokusMove> maxMoves = match.getMovesFromPos(maximising);
+        // std::cout<<maxMoves.size()<<std::endl;
+        for (const auto& move : maxMoves){
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, false);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
@@ -25,10 +30,9 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
         return maxEval;
     } else{
         int minEval = 20000;
-        auto moves =match.getMovesFromPos(maximising);
-        
-        for (const auto& move : moves){ // todo: might ge tout of sync with turn. best to handle turn as an arg.
-            // BlokusMatch matchCopy(match);
+        std::vector<BlokusMove> minMoves = match.getMovesFromPos(maximising);
+        // std::cout<<minMoves.size()<<std::endl;
+        for (const auto& move : minMoves){
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, depth-1, alpha, beta, true);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
@@ -47,8 +51,9 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
     if (maximising){ // super dirty
         int maxEval = -10000;
         BlokusMove bestMove;
-        for (const auto& move : match.getMovesFromPos(maximising)){
-            // BlokusMatch matchCopy(match);
+        std::vector<BlokusMove> maxMoves = match.getMovesFromPos(maximising);
+        // std::cout<<maxMoves.size()<<std::endl;
+        for (const auto& move : maxMoves){
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, maxDepth-1, -1000, 1000, !maximising);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
@@ -62,8 +67,9 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
     } else {
         int maxEval = 10000;
         BlokusMove bestMove;
-        for (const auto& move : match.getMovesFromPos(maximising)){
-            // BlokusMatch matchCopy(match);
+        std::vector<BlokusMove> minMoves = match.getMovesFromPos(maximising);
+        // std::cout<<minMoves.size()<<std::endl;
+        for (const auto& move : minMoves){
             match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
             int eval = minimax(match, maxDepth-1, -1000, 1000, !maximising);
             match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);

@@ -177,7 +177,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
     for(const auto& piece : playerPieces){
         // std::cout<<"p "<<piece<<std::endl;
         // std::cout<<"m " <<moveNum<<std::endl;
-        if(moveNum < 6 && piece > 11){
+        if(moveNum < 14 && piece > 8){
             // std::cout<<"BREAKIIIIIIIIIING"<<std::endl;
             continue;
         }
