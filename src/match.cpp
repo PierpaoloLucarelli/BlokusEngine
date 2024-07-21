@@ -97,8 +97,15 @@ void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotati
     board.removePiece(piece, row, col, rotation);
     if(turn){
         p1Pieces.insert(p);
+
+        if(p1Pieces.size() == 21){
+            p1Played = false;
+        }
     } else{
         p2Pieces.insert(p);
+        if(p2Pieces.size() == 21){
+            p2Played = false;
+        }
     }
 }
 
@@ -115,7 +122,7 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotat
             return false;
         }
     }
-    std::unordered_set<blokusShapeType> playerPieces = getPiecesForPlayer(turn);;
+    std::unordered_set<blokusShapeType> playerPieces = getPiecesForPlayer(turn);
     if(!(playerPieces.find(p) != playerPieces.end())){
         std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
