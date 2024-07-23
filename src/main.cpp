@@ -5,17 +5,16 @@
 #include <minimax.h>
 #include <chrono>
 #include <ncurses.h>
+#include <gui.h>
 
 
 int main(){
-    // initscr();   
     BlokusBoard board;
+    BlokusGUI gui;
     initializePieceMap();
-    BlokusMatch match(board);
+    BlokusMatch match(board, gui);
     match.newGame();
 
-
-    
     // match.playMove(blokusShapeType::iShapeType, 0, 0, 0, true);
     // match.getBoard().printBoardState();
     // return 0;
@@ -26,15 +25,17 @@ int main(){
     // }
     // return 0;
 
+
     bool maxPlayer = true;
 
-    auto start = std::chrono::high_resolution_clock::now();
+    // auto start = std::chrono::high_resolution_clock::now();
     while(!match.gameOver()){
+        match.printGame();
+
         BlokusMatch matchCopy(match);
         BlokusMove bestMove = getNextMove(matchCopy, 3, maxPlayer);
         // std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
-        match.getBoard().printBoardState();
         maxPlayer = !maxPlayer;
 
         //  bool valid = false;
@@ -57,15 +58,14 @@ int main(){
         //     valid = match.playMove(static_cast<blokusShapeType>(p), r, c, false);
         // }
     }
+    // auto end = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double> duration = end - start;
+    // std::cout << "Duration: " << duration.count() << " seconds" << std::endl;
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "Duration: " << duration.count() << " seconds" << std::endl;
+    // std::cout<<"P1 has: "<<match.getPiecesForPlayer(0).size()<<" pieces"<<std::endl;
+    // std::cout<<"P2 has: "<<match.getPiecesForPlayer(1).size()<<" pieces"<<std::endl;
 
-    std::cout<<"P1 has: "<<match.getPiecesForPlayer(0).size()<<" pieces"<<std::endl;
-    std::cout<<"P2 has: "<<match.getPiecesForPlayer(1).size()<<" pieces"<<std::endl;
-
-    std::cout<<"Match eval: "<<match.evaluatePosition()<<std::endl;
+    // std::cout<<"Match eval: "<<match.evaluatePosition()<<std::endl;
 
     // auto moves = match.getMovesFromPos(true);
     // for(auto m : moves){

@@ -14,32 +14,10 @@ BlokusBoard::BlokusBoard(BlokusBoard& otherBoard){
 
 
 void BlokusBoard::reset(){
-    std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
+    // std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
     for(int i = 0; i < WIDTH*HEIGHT ; i++){
         state[i] = 0;
     }
-}
-
-
-void BlokusBoard::printBoardState(){
-
-    std::cout<< "*****************************************" << std::endl; 
-    std::cout<< "****************BLOKUS*******************" << std::endl; 
-    std::cout<< "*****************************************" << std::endl; 
-
-    std::string colNums = "";
-    for(int i = 0 ; i < WIDTH ; i++){
-        colNums += " " + std::to_string(i%10) + "  ";
-    }
-    std::cout<<colNums<<std::endl;
-    std::string strRepr;
-    for(int i = 0; i < WIDTH * HEIGHT ; i++){
-        strRepr += getStrReprForBlock(i) + " ";
-        if((i+1) % WIDTH == 0){
-            strRepr += std::to_string(i/WIDTH) + " \n";
-        }
-    }
-    std::cout<<strRepr;
 }
 
 bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn){
@@ -107,17 +85,15 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
     return touchesSelfCorner;
 }
 
-std::string BlokusBoard::getStrReprForBlock(int i){
-    std::string strRep;
+const char* BlokusBoard::getStrReprForBlock(int i){
     int8_t tileState = state[i];
     if(tileState == 1){
-        strRep = "[X]";
+        return "[#]";
     } else if(tileState == -1){
-        strRep = "[O]";
+        return "[O]";
     } else{
-        strRep = "[ ]";
+        return "[ ]";
     }
-    return strRep;
 }
 
 int BlokusBoard::getWidth(){

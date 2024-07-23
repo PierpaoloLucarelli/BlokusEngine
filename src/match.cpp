@@ -25,12 +25,13 @@ namespace {
 
 }
 
-BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
+BlokusMatch::BlokusMatch(BlokusBoard& aBoard, BlokusGUI& bgui): board(aBoard){
     p1Played = false;
     p2Played = false;
     p1Passed = false;
     p2Passed = false;
     moveNum = 0;
+    gui = bgui;
 }
 
 BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
@@ -125,13 +126,11 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotat
     BlokusPiece& piece = getPiece(p);
     if ((turn == true && !p1Played) || (turn == false && !p2Played)){ // First move must be in corner.
         if (!board.isInCorner(piece, row, col, rotation)){
-            // std::cout<<"First move must be placed in a corner"<<std::endl;
             return false;
         }
     }
     std::unordered_set<blokusShapeType> playerPieces = getPiecesForPlayer(turn);
     if(!(playerPieces.find(p) != playerPieces.end())){
-        std::cout<<"Atempted to play a piece that you dont have."<<std::endl;
         return false;
     }
     int8_t turnRep = turn == 1 ? 1 : -1;
@@ -175,10 +174,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
     int w = board.getWidth();
 
     for(const auto& piece : playerPieces){
-        // std::cout<<"p "<<piece<<std::endl;
-        // std::cout<<"m " <<moveNum<<std::endl;
         if(moveNum < 14 && piece > 8){
-            // std::cout<<"BREAKIIIIIIIIIING"<<std::endl;
             continue;
         }
         if(piece != blokusShapeType::passShapeType){
@@ -192,7 +188,6 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
         }
     }
     if(moves.size() == 0){
-        std::cout<<"EEEEEEEEND##########################"<<std::endl;
         moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
     }
     std::sort(moves.begin(), moves.end(), less_than_key());
@@ -214,4 +209,8 @@ bool BlokusMatch::hasMoves(bool turn){
         }
     }
     return false;
+}
+
+void BlokusMatch::printGame(){
+    gui.printGameState(board);
 }

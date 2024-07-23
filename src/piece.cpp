@@ -25,7 +25,7 @@ void BlokusPiece::printPiece(){
         }
         strRepr += "\n";
     }
-    std::cout<<strRepr;
+    // std::cout<<strRepr;
 }
 
 int BlokusPiece::getWidth(){
