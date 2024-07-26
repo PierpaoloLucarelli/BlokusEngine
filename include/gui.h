@@ -4,7 +4,11 @@
 
 class BlokusGUI{
     private: 
+        WINDOW* mainGameWindow;
         WINDOW* mainGame;
+        WINDOW* pieces;
+
+        int paddingTop;
 
     public:
         BlokusGUI();
