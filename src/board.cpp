@@ -59,22 +59,11 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
                 return false;
             }
             if(pieceBlockUsed) {  
-                if( // touches own piece
-                    (row+j-1 >= 0 && state[(row+j-1)*WIDTH + col+i] == turn) || // UP
-                    (row+j+1 < HEIGHT && state[(row+j+1) * WIDTH + col+i] == turn) || // DOWN
-                    (col+i-1 >= 0 && state[(row+j)*WIDTH + col+i-1] == turn) || // LEFT
-                    (col+i+1 < WIDTH && state[(row+j)*WIDTH + col+i+1] == turn) // RIGHT
-                ){
+                if(isAdjacentOccupied(row+j, col+i, turn)){
                     return false;
                 }
 
-                if(
-                    !firstMove && !touchesSelfCorner && (
-                        (row+j-1 >= 0 && col+i-1 >= 0 && state[(row+j-1)*WIDTH + col+i-1] == turn) || // UP-LEFT
-                        (row+j+1 < HEIGHT && col+i-1 >= 0 && state[(row+j+1) * WIDTH + col+i-1] == turn) || // DOWN-LEFT
-                        (row+j+1 < HEIGHT && col+i+1 < WIDTH && state[(row+j+1) * WIDTH + col+i+1] == turn) || // DOWN-RIGHT
-                        (row+j-1 >= 0 && col+i+1 < WIDTH && state[(row+j-1) * WIDTH + col+i+1] == turn) // UP-RIGHT
-                    )
+                if(!firstMove && !touchesSelfCorner && isDiagonalAdjacent(row+j, col+i, turn)  // no need to check on first move or if already touching self
                 ){
                     touchesSelfCorner = true;
                 }
@@ -114,12 +103,7 @@ bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col, uint8_t rotat
             bool pieceBlockUsed = rotated[j][i];
             int boardRow = row+j;
             int boardCol = col+i; 
-            if (pieceBlockUsed && ( // is corner
-                (boardRow == 0 && boardCol == 0) || 
-                (boardRow == 0 && boardCol == WIDTH - 1) || 
-                (boardRow == HEIGHT - 1 && boardCol == 0) || 
-                (boardRow == HEIGHT - 1 && boardCol == WIDTH - 1)
-            )){
+            if (pieceBlockUsed && isCorner(boardRow, boardCol)){
                 return true;
             }
         }
@@ -139,4 +123,31 @@ void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col, uint8_t rota
             }
         }
     }
+}
+
+bool BlokusBoard::isCorner(int row, int col){
+    return (
+        (row == 0 && col == 0) || 
+        (row == 0 && col == WIDTH - 1) || 
+        (row == HEIGHT - 1 && col == 0) || 
+        (row == HEIGHT - 1 && col == WIDTH - 1)
+    );
+}
+
+bool BlokusBoard::isAdjacentOccupied(int row, int col, int8_t turn){
+    return (
+        (row-1 >= 0 && state[(row-1)*WIDTH + col] == turn) || // UP
+        (row+1 < HEIGHT && state[(row+1) * WIDTH + col] == turn) || // DOWN
+        (col-1 >= 0 && state[row * WIDTH + col-1] == turn) || // LEFT
+        (col+1 < WIDTH && state[row * WIDTH + col+1] == turn) // RIGHT
+    );
+}
+
+bool BlokusBoard::isDiagonalAdjacent(int row, int col, int8_t turn){
+    return (
+        (row-1 >= 0 && col-1 >= 0 && state[(row-1)*WIDTH + col-1] == turn) || // UP-LEFT
+        (row+1 < HEIGHT && col-1 >= 0 && state[(row+1) * WIDTH + col-1] == turn) || // DOWN-LEFT
+        (row+1 < HEIGHT && col+1 < WIDTH && state[(row+1) * WIDTH + col+1] == turn) || // DOWN-RIGHT
+        (row-1 >= 0 && col+1 < WIDTH && state[(row-1) * WIDTH + col+1] == turn) // UP-RIGHT
+    )
 }
