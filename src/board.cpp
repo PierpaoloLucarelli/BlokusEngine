@@ -63,7 +63,7 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
                     return false;
                 }
 
-                if(!firstMove && !touchesSelfCorner && isDiagonalAdjacent(row+j, col+i, turn)  // no need to check on first move or if already touching self
+                if(!firstMove && !touchesSelfCorner && isDiagonalOccupied(row+j, col+i, turn)  // no need to check on first move or if already touching self
                 ){
                     touchesSelfCorner = true;
                 }
@@ -143,7 +143,7 @@ bool BlokusBoard::isAdjacentOccupied(int row, int col, int8_t turn){
     );
 }
 
-bool BlokusBoard::isDiagonalAdjacent(int row, int col, int8_t turn){
+bool BlokusBoard::isDiagonalOccupied(int row, int col, int8_t turn){
     return (
         (row-1 >= 0 && col-1 >= 0 && state[(row-1)*WIDTH + col-1] == turn) || // UP-LEFT
         (row+1 < HEIGHT && col-1 >= 0 && state[(row+1) * WIDTH + col-1] == turn) || // DOWN-LEFT

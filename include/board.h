@@ -27,5 +27,5 @@ class BlokusBoard{
         void removePiece(BlokusPiece& piece, int row, int col, uint8_t rotation);
         bool isCorner(int row, int col);
         bool isAdjacentOccupied(int row, int col, int8_t turn);
-        bool isDiagonalAdjacent(int row, int col, int8_t turn);
+        bool isDiagonalOccupied(int row, int col, int8_t turn);
 };
