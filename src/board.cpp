@@ -151,3 +151,7 @@ bool BlokusBoard::isDiagonalOccupied(int row, int col, int8_t turn){
         (row-1 >= 0 && col+1 < WIDTH && state[(row-1) * WIDTH + col+1] == turn) // UP-RIGHT
     );
 }
+
+int8_t BlokusBoard::getBlock(int row, int col){
+    return state[row*WIDTH+col];
+}

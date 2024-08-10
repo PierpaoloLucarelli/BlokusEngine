@@ -28,4 +28,5 @@ class BlokusBoard{
         bool isCorner(int row, int col);
         bool isAdjacentOccupied(int row, int col, int8_t turn);
         bool isDiagonalOccupied(int row, int col, int8_t turn);
+        int8_t getBlock(int row, int col);
 };

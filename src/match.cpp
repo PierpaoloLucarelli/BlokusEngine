@@ -215,14 +215,19 @@ void BlokusMatch::printGame(){
     gui.printGameState(board);
 }
 
-std::tuple<int, int> BlokusMatch::getCornersFromPos(bool turn){
+std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(bool turn){
 
-    // if first move, return the four corners
-
+    // if first move, return the four corners (before you call this func)
+    std::vector<std::tuple<int, int>> corners;
     int w = board.getWidth();
     for(int i = 0 ; i < board.getHeight() * w; i++){
         int row = i/w;
         int col = i%w;
-        
+        if(board.getBlock(row, col) == 0){
+            if(!board.isAdjacentOccupied(row, col, turn) && board.isDiagonalOccupied(row, col, turn)){
+                corners.push_back(std::make_tuple(row, col));
+            }
+        }
     }
+    return corners;
 }

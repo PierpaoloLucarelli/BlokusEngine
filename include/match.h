@@ -39,5 +39,5 @@ class BlokusMatch{
         std::vector<BlokusMove> getMovesFromPos(bool turn);
         bool hasMoves(bool turn);
         void printGame();
-        std::tuple<int, int> getCornersFromPos(bool turn);
+        std::vector<std::tuple<int, int>> getCornersFromPos(bool turn);
 };
