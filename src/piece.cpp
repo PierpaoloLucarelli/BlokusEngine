@@ -1,7 +1,13 @@
 #include <iostream>
 #include <piece.h>
 
-BlokusPiece::BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string myId, int pieceSize) : shape(myShape){
+BlokusPiece::BlokusPiece(
+        std::vector<std::vector<bool>> myShape, 
+        bool isSymmetric,
+        std::string myId,
+        int pieceSize,
+        std::vector<std::tuple<int, int>> pieceCorners
+    ) : shape(myShape), cornerBlocks(pieceCorners){
     
     width = myShape[0].size();
     height = myShape.size();

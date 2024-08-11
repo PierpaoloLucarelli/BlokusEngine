@@ -14,10 +14,11 @@ class BlokusPiece{
         bool symmetric;
         int size;
         std::string id;
+        std::vector<std::tuple<int, int>> cornerBlocks;
 
     public:
 
-        BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string id, int pieceSize);
+        BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string id, int pieceSize, std::vector<std::tuple<int, int>> pieceCorners);
         void printPiece();
         int getWidth();
         int getHeight();
