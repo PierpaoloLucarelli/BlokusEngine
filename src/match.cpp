@@ -166,34 +166,6 @@ struct less_than_key
     }
 };
 
-std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
-    std::vector<BlokusMove> moves; 
-    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
-
-    BlokusBoard& board = getBoard();
-    int w = board.getWidth();
-
-    for(const auto& piece : playerPieces){
-        if(moveNum < 14 && piece > 8){
-            continue;
-        }
-        if(piece != blokusShapeType::passShapeType){
-            for(int i = 0 ; i < board.getHeight() * w; i++){
-                for(int rotation = 0 ; rotation < 2 ; rotation++){
-                    if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
-                        moves.push_back(std::make_tuple(piece, (int)i/w, i%w, rotation));
-                    };
-                }
-            }
-        }
-    }
-    if(moves.size() == 0){
-        moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
-    }
-    std::sort(moves.begin(), moves.end(), less_than_key());
-    return moves;
-}
-
 bool BlokusMatch::hasMoves(bool turn){
     std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
     BlokusBoard& board = getBoard();
@@ -231,3 +203,75 @@ std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(bool turn){
     }
     return corners;
 }
+
+std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
+    std::vector<BlokusMove> moves; 
+    std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
+    BlokusBoard& board = getBoard();
+    int w = board.getWidth();
+
+    std::vector<std::tuple<int, int>> freeCorners = getCornersFromPos(turn);
+
+    for(const auto& p : playerPieces){
+
+        if((moveNum < 14 && p > 8) || p == blokusShapeType::passShapeType){
+            continue;
+        }
+
+        BlokusPiece& piece = getPiece(p);
+
+        for(std::tuple<int, int> corner : freeCorners){
+            for(int rotation = 0 ; rotation < 2 ; rotation++){
+                for(auto pieceCorner : piece.getCornerBlocks()){
+                    std::tuple<int, int> placementOffset = getOffsetForCorner(corner, pieceCorner); // todo need to think  about rotation
+                    int row = std::get<0>(placementOffset);
+                    int col = std::get<1>(placementOffset);
+                    if(canPlayMove(p, row, col, rotation, turn)){ // can play move
+                        moves.push_back(std::make_tuple(p, row, col, rotation));
+                    };
+                }
+
+            }
+        }
+    }
+
+    return moves;
+}
+
+// std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
+//     std::vector<BlokusMove> moves; 
+//     std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
+
+//     BlokusBoard& board = getBoard();
+//     int w = board.getWidth();
+
+//     for(const auto& piece : playerPieces){
+//         if(moveNum < 14 && piece > 8){
+//             continue;
+//         }
+//         if(piece != blokusShapeType::passShapeType){
+//             for(int i = 0 ; i < board.getHeight() * w; i++){
+//                 for(int rotation = 0 ; rotation < 2 ; rotation++){
+//                     if(canPlayMove(piece, (int)i/w, i%w, rotation, turn)){ // can play move
+//                         moves.push_back(std::make_tuple(piece, (int)i/w, i%w, rotation));
+//                     };
+//                 }
+//             }
+//         }
+//     }
+//     if(moves.size() == 0){
+//         moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
+//     }
+//     std::sort(moves.begin(), moves.end(), less_than_key());
+//     return moves;
+// }
+
+std::tuple<int, int> BlokusMatch::getOffsetForCorner(
+        std::tuple<int,int> boardCorner,
+        std::tuple<int,int> pieceCorner
+){
+    int rowOffset = std::get<0>(boardCorner) - std::get<0>(pieceCorner);
+    int colOffset = std::get<1>(boardCorner) - std::get<1>(pieceCorner);
+    return std::make_tuple(rowOffset, colOffset);
+}
+
