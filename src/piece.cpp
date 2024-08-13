@@ -62,7 +62,15 @@ int BlokusPiece::getSize(){
     return size;
 }
 
-std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(){
+std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(uint8_t rotation){
+    if(rotation == 0){
+        return cornerBlocks;
+    }
+
+    std::vector<std::tuple<int, int>> rotatedCorners;
+    for(auto corner : cornerBlocks){
+        rotatedCorners.push_back(std::make_tuple(std::get<1>(corner), shape.size() - 1 - std::get<0>(corner)));
+    }
     return cornerBlocks;
 }
 

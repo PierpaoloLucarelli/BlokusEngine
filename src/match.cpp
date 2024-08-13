@@ -187,16 +187,27 @@ void BlokusMatch::printGame(){
     gui.printGameState(board);
 }
 
-std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(bool turn){
+std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(int8_t turn){
 
-    // if first move, return the four corners (before you call this func)
     std::vector<std::tuple<int, int>> corners;
+
+    bool firstMove = turn ? !p1Played : !p2Played;
+    if(firstMove){
+        corners.push_back(std::make_tuple(0,0));
+        corners.push_back(std::make_tuple(0, board.getWidth()-1));
+        corners.push_back(std::make_tuple(board.getHeight()-1,0));
+        corners.push_back(std::make_tuple(board.getHeight() - 1, board.getWidth() - 1));
+
+        return corners;
+    }
+
     int w = board.getWidth();
     for(int i = 0 ; i < board.getHeight() * w; i++){
         int row = i/w;
         int col = i%w;
         if(board.getBlock(row, col) == 0){
-            if(!board.isAdjacentOccupied(row, col, turn) && board.isDiagonalOccupied(row, col, turn)){
+            int8_t turnRep = turn == 1 ? 1 : -1;
+            if(!board.isAdjacentOccupied(row, col, turnRep) && board.isDiagonalOccupied(row, col, turnRep)){
                 corners.push_back(std::make_tuple(row, col));
             }
         }
@@ -207,8 +218,6 @@ std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(bool turn){
 std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
     std::vector<BlokusMove> moves; 
     std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
-    BlokusBoard& board = getBoard();
-    int w = board.getWidth();
 
     std::vector<std::tuple<int, int>> freeCorners = getCornersFromPos(turn);
 
@@ -222,8 +231,8 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
 
         for(std::tuple<int, int> corner : freeCorners){
             for(int rotation = 0 ; rotation < 2 ; rotation++){
-                for(auto pieceCorner : piece.getCornerBlocks()){
-                    std::tuple<int, int> placementOffset = getOffsetForCorner(corner, pieceCorner); // todo need to think  about rotation
+                for(auto pieceCorner : piece.getCornerBlocks(rotation)){
+                    std::tuple<int, int> placementOffset = getOffsetForCorner(corner, pieceCorner);
                     int row = std::get<0>(placementOffset);
                     int col = std::get<1>(placementOffset);
                     if(canPlayMove(p, row, col, rotation, turn)){ // can play move
@@ -235,6 +244,10 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
         }
     }
 
+     if(moves.size() == 0){
+        moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
+    }
+    // std::sort(moves.begin(), moves.end(), less_than_key());
     return moves;
 }
 

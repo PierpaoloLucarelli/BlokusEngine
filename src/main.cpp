@@ -6,6 +6,7 @@
 #include <chrono>
 #include <ncurses.h>
 #include <gui.h>
+#include <thread>
 
 
 int main(){
@@ -15,11 +16,30 @@ int main(){
     BlokusMatch match(board, gui);
     match.newGame();
 
-    // match.playMove(blokusShapeType::iShapeType, 0, 0, 0, true);
-    // match.getBoard().printBoardState();
-    // return 0;
+    // match.playMove(blokusShapeType::bigCornerShapeType, 0, 0, 0, true);
+
+    // match.playMove(blokusShapeType::bigCornerShapeType, 0, 11, 1, false);
+
+
+    // auto corners = match.getCornersFromPos(false);
+    // for(auto c : corners){
+    //     std::cout<<"Corner: ( " << std::get<0>(c) << ", " << std::get<1>(c) << " ) ";
+    // }
+
+
+
+    // match.playMove(blokusShapeType::bigCornerShapeType, 1, 5, 0, true);
+
+    // match.playMove(blokusShapeType::bigCornerShapeType, 10, 6, 0, false);
+    match.printGame();
+
+    // auto corners = match.getCornersFromPos(true);
+    // for(auto c : corners){
+    //     std::cout<<"Corner: ( " << std::get<0>(c) << ", " << std::get<1>(c) << " ) ";
+    // }
 
     // auto moves = match.getMovesFromPos(true);
+
     // for(auto m : moves){
     //     std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
     // }
@@ -32,10 +52,16 @@ int main(){
     while(!match.gameOver()){
         match.printGame();
 
+        // auto corners = match.getCornersFromPos(maxPlayer);
+        // for(auto c : corners){
+        //     std::cout<<"Corner: ( " << std::get<0>(c) << ", " << std::get<1>(c) << " ) ";
+        // }
+
         BlokusMatch matchCopy(match);
-        BlokusMove bestMove = getNextMove(matchCopy, 3, maxPlayer);
-        // std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
+        BlokusMove bestMove = getNextMove(matchCopy, 5, maxPlayer);
+        std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
         match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
+        // std::this_thread::sleep_for(std::chrono::seconds(3));
         maxPlayer = !maxPlayer;
 
         //  bool valid = false;

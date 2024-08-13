@@ -28,7 +28,7 @@ class BlokusPiece{
         std::string getId() const;
         bool operator==(const BlokusPiece& other) const;
         std::vector<std::vector<bool>> rotate(uint8_t rotation);
-        std::vector<std::tuple<int, int>> getCornerBlocks();
+        std::vector<std::tuple<int, int>> getCornerBlocks(uint8_t rotation);
 
         
         struct HashFunction{
