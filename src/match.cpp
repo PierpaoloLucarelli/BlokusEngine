@@ -99,6 +99,11 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotatio
 void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn){
     if(p == blokusShapeType::passShapeType){
         moveNum--;
+        if(turn){
+            p1Passed = false;
+        } else {
+            p2Passed = false;
+        }
         return;
     }
     BlokusPiece& piece = getPiece(p);
