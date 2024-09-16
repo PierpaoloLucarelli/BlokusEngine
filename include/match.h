@@ -34,7 +34,7 @@ class BlokusMatch{
         bool canPlayMove(blokusShapeType p, int row, int col, uint8_t rotation, bool turn);
         bool gameOver();
         int evaluatePosition();
-        BlokusBoard& getBoard();
+        const BlokusBoard& getBoard() const;
         std::unordered_set<blokusShapeType>& getPiecesForPlayer(bool turn);
         std::vector<BlokusMove> getMovesFromPos(bool turn);
         bool hasMoves(bool turn);

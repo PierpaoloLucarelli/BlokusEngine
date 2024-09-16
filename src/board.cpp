@@ -8,7 +8,7 @@ BlokusBoard::BlokusBoard(){
 }
 
 
-BlokusBoard::BlokusBoard(BlokusBoard& otherBoard){
+BlokusBoard::BlokusBoard(const BlokusBoard& otherBoard){
     std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(int8_t) );
 }
 
@@ -85,11 +85,19 @@ const char* BlokusBoard::getStrReprForBlock(int i){
     }
 }
 
-int BlokusBoard::getWidth(){
+std::string BlokusBoard::getStrReprForBoard() const{
+    std::string boardStr;
+    for(int i = 0 ; i < WIDTH * HEIGHT ; i++){
+        boardStr += static_cast<char>(state[i]);
+    }
+    return boardStr;
+}
+
+int BlokusBoard::getWidth() const{
     return WIDTH;
 }
 
-int BlokusBoard::getHeight(){
+int BlokusBoard::getHeight() const{
     return HEIGHT;
 }
 
