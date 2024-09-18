@@ -151,7 +151,7 @@ int BlokusMatch::evaluatePosition(){
     return evalPieces(p2Pieces)-evalPieces(p1Pieces);
 }
 
-BlokusBoard& BlokusMatch::getBoard(){
+const BlokusBoard& BlokusMatch::getBoard() const{
     return board;
 }
 
@@ -173,7 +173,7 @@ struct less_than_key
 
 bool BlokusMatch::hasMoves(bool turn){
     std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
-    BlokusBoard& board = getBoard();
+    const BlokusBoard& board = getBoard();
     int w = board.getWidth();
 
     for(const auto& piece : playerPieces){
