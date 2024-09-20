@@ -16,15 +16,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
     std::vector<BlokusMove> moves = match.getMovesFromPos(maximising);
     for (const auto& move : moves){
         match.applyMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
-        const BlokusBoard& board = match.getBoard();
-        auto it = seenBoards.find(board);
-        int eval;
-        if (it != seenBoards.end()) {
-            eval = it->second;
-        } else {
-            eval = minimax(match, depth-1, alpha, beta, !maximising);
-        }
-        seenBoards[board] = eval;
+        int eval = minimax(match, depth-1, alpha, beta, !maximising);
         match.removeMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
 
         if(maximising){
@@ -43,6 +35,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
 
 BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
     seen = 0;
+    seenBoards.clear();
     BlokusMove bestMove;
 
     int bestEval = maximising ? -1000000 : 1000000;
