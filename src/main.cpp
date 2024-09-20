@@ -8,6 +8,11 @@
 #include <gui.h>
 #include <thread>
 
+void waitForExit() {
+    int t;
+    std::cout << "Game finished! Press any key to exit!";
+    std::cin >> t;
+}
 
 int main(){
     BlokusBoard board;
@@ -53,7 +58,7 @@ int main(){
         match.printGame();
 
         // auto corners = match.getCornersFromPos(maxPlayer);
-        // for(auto c : corners){
+        // for(auto c : corners){n
         //     std::cout<<"Corner: ( " << std::get<0>(c) << ", " << std::get<1>(c) << " ) ";
         // }
 
@@ -97,4 +102,7 @@ int main(){
     // for(auto m : moves){
     //     std::cout<<"piece: "<<std::get<0>(m) << " row: "<<std::get<1>(m)<<" col: " << std::get<2>(m)<<" Rot: " << (int)std::get<3>(m)<<std::endl;
     // }
+
+    waitForExit();
+    return 0;
 }
