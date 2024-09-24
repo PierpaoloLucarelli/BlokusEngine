@@ -74,16 +74,38 @@ std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(uint8_t rotation)
     return cornerBlocks;
 }
 
+std::vector<std::vector<bool>> rotateShape(std::vector<std::vector<bool>>& shapeToRot){
+    std::vector<std::vector<bool>> rotatedShape(shapeToRot[0].size(), std::vector<bool>(shapeToRot.size()));
+    for(size_t row = 0; row < shapeToRot.size(); row++){
+        for(size_t col = 0; col < shapeToRot[0].size() ; col++){
+            rotatedShape[col][shapeToRot.size() -1 - row] = shapeToRot[row][col];
+        }
+    }
+    return rotatedShape;
+}
+
 std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
 
     if(rotation == 0){
         return shape;
     }
-    std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
-    for(size_t row = 0; row < shape.size(); row++){
-        for(size_t col = 0; col < shape[0].size() ; col++){
-            rotatedShape[col][shape.size() -1 - row] = shape[row][col];
+    std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
+
+    for(size_t row = 0 ; row < shape.size() ; row++){
+        for(size_t col = 0 ; col < shape[0].size() ; col++){
+            rotatedShape[row][col] = shape[row][col];
         }
     }
+
+    for(int i = 0 ; i < rotation ; i++){
+        rotatedShape = rotateShape(rotatedShape);
+    }
+
+    // std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
+    // for(size_t row = 0; row < shape.size(); row++){
+    //     for(size_t col = 0; col < shape[0].size() ; col++){
+    //         rotatedShape[col][shape.size() -1 - row] = shape[row][col];
+    //     }
+    // }
     return rotatedShape;
 }

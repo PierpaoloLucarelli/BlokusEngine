@@ -1,6 +1,8 @@
 #include <pieceShapes.h>
 #include <utility>
 #include <bitset>
+#include <iostream>
+#include <fstream> 
 
 const char* blokusShapeTypeNames[] = {
     "iShapeType", 
@@ -295,4 +297,65 @@ void initializePieceMap() {
     piecesMap.insert(std::make_pair(blokusShapeType::twoShapeType, twoPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::sixShapeType, sixPiece));
     piecesMap.insert(std::make_pair(blokusShapeType::passShapeType, passPiece));
+}
+
+
+
+// Matrix iShape = {
+//     {1,1,1,1,1}
+// };
+void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap){
+    std::string fileContent;
+
+    for (const auto& pair : piecesMap) {
+        BlokusPiece piece = pair.second;
+
+        fileContent += "std::vector<Matrix> " + piece.getId() + + " = {\n";
+
+        for(int rot = 0 ; rot < 4 ; rot++){
+            fileContent += "\t{\n";
+            std::vector<std::vector<bool>> rotated = piece.rotate(rot);
+
+            // for(auto pieceCorner : piece.getCornerBlocks(rotation)){}
+
+            int w = static_cast<int>(rotated[0].size());
+            int h = static_cast<int>(rotated.size());
+            for(int row = 0 ; row < h ; row++){
+                fileContent += "\t\t{";
+                for(int col = 0 ; col < w; col++){
+                    fileContent +=  std::to_string(rotated[row][col]);
+                    if(col != w-1){
+                        fileContent += ",";
+                    }
+                }
+                fileContent += "}";
+
+                if(row == h-1){
+                    fileContent+="\n";
+                } else{
+                    fileContent += ",\n";
+                }
+            }
+
+            if(rot == 1){
+                fileContent += "\t}\n";
+            } else {
+                fileContent += "\t},\n";
+            }
+
+        }
+
+        fileContent += "};\n\n";
+    }
+
+
+    std::ofstream outFile("pieces.cpp");
+
+    if (outFile.is_open()) {
+        outFile << fileContent;
+        outFile.close();
+        std::cout << "String successfully written to file." << std::endl;
+    } else {
+        std::cout << "Error: could not open the file." << std::endl;
+    }
 }
