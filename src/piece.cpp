@@ -62,16 +62,13 @@ int BlokusPiece::getSize(){
     return size;
 }
 
-std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(uint8_t rotation){
-    if(rotation == 0){
-        return cornerBlocks;
-    }
-
+std::vector<std::tuple<int, int>> BlokusPiece::rotateCorners(std::vector<std::tuple<int, int>>& cornersToRot, int pieceWidth){
     std::vector<std::tuple<int, int>> rotatedCorners;
-    for(auto corner : cornerBlocks){
-        rotatedCorners.push_back(std::make_tuple(std::get<1>(corner), shape.size() - 1 - std::get<0>(corner)));
+
+    for(auto corner : cornersToRot){
+        rotatedCorners.push_back(std::make_tuple(std::get<1>(corner), pieceWidth - 1 - std::get<0>(corner)));
     }
-    return cornerBlocks;
+    return rotatedCorners;
 }
 
 std::vector<std::vector<bool>> rotateShape(std::vector<std::vector<bool>>& shapeToRot){
@@ -82,6 +79,32 @@ std::vector<std::vector<bool>> rotateShape(std::vector<std::vector<bool>>& shape
         }
     }
     return rotatedShape;
+}
+
+std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(uint8_t rotation){
+    if(rotation == 0){
+        return cornerBlocks;
+    }
+
+    std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
+
+    for(size_t row = 0 ; row < shape.size() ; row++){
+        for(size_t col = 0 ; col < shape[0].size() ; col++){
+            rotatedShape[row][col] = shape[row][col];
+        }
+    }
+
+    std::vector<std::tuple<int, int>> rotatedCorners(cornerBlocks.size());
+
+    for(size_t i = 0 ; i < cornerBlocks.size() ; i++){
+        rotatedCorners[i] = std::make_tuple(std::get<0>(cornerBlocks[i]), std::get<1>(cornerBlocks[i]));
+    }
+
+    for(int i = 0 ; i < rotation ; i++){
+        rotatedShape = rotateShape(rotatedShape);
+        rotatedCorners = rotateCorners(rotatedCorners, rotatedShape[0].size());
+    }
+    return rotatedCorners;
 }
 
 std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
@@ -101,11 +124,5 @@ std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
         rotatedShape = rotateShape(rotatedShape);
     }
 
-    // std::vector<std::vector<bool>> rotatedShape(shape[0].size(), std::vector<bool>(shape.size()));
-    // for(size_t row = 0; row < shape.size(); row++){
-    //     for(size_t col = 0; col < shape[0].size() ; col++){
-    //         rotatedShape[col][shape.size() -1 - row] = shape[row][col];
-    //     }
-    // }
     return rotatedShape;
 }

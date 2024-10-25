@@ -3,7 +3,7 @@
 #include <string>
 #include <functional> 
 
-
+using Matrix = std::vector<std::vector<bool>>;
 
 
 class BlokusPiece{
@@ -28,6 +28,7 @@ class BlokusPiece{
         std::string getId() const;
         bool operator==(const BlokusPiece& other) const;
         std::vector<std::vector<bool>> rotate(uint8_t rotation);
+        std::vector<std::tuple<int, int>> rotateCorners(std::vector<std::tuple<int, int>>& cornersToRot, int pieceWidth);
         std::vector<std::tuple<int, int>> getCornerBlocks(uint8_t rotation);
 
         

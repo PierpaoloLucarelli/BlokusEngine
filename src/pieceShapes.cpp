@@ -301,22 +301,30 @@ void initializePieceMap() {
 
 
 
-// Matrix iShape = {
-//     {1,1,1,1,1}
-// };
 void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap){
-    std::string fileContent;
+    std::string fileContent = "#include <vector>\n";
+    fileContent += "#include <tuple>\n";
+    fileContent += "using Matrix = std::vector<std::vector<bool>>;\n\n";
 
     for (const auto& pair : piecesMap) {
         BlokusPiece piece = pair.second;
 
-        fileContent += "std::vector<Matrix> " + piece.getId() + + " = {\n";
+
+        for(int rot = 0 ; rot < 4 ; rot++){
+            fileContent += "std::vector<std::tuple<int, int>> "+piece.getId()+"Corners = {\n";
+            std::vector<std::tuple<int, int>> rotatedCorners = piece.getCornerBlocks(rot);
+            for(auto pieceCorner : rotatedCorners){
+                fileContent += "\tstd::tuple<int, int>(" + std::to_string(std::get<0>(pieceCorner)) + ","+std::to_string(std::get<1>(pieceCorner))+"),\n";
+            }
+            fileContent += "};\n";
+        }
+
+        fileContent += "std::vector<Matrix> " + piece.getId() + + " = {\n\n";
+       
 
         for(int rot = 0 ; rot < 4 ; rot++){
             fileContent += "\t{\n";
             std::vector<std::vector<bool>> rotated = piece.rotate(rot);
-
-            // for(auto pieceCorner : piece.getCornerBlocks(rotation)){}
 
             int w = static_cast<int>(rotated[0].size());
             int h = static_cast<int>(rotated.size());
@@ -337,7 +345,7 @@ void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& p
                 }
             }
 
-            if(rot == 1){
+            if(rot == 3){
                 fileContent += "\t}\n";
             } else {
                 fileContent += "\t},\n";
