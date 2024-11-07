@@ -4,21 +4,22 @@
 #include <functional> 
 
 using Matrix = std::vector<std::vector<bool>>;
+using MatrixCorner = std::vector<std::tuple<int, int>>;
 
 
 class BlokusPiece{
     private:
-        std::vector<std::vector<bool>> shape;
+        std::vector<Matrix> shape;
         int width;
         int height;
         bool symmetric;
         int size;
         std::string id;
-        std::vector<std::tuple<int, int>> cornerBlocks;
+        std::vector<MatrixCorner> cornerBlocks;
 
     public:
 
-        BlokusPiece(std::vector<std::vector<bool>> myShape, bool isSymmetric, std::string id, int pieceSize, std::vector<std::tuple<int, int>> pieceCorners);
+        BlokusPiece(std::vector<Matrix> myShape, bool isSymmetric, std::string id, int pieceSize, std::vector<MatrixCorner> pieceCorners);
         void printPiece();
         int getWidth();
         int getHeight();

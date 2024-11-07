@@ -2,11 +2,11 @@
 #include <piece.h>
 
 BlokusPiece::BlokusPiece(
-        std::vector<std::vector<bool>> myShape, 
+        std::vector<Matrix> myShape, 
         bool isSymmetric,
         std::string myId,
         int pieceSize,
-        std::vector<std::tuple<int, int>> pieceCorners
+        std::vector<MatrixCorner> pieceCorners
     ) : shape(myShape), cornerBlocks(pieceCorners){
     
     width = myShape[0].size();
@@ -18,9 +18,9 @@ BlokusPiece::BlokusPiece(
 
 void BlokusPiece::printPiece(){
     std::string strRepr;
-    for(size_t i = 0 ; i < shape[0].size() ; i++){
-        for(size_t j = 0 ; j < shape.size() ; j++){
-            bool filled = shape[i][j];
+    for(size_t i = 0 ; i < shape[0][0].size() ; i++){
+        for(size_t j = 0 ; j < shape[0].size() ; j++){
+            bool filled = shape[0][i][j];
             std::string x;
             if(filled){
                 x = "[X]";
@@ -35,15 +35,15 @@ void BlokusPiece::printPiece(){
 }
 
 int BlokusPiece::getWidth(){
-    return shape[0].size();
+    return shape[0][0].size();
 }
 
 int BlokusPiece::getHeight(){
-    return shape.size();
+    return shape[0].size();
 }
 
 bool BlokusPiece::getXY(int x, int y){
-    return shape[x][y];
+    return shape[0][x][y];
 }
 
 bool BlokusPiece::isSymmetric(){
@@ -82,47 +82,49 @@ std::vector<std::vector<bool>> rotateShape(std::vector<std::vector<bool>>& shape
 }
 
 std::vector<std::tuple<int, int>> BlokusPiece::getCornerBlocks(uint8_t rotation){
-    if(rotation == 0){
-        return cornerBlocks;
-    }
+    // if(rotation == 0){
+    //     return cornerBlocks;
+    // }
 
-    std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
+    // std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
 
-    for(size_t row = 0 ; row < shape.size() ; row++){
-        for(size_t col = 0 ; col < shape[0].size() ; col++){
-            rotatedShape[row][col] = shape[row][col];
-        }
-    }
+    // for(size_t row = 0 ; row < shape.size() ; row++){
+    //     for(size_t col = 0 ; col < shape[0].size() ; col++){
+    //         rotatedShape[row][col] = shape[row][col];
+    //     }
+    // }
 
-    std::vector<std::tuple<int, int>> rotatedCorners(cornerBlocks.size());
+    // std::vector<std::tuple<int, int>> rotatedCorners(cornerBlocks.size());
 
-    for(size_t i = 0 ; i < cornerBlocks.size() ; i++){
-        rotatedCorners[i] = std::make_tuple(std::get<0>(cornerBlocks[i]), std::get<1>(cornerBlocks[i]));
-    }
+    // for(size_t i = 0 ; i < cornerBlocks.size() ; i++){
+    //     rotatedCorners[i] = std::make_tuple(std::get<0>(cornerBlocks[i]), std::get<1>(cornerBlocks[i]));
+    // }
 
-    for(int i = 0 ; i < rotation ; i++){
-        rotatedShape = rotateShape(rotatedShape);
-        rotatedCorners = rotateCorners(rotatedCorners, rotatedShape[0].size());
-    }
-    return rotatedCorners;
+    // for(int i = 0 ; i < rotation ; i++){
+    //     rotatedShape = rotateShape(rotatedShape);
+    //     rotatedCorners = rotateCorners(rotatedCorners, rotatedShape[0].size());
+    // }
+    // return rotatedCorners;
+    return cornerBlocks[rotation];
 }
 
 std::vector<std::vector<bool>> BlokusPiece::rotate(uint8_t rotation){
 
-    if(rotation == 0){
-        return shape;
-    }
-    std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
+    // if(rotation == 0){
+    //     return shape;
+    // }
+    // std::vector<std::vector<bool>> rotatedShape(shape.size(), std::vector<bool>(shape[0].size()));
 
-    for(size_t row = 0 ; row < shape.size() ; row++){
-        for(size_t col = 0 ; col < shape[0].size() ; col++){
-            rotatedShape[row][col] = shape[row][col];
-        }
-    }
+    // for(size_t row = 0 ; row < shape.size() ; row++){
+    //     for(size_t col = 0 ; col < shape[0].size() ; col++){
+    //         rotatedShape[row][col] = shape[row][col];
+    //     }
+    // }
 
-    for(int i = 0 ; i < rotation ; i++){
-        rotatedShape = rotateShape(rotatedShape);
-    }
+    // for(int i = 0 ; i < rotation ; i++){
+    //     rotatedShape = rotateShape(rotatedShape);
+    // }
 
-    return rotatedShape;
+    // return rotatedShape;
+    return shape[rotation];
 }
