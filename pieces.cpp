@@ -2,19 +2,24 @@
 #include <tuple>
 using Matrix = std::vector<std::vector<bool>>;
 
-std::vector<std::tuple<int, int>> passPieceCorners = {
-	std::tuple<int, int>(0,0),
+using MatrixCorner = std::vector<std::tuple<int, int>>;
+
+std::vector<MatrixCorner> passPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
 };
-std::vector<std::tuple<int, int>> passPieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> passPieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> passPieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<Matrix> passPiece = {
+std::vector<Matrix> passPieceShape = {
 
 	{
 		{1}
@@ -30,31 +35,36 @@ std::vector<Matrix> passPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> sixPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(2,1),
+BlokusPiece passPiece = BlokusPiece(passPieceShape, false, "passPiece", 1, passPieceCornerBlocks);
+
+std::vector<MatrixCorner> sixPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(2,1),
+	},
+	{
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,2),
+	},
 };
-std::vector<std::tuple<int, int>> sixPieceCorners = {
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> sixPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> sixPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,2),
-};
-std::vector<Matrix> sixPiece = {
+std::vector<Matrix> sixPieceShape = {
 
 	{
 		{0,1},
@@ -76,23 +86,28 @@ std::vector<Matrix> sixPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> twoPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,1),
+BlokusPiece sixPiece = BlokusPiece(sixPieceShape, false, "sixPiece", 5, sixPieceCornerBlocks);
+
+std::vector<MatrixCorner> twoPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,0),
+	},
 };
-std::vector<std::tuple<int, int>> twoPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> twoPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> twoPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,0),
-};
-std::vector<Matrix> twoPiece = {
+std::vector<Matrix> twoPieceShape = {
 
 	{
 		{1,1}
@@ -110,23 +125,28 @@ std::vector<Matrix> twoPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> threePieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,2),
+BlokusPiece twoPiece = BlokusPiece(twoPieceShape, false, "twoPiece", 2, twoPieceCornerBlocks);
+
+std::vector<MatrixCorner> threePieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,2),
+	},
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,0),
+	},
 };
-std::vector<std::tuple<int, int>> threePieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> threePieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> threePieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,0),
-};
-std::vector<Matrix> threePiece = {
+std::vector<Matrix> threePieceShape = {
 
 	{
 		{1,1,1}
@@ -146,27 +166,32 @@ std::vector<Matrix> threePiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> mediumlPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(2,1),
+BlokusPiece threePiece = BlokusPiece(threePieceShape, false, "threePiece", 3, threePieceCornerBlocks);
+
+std::vector<MatrixCorner> mediumlPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(2,1),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,2),
+	},
 };
-std::vector<std::tuple<int, int>> mediumlPieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> mediumlPieceCorners = {
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> mediumlPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,2),
-};
-std::vector<Matrix> mediumlPiece = {
+std::vector<Matrix> mediumlPieceShape = {
 
 	{
 		{1,0},
@@ -188,31 +213,36 @@ std::vector<Matrix> mediumlPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> diggerPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(3,0),
+BlokusPiece mediumlPiece = BlokusPiece(mediumlPieceShape, false, "mediumlPiece", 4, mediumlPieceCornerBlocks);
+
+std::vector<MatrixCorner> diggerPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(3,0),
+	},
+	{
+		std::tuple<int, int>(1,3),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(3,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(1,3),
+	},
 };
-std::vector<std::tuple<int, int>> diggerPieceCorners = {
-	std::tuple<int, int>(1,3),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> diggerPieceCorners = {
-	std::tuple<int, int>(3,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,1),
-};
-std::vector<std::tuple<int, int>> diggerPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(1,3),
-};
-std::vector<Matrix> diggerPiece = {
+std::vector<Matrix> diggerPieceShape = {
 
 	{
 		{0,1},
@@ -236,27 +266,32 @@ std::vector<Matrix> diggerPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> longlPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(3,0),
-	std::tuple<int, int>(3,1),
+BlokusPiece diggerPiece = BlokusPiece(diggerPieceShape, false, "diggerPiece", 5, diggerPieceCornerBlocks);
+
+std::vector<MatrixCorner> longlPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(3,0),
+		std::tuple<int, int>(3,1),
+	},
+	{
+		std::tuple<int, int>(0,3),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(3,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,3),
+		std::tuple<int, int>(0,3),
+	},
 };
-std::vector<std::tuple<int, int>> longlPieceCorners = {
-	std::tuple<int, int>(0,3),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> longlPieceCorners = {
-	std::tuple<int, int>(3,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> longlPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,3),
-	std::tuple<int, int>(0,3),
-};
-std::vector<Matrix> longlPiece = {
+std::vector<Matrix> longlPieceShape = {
 
 	{
 		{1,0},
@@ -280,31 +315,36 @@ std::vector<Matrix> longlPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> uPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,2),
+BlokusPiece longlPiece = BlokusPiece(longlPieceShape, false, "longlPiece", 5, longlPieceCornerBlocks);
+
+std::vector<MatrixCorner> uPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,2),
+	},
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(0,1),
+	},
 };
-std::vector<std::tuple<int, int>> uPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> uPieceCorners = {
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> uPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(0,1),
-};
-std::vector<Matrix> uPiece = {
+std::vector<Matrix> uPieceShape = {
 
 	{
 		{1,0,1},
@@ -326,23 +366,28 @@ std::vector<Matrix> uPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> iPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,4),
+BlokusPiece uPiece = BlokusPiece(uPieceShape, false, "uPiece", 5, uPieceCornerBlocks);
+
+std::vector<MatrixCorner> iPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,4),
+	},
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(4,0),
+	},
+	{
+		std::tuple<int, int>(0,4),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(4,0),
+		std::tuple<int, int>(0,0),
+	},
 };
-std::vector<std::tuple<int, int>> iPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(4,0),
-};
-std::vector<std::tuple<int, int>> iPieceCorners = {
-	std::tuple<int, int>(0,4),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> iPieceCorners = {
-	std::tuple<int, int>(4,0),
-	std::tuple<int, int>(0,0),
-};
-std::vector<Matrix> iPiece = {
+std::vector<Matrix> iPieceShape = {
 
 	{
 		{1,1,1,1,1}
@@ -366,31 +411,36 @@ std::vector<Matrix> iPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> oPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,1),
+BlokusPiece iPiece = BlokusPiece(iPieceShape, false, "iPiece", 5, iPieceCornerBlocks);
+
+std::vector<MatrixCorner> oPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,1),
+	},
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+	},
 };
-std::vector<std::tuple<int, int>> oPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> oPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> oPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-};
-std::vector<Matrix> oPiece = {
+std::vector<Matrix> oPieceShape = {
 
 	{
 		{1,1},
@@ -410,31 +460,36 @@ std::vector<Matrix> oPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> crossPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(2,1),
+BlokusPiece oPiece = BlokusPiece(oPieceShape, false, "oPiece", 4, oPieceCornerBlocks);
+
+std::vector<MatrixCorner> crossPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(2,1),
+	},
+	{
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,2),
+	},
 };
-std::vector<std::tuple<int, int>> crossPieceCorners = {
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> crossPieceCorners = {
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,1),
-};
-std::vector<std::tuple<int, int>> crossPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,2),
-};
-std::vector<Matrix> crossPiece = {
+std::vector<Matrix> crossPieceShape = {
 
 	{
 		{0,1,0},
@@ -458,27 +513,32 @@ std::vector<Matrix> crossPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> bigCornerPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,2),
+BlokusPiece crossPiece = BlokusPiece(crossPieceShape, false, "crossPiece", 5, crossPieceCornerBlocks);
+
+std::vector<MatrixCorner> bigCornerPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,2),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,2),
+	},
 };
-std::vector<std::tuple<int, int>> bigCornerPieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> bigCornerPieceCorners = {
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> bigCornerPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,2),
-};
-std::vector<Matrix> bigCornerPiece = {
+std::vector<Matrix> bigCornerPieceShape = {
 
 	{
 		{1,0,0},
@@ -502,27 +562,32 @@ std::vector<Matrix> bigCornerPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> tPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,2),
+BlokusPiece bigCornerPiece = BlokusPiece(bigCornerPieceShape, false, "bigCornerPiece", 5, bigCornerPieceCornerBlocks);
+
+std::vector<MatrixCorner> tPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,2),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(0,1),
+	},
 };
-std::vector<std::tuple<int, int>> tPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> tPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> tPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(0,1),
-};
-std::vector<Matrix> tPiece = {
+std::vector<Matrix> tPieceShape = {
 
 	{
 		{0,1,0},
@@ -544,27 +609,32 @@ std::vector<Matrix> tPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> smallCornerPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,1),
+BlokusPiece tPiece = BlokusPiece(tPieceShape, false, "tPiece", 4, tPieceCornerBlocks);
+
+std::vector<MatrixCorner> smallCornerPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,1),
+	},
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+	},
 };
-std::vector<std::tuple<int, int>> smallCornerPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> smallCornerPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> smallCornerPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-};
-std::vector<Matrix> smallCornerPiece = {
+std::vector<Matrix> smallCornerPieceShape = {
 
 	{
 		{1,0},
@@ -584,27 +654,32 @@ std::vector<Matrix> smallCornerPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> dinoPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(2,1),
+BlokusPiece smallCornerPiece = BlokusPiece(smallCornerPieceShape, false, "smallCornerPiece", 3, smallCornerPieceCornerBlocks);
+
+std::vector<MatrixCorner> dinoPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(2,1),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,2),
+	},
 };
-std::vector<std::tuple<int, int>> dinoPieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> dinoPieceCorners = {
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,1),
-};
-std::vector<std::tuple<int, int>> dinoPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,2),
-};
-std::vector<Matrix> dinoPiece = {
+std::vector<Matrix> dinoPieceShape = {
 
 	{
 		{1,1,0},
@@ -628,19 +703,24 @@ std::vector<Matrix> dinoPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> singlePieceCorners = {
-	std::tuple<int, int>(0,0),
+BlokusPiece dinoPiece = BlokusPiece(dinoPieceShape, false, "dinoPiece", 5, dinoPieceCornerBlocks);
+
+std::vector<MatrixCorner> singlePieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(0,0),
+	},
 };
-std::vector<std::tuple<int, int>> singlePieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> singlePieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> singlePieceCorners = {
-	std::tuple<int, int>(0,0),
-};
-std::vector<Matrix> singlePiece = {
+std::vector<Matrix> singlePieceShape = {
 
 	{
 		{1}
@@ -656,31 +736,36 @@ std::vector<Matrix> singlePiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> zigzagPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(2,2),
+BlokusPiece singlePiece = BlokusPiece(singlePieceShape, false, "singlePiece", 1, singlePieceCornerBlocks);
+
+std::vector<MatrixCorner> zigzagPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(2,2),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(2,1),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,2),
+	},
 };
-std::vector<std::tuple<int, int>> zigzagPieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> zigzagPieceCorners = {
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> zigzagPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(2,1),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,2),
-};
-std::vector<Matrix> zigzagPiece = {
+std::vector<Matrix> zigzagPieceShape = {
 
 	{
 		{1,0,0},
@@ -704,31 +789,36 @@ std::vector<Matrix> zigzagPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> zPieceCorners = {
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,2),
+BlokusPiece zigzagPiece = BlokusPiece(zigzagPieceShape, false, "zigzagPiece", 5, zigzagPieceCornerBlocks);
+
+std::vector<MatrixCorner> zPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,2),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(0,1),
+	},
 };
-std::vector<std::tuple<int, int>> zPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> zPieceCorners = {
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> zPieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(0,1),
-};
-std::vector<Matrix> zPiece = {
+std::vector<Matrix> zPieceShape = {
 
 	{
 		{1,1,0},
@@ -750,23 +840,28 @@ std::vector<Matrix> zPiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> snakePieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(2,2),
+BlokusPiece zPiece = BlokusPiece(zPieceShape, false, "zPiece", 4, zPieceCornerBlocks);
+
+std::vector<MatrixCorner> snakePieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(2,2),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,0),
+	},
+	{
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,2),
+	},
 };
-std::vector<std::tuple<int, int>> snakePieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,0),
-};
-std::vector<std::tuple<int, int>> snakePieceCorners = {
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> snakePieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,2),
-};
-std::vector<Matrix> snakePiece = {
+std::vector<Matrix> snakePieceShape = {
 
 	{
 		{1,1,0},
@@ -790,27 +885,32 @@ std::vector<Matrix> snakePiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> submarinePieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,1),
-	std::tuple<int, int>(3,0),
+BlokusPiece snakePiece = BlokusPiece(snakePieceShape, false, "snakePiece", 5, snakePieceCornerBlocks);
+
+std::vector<MatrixCorner> submarinePieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,1),
+		std::tuple<int, int>(3,0),
+	},
+	{
+		std::tuple<int, int>(0,3),
+		std::tuple<int, int>(1,2),
+		std::tuple<int, int>(0,0),
+	},
+	{
+		std::tuple<int, int>(3,1),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(1,0),
+		std::tuple<int, int>(0,1),
+		std::tuple<int, int>(1,3),
+	},
 };
-std::vector<std::tuple<int, int>> submarinePieceCorners = {
-	std::tuple<int, int>(0,3),
-	std::tuple<int, int>(1,2),
-	std::tuple<int, int>(0,0),
-};
-std::vector<std::tuple<int, int>> submarinePieceCorners = {
-	std::tuple<int, int>(3,1),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,1),
-};
-std::vector<std::tuple<int, int>> submarinePieceCorners = {
-	std::tuple<int, int>(1,0),
-	std::tuple<int, int>(0,1),
-	std::tuple<int, int>(1,3),
-};
-std::vector<Matrix> submarinePiece = {
+std::vector<Matrix> submarinePieceShape = {
 
 	{
 		{1,0},
@@ -834,27 +934,32 @@ std::vector<Matrix> submarinePiece = {
 	}
 };
 
-std::vector<std::tuple<int, int>> bigtPieceCorners = {
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,1),
+BlokusPiece submarinePiece = BlokusPiece(submarinePieceShape, false, "submarinePiece", 5, submarinePieceCornerBlocks);
+
+std::vector<MatrixCorner> bigtPieceCornerBlocks = {
+
+	{
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,1),
+	},
+	{
+		std::tuple<int, int>(0,2),
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(1,0),
+	},
+	{
+		std::tuple<int, int>(2,2),
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,1),
+	},
+	{
+		std::tuple<int, int>(2,0),
+		std::tuple<int, int>(0,0),
+		std::tuple<int, int>(1,2),
+	},
 };
-std::vector<std::tuple<int, int>> bigtPieceCorners = {
-	std::tuple<int, int>(0,2),
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(1,0),
-};
-std::vector<std::tuple<int, int>> bigtPieceCorners = {
-	std::tuple<int, int>(2,2),
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,1),
-};
-std::vector<std::tuple<int, int>> bigtPieceCorners = {
-	std::tuple<int, int>(2,0),
-	std::tuple<int, int>(0,0),
-	std::tuple<int, int>(1,2),
-};
-std::vector<Matrix> bigtPiece = {
+std::vector<Matrix> bigtPieceShape = {
 
 	{
 		{1,1,1},
@@ -877,4 +982,6 @@ std::vector<Matrix> bigtPiece = {
 		{1,0,0}
 	}
 };
+
+BlokusPiece bigtPiece = BlokusPiece(bigtPieceShape, false, "bigtPiece", 5, bigtPieceCornerBlocks);
 
