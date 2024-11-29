@@ -8,7 +8,7 @@ std::unordered_map<BlokusBoard, int, BlokusBoardHashFunction> seenBoards;
 
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
     seen++;
-    if(depth == 0 || match.gameOver() || seen == 2000){
+    if(depth == 0 || match.gameOver()){
         return match.evaluatePosition();
     }
 

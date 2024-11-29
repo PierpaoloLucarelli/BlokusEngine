@@ -1,3 +1,4 @@
+#include <iostream>
 #include <gui.h>
 
 BlokusGUI::BlokusGUI(){
@@ -5,13 +6,22 @@ BlokusGUI::BlokusGUI(){
     paddingTop = 5;
 
     initscr();
-    mainGameWindow = newwin(30, 60, 0, 0);
-    mainGame = subwin(mainGameWindow, 30, 60, 0, 0);
-    pieces = newwin(30, 30, 0, 60);
+
+    int height, width, split;
+    getmaxyx(stdscr, height, width);
+    split = width / 2;
+    mainGameWindow = newwin(height, width, 0, 0);
+    mainGame = subwin(mainGameWindow, height, width, 0, 0);
+    pieces = newwin(height, width, 0, split);
+
+    pieceTest = newwin(5, 5, 0, split+1);
 
     box(mainGameWindow, 0, 0);
     box(pieces, 0, 0);
+    box(pieceTest, 0, 0);
+    
     wrefresh(pieces);
+    wrefresh(pieceTest);
 
     refresh();
 

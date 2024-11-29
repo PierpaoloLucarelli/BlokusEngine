@@ -100,3 +100,5 @@ extern BlokusPiece passPiece;
 extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
 
 void initializePieceMap();
+
+void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap);
