@@ -235,7 +235,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
         BlokusPiece& piece = getPiece(p);
 
         for(std::tuple<int, int> corner : freeCorners){
-            for(int rotation = 0 ; rotation < 2 ; rotation++){
+            for(int rotation = 0 ; rotation < 4 ; rotation++){
                 for(auto pieceCorner : piece.getCornerBlocks(rotation)){
                     std::tuple<int, int> placementOffset = getOffsetForCorner(corner, pieceCorner);
                     int row = std::get<0>(placementOffset);

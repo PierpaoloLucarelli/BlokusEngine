@@ -7,6 +7,7 @@ class BlokusGUI{
         WINDOW* mainGameWindow;
         WINDOW* mainGame;
         WINDOW* pieces;
+        WINDOW* pieceTest;
 
         int paddingTop;
 
