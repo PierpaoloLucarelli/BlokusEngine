@@ -1,12 +1,16 @@
 #include <iostream>
 #include <minimax.h>
-#include <board.h>
 
-int seen = 0;
-std::unordered_map<BlokusBoard, int, BlokusBoardHashFunction> seenBoards;
+BlokusEngine::BlokusEngine(): 
+        seenBoards(),
+        board(std::make_unique<BlokusBoard>()), 
+        match(std::make_unique<BlokusMatch>(*board)){ 
+    seen = 0;
+    initializePieceMap(); // nasty
+    match->newGame();
+}
 
-
-int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
+int BlokusEngine::minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
     seen++;
     if(depth == 0 || match.gameOver()){
         return match.evaluatePosition();
@@ -33,7 +37,7 @@ int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising)
     return bestEval;
 }
 
-BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
+BlokusMove BlokusEngine::p_getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
     seen = 0;
     seenBoards.clear();
     BlokusMove bestMove;
@@ -59,4 +63,22 @@ BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising){
         }
     }
     return bestMove;
+}
+
+
+BlokusMove BlokusEngine::getNextMove(int maxDepth, bool maximising){
+    BlokusMatch matchCopy(*match);
+    return p_getNextMove(matchCopy, maxDepth, maximising);
+}
+
+bool BlokusEngine::gameOver(){
+    return match->gameOver();
+}
+
+bool BlokusEngine::playMove(BlokusMove move, bool maximising){
+    return match->playMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), maximising);
+}
+
+const BlokusBoard& BlokusEngine::getBoard() const{
+    return match->getBoard();
 }

@@ -25,16 +25,15 @@ namespace {
 
 }
 
-BlokusMatch::BlokusMatch(BlokusBoard& aBoard, BlokusGUI& bgui): board(aBoard){
+BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
     p1Played = false;
     p2Played = false;
     p1Passed = false;
     p2Passed = false;
     moveNum = 0;
-    gui = bgui;
 }
 
-BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
+BlokusMatch::BlokusMatch(const BlokusMatch& otherMatch): board(otherMatch.board){
     p1Played = otherMatch.p1Played;
     p2Played = otherMatch.p2Played;
     moveNum = otherMatch.moveNum;
@@ -188,9 +187,9 @@ bool BlokusMatch::hasMoves(bool turn){
     return false;
 }
 
-void BlokusMatch::printGame(){
-    gui.printGameState(board);
-}
+// void BlokusMatch::printGame(){
+//     gui.printGameState(board);
+// }
 
 std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(int8_t turn){
 

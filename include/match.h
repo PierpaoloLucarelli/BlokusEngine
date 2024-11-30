@@ -5,7 +5,7 @@
 
 #include <board.h>
 #include <pieceShapes.h>
-#include <gui.h>
+// #include <gui.h>
 
 using BlokusMove = std::tuple<blokusShapeType, int, int, uint8_t>;
 
@@ -20,11 +20,11 @@ class BlokusMatch{
         bool p1Passed;
         bool p2Passed;
         int moveNum;
-        BlokusGUI gui;
+        // BlokusGUI gui;
 
     public:
-        BlokusMatch(BlokusBoard& aBoard, BlokusGUI& gui);
-        BlokusMatch(BlokusMatch& otherMatch);
+        BlokusMatch(BlokusBoard& aBoard);
+        BlokusMatch(const BlokusMatch& otherMatch);
 
 
         void newGame();
@@ -38,7 +38,7 @@ class BlokusMatch{
         std::unordered_set<blokusShapeType>& getPiecesForPlayer(bool turn);
         std::vector<BlokusMove> getMovesFromPos(bool turn);
         bool hasMoves(bool turn);
-        void printGame();
+        // void printGame();
         std::vector<std::tuple<int, int>> getCornersFromPos(int8_t turn);
         std::tuple<int, int> getOffsetForCorner(std::tuple<int,int> boardCorner, std::tuple<int,int> pieceCorner);
 };

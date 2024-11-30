@@ -4,7 +4,7 @@
 #include <match.h>
 #include <minimax.h>
 #include <chrono>
-#include <ncurses.h>
+// #include <ncurses.h>
 #include <gui.h>
 #include <thread>
 
@@ -15,11 +15,8 @@ void waitForExit() {
 }
 
 int main(){
-    BlokusBoard board;
-    BlokusGUI gui;
-    initializePieceMap();
-    BlokusMatch match(board, gui);
-    match.newGame();
+    BlokusEngine engine;
+    BlokusGUI GUI;
 
     // match.playMove(blokusShapeType::bigCornerShapeType, 0, 0, 0, true);
 
@@ -36,7 +33,6 @@ int main(){
     // match.playMove(blokusShapeType::bigCornerShapeType, 1, 5, 0, true);
 
     // match.playMove(blokusShapeType::bigCornerShapeType, 10, 6, 0, false);
-    match.printGame();
 
     // auto corners = match.getCornersFromPos(true);
     // for(auto c : corners){
@@ -54,20 +50,18 @@ int main(){
     bool maxPlayer = true;
 
     // auto start = std::chrono::high_resolution_clock::now();
-    while(!match.gameOver()){
-        match.printGame();
-
+    while(!engine.gameOver()){
         // auto corners = match.getCornersFromPos(maxPlayer);
         // for(auto c : corners){n
         //     std::cout<<"Corner: ( " << std::get<0>(c) << ", " << std::get<1>(c) << " ) ";
         // }
-
-        BlokusMatch matchCopy(match);
-        BlokusMove bestMove = getNextMove(matchCopy, 4, maxPlayer);
+        BlokusMove bestMove = engine.getNextMove(4, maxPlayer);
         // std::cout<<"piece: "<<std::get<0>(bestMove) << " row: "<<std::get<1>(bestMove)<<" col: " << std::get<2>(bestMove)<<" Rot: " << (int)std::get<3>(bestMove)<<std::endl;
-        match.playMove(std::get<0>(bestMove), std::get<1>(bestMove), std::get<2>(bestMove), std::get<3>(bestMove), maxPlayer);
+        engine.playMove(bestMove, maxPlayer);
         // std::this_thread::sleep_for(std::chrono::seconds(1));
         maxPlayer = !maxPlayer;
+
+        GUI.printGameState(engine.getBoard());
 
         //  bool valid = false;
         // while(!valid){

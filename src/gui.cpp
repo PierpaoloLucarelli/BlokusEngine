@@ -35,7 +35,7 @@ WINDOW* BlokusGUI::getGameWindow(){
     return mainGame;
 }
 
-void BlokusGUI::printGameState(BlokusBoard& board){
+void BlokusGUI::printGameState(const BlokusBoard& board){
     // wclear(mainGame);
     mvwprintw(mainGame, paddingTop+1, 5, "************************************************");
     mvwprintw(mainGame, paddingTop+2, 5, "*******************BLOKUS***********************");

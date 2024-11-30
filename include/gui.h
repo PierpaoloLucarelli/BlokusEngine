@@ -8,12 +8,11 @@ class BlokusGUI{
         WINDOW* mainGame;
         WINDOW* pieces;
         WINDOW* pieceTest;
-
         int paddingTop;
 
     public:
         BlokusGUI();
         WINDOW* getGameWindow();
         void endGUI();
-        void printGameState(BlokusBoard& board);
+        void printGameState(const BlokusBoard& board);
 };

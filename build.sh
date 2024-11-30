@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$1" == "main" ]; then
-    g++ -Wall  -Wextra -I ./include ./src/board.cpp ./src/gui.cpp ./src/main.cpp ./src/match.cpp ./src/minimax.cpp ./src/piece.cpp ./src/pieceShapes.cpp -o blokus -lncurses
+    g++ -Wall  -Wextra -I ./include ./src/board.cpp ./src/main.cpp ./src/match.cpp ./src/minimax.cpp ./src/piece.cpp ./src/pieceShapes.cpp ./src/gui.cpp -o blokus -lncurses
 
 elif [ "$1" == "debug" ]; then
     g++ -g -p -Wall -DUSE_NCURSES -Wextra -I ./include ./src/*.cpp -o blokus -lncurses

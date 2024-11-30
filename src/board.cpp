@@ -74,7 +74,7 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
     return touchesSelfCorner;
 }
 
-const char* BlokusBoard::getStrReprForBlock(int i){
+const char* BlokusBoard::getStrReprForBlock(int i) const{
     int8_t tileState = state[i];
     if(tileState == 1){
         return "[#]";

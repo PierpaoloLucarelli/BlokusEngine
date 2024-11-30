@@ -22,7 +22,7 @@ class BlokusBoard{
         bool canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn, bool firstMove);
         int getWidth() const;
         int getHeight() const;
-        const char* getStrReprForBlock(int i);
+        const char* getStrReprForBlock(int i) const;
         std::string getStrReprForBoard() const;
         bool isInCorner(BlokusPiece& piece, int row, int col, uint8_t rotation);
         void removePiece(BlokusPiece& piece, int row, int col, uint8_t rotation);
