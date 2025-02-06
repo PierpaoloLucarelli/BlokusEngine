@@ -9,18 +9,18 @@ BlokusBoard::BlokusBoard(){
 
 
 BlokusBoard::BlokusBoard(const BlokusBoard& otherBoard){
-    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(int8_t) );
+    std::memcpy(state, otherBoard.state, WIDTH * HEIGHT  * sizeof(uint8_t) );
 }
 
 
 void BlokusBoard::reset(){
     // std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
     for(int i = 0; i < WIDTH*HEIGHT ; i++){
-        state[i] = 0;
+        state[i] = 7;
     }
 }
 
-bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn){
+bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, uint8_t turn){
     std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
     int w = static_cast<int>(rotated[0].size());
     int h = static_cast<int>(rotated.size());
@@ -36,7 +36,7 @@ bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotat
 }
 
 
-bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, int8_t turn, bool firstMove){
+bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove){
     if(col<0 || row <0){
         return false;
     }
@@ -53,7 +53,7 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
 
     for(int i = 0 ; i < w ; i++){
         for(int j = 0 ; j < h; j++){
-            bool blockUsed = state[(row+j)*WIDTH + col+i] != 0;
+            bool blockUsed = state[(row+j)*WIDTH + col+i] != 7;
             bool pieceBlockUsed = rotated[j][i];
             if(blockUsed && pieceBlockUsed){
                 return false;
@@ -76,10 +76,14 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
 
 const char* BlokusBoard::getStrReprForBlock(int i){
     int8_t tileState = state[i];
-    if(tileState == 1){
+    if(tileState == 0){
         return "[#]";
-    } else if(tileState == -1){
+    } else if(tileState == 1){
         return "[O]";
+    } else if(tileState == 2){
+          return "[X]";
+      } else if(tileState == 3){
+          return "[+]";
     } else{
         return "[ ]";
     }
@@ -142,7 +146,7 @@ bool BlokusBoard::isCorner(int row, int col){
     );
 }
 
-bool BlokusBoard::isAdjacentOccupied(int row, int col, int8_t turn){
+bool BlokusBoard::isAdjacentOccupied(int row, int col, uint8_t turn){
     return (
         (row-1 >= 0 && state[(row-1)*WIDTH + col] == turn) || // UP
         (row+1 < HEIGHT && state[(row+1) * WIDTH + col] == turn) || // DOWN
@@ -151,7 +155,7 @@ bool BlokusBoard::isAdjacentOccupied(int row, int col, int8_t turn){
     );
 }
 
-bool BlokusBoard::isDiagonalOccupied(int row, int col, int8_t turn){
+bool BlokusBoard::isDiagonalOccupied(int row, int col, uint8_t turn){
     return (
         (row-1 >= 0 && col-1 >= 0 && state[(row-1)*WIDTH + col-1] == turn) || // UP-LEFT
         (row+1 < HEIGHT && col-1 >= 0 && state[(row+1) * WIDTH + col-1] == turn) || // DOWN-LEFT

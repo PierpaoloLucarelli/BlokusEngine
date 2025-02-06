@@ -5,9 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Set Debug as the default build type if not specified
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
+
+# Enable debug symbols
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 

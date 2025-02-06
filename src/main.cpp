@@ -19,14 +19,25 @@ void printMoves(std::vector<BlokusMove> moves){
 }
 
 int main(){
+    int nPlayers = 2;
     BlokusBoard board;
     initializePieceMap();
-    BlokusMatch match(board);
+    BlokusMatch match(board, nPlayers);
     match.newGame();
     match.printGame();
 
     std::vector<BlokusMove> moves = match.getMovesFromPos(0);
     printMoves(moves);
+    BlokusMove randMove = moves[0];
+    match.playMove(iShapeType, 0, 0, 0, 0);
+
+    match.playMove(iShapeType, 0, 9, 0, 1);
+
+    match.playMove(iShapeType, 13, 0, 0, 2);
+
+    match.playMove(iShapeType, 13, 9, 0, 3);
+
+    match.printGame();
 
 
     bool maxPlayer = true;

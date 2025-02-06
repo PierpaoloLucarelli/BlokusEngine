@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/pierpaolo/prj/BlokusEngine/include -I/home/pierpaolo/prj/BlokusEngine/src/blokusboardlib
 
-CXX_FLAGS = -O3 -DNDEBUG -std=c++17
+CXX_FLAGS = -g -std=c++17
 
