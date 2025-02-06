@@ -11,17 +11,15 @@ endif()
 
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 
+add_subdirectory(src/blokusboardlib)
+
 add_executable(BlokusEngine
     src/main.cpp
-    src/gui.cpp
-    src/board.cpp
-    src/match.cpp
     src/minimax.cpp
-    src/piece.cpp
-    src/pieceShapes.cpp
 )
 
+target_link_libraries(BlokusEngine PRIVATE blokusboardlib)
 find_package(Curses REQUIRED)
-target_link_libraries(BlokusEngine ${CURSES_LIBRARIES})
+target_link_libraries(BlokusEngine PRIVATE ${CURSES_LIBRARIES})
 
 target_include_directories(BlokusEngine PRIVATE include)

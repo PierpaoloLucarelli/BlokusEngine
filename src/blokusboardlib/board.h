@@ -2,7 +2,7 @@
 #include <string>
 #include "pieceShapes.h"
 #include <memory>
-#include <cstdint> 
+#include <cstdint>
 
 const int WIDTH = 14;
 const int HEIGHT = 14;
@@ -30,6 +30,7 @@ class BlokusBoard{
         bool isAdjacentOccupied(int row, int col, int8_t turn);
         bool isDiagonalOccupied(int row, int col, int8_t turn);
         int8_t getBlock(int row, int col);
+        void printBoardState();
 
         bool operator==(const BlokusBoard& other) const {
            for(int i = 0 ; i < WIDTH * HEIGHT ; i++){
@@ -49,4 +50,3 @@ public:
         return std::hash<std::string>()(boardStr);
     }
 };
- 

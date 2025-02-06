@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/BlokusEngine.dir/src/main.cpp.o CMakeFiles/BlokusEngine.dir/src/minimax.cpp.o -o BlokusEngine  src/blokusboardlib/libblokusboardlib.a -lcurses /usr/lib/x86_64-linux-gnu/libform.so 

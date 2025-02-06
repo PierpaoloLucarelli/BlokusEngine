@@ -1,5 +1,5 @@
 #include <iostream>
-#include <gui.h>
+#include "gui.h"
 
 BlokusGUI::BlokusGUI(){
 
@@ -19,7 +19,7 @@ BlokusGUI::BlokusGUI(){
     box(mainGameWindow, 0, 0);
     box(pieces, 0, 0);
     box(pieceTest, 0, 0);
-    
+
     wrefresh(pieces);
     wrefresh(pieceTest);
 

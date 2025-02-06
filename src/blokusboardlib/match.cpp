@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <pieceShapes.h>
-#include <minimax.h>
+#include <cstdint>
 
 namespace {
     BlokusPiece& getPiece(blokusShapeType p){
@@ -25,13 +25,12 @@ namespace {
 
 }
 
-BlokusMatch::BlokusMatch(BlokusBoard& aBoard, BlokusGUI& bgui): board(aBoard){
+BlokusMatch::BlokusMatch(BlokusBoard& aBoard): board(aBoard){
     p1Played = false;
     p2Played = false;
     p1Passed = false;
     p2Passed = false;
     moveNum = 0;
-    gui = bgui;
 }
 
 BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){
@@ -189,7 +188,7 @@ bool BlokusMatch::hasMoves(bool turn){
 }
 
 void BlokusMatch::printGame(){
-    gui.printGameState(board);
+    board.printBoardState();
 }
 
 std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(int8_t turn){
@@ -221,7 +220,7 @@ std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(int8_t turn){
 }
 
 std::vector<BlokusMove> BlokusMatch::getMovesFromPos(bool turn) {
-    std::vector<BlokusMove> moves; 
+    std::vector<BlokusMove> moves;
     std::unordered_set<blokusShapeType>& playerPieces = getPiecesForPlayer(turn);
 
     std::vector<std::tuple<int, int>> freeCorners = getCornersFromPos(turn);
@@ -264,4 +263,3 @@ std::tuple<int, int> BlokusMatch::getOffsetForCorner(
     int colOffset = std::get<1>(boardCorner) - std::get<1>(pieceCorner);
     return std::make_tuple(rowOffset, colOffset);
 }
-

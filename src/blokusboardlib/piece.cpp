@@ -1,14 +1,15 @@
 #include <iostream>
 #include <piece.h>
+#include <cstdint> 
 
 BlokusPiece::BlokusPiece(
-        std::vector<Matrix> myShape, 
+        std::vector<Matrix> myShape,
         bool isSymmetric,
         std::string myId,
         int pieceSize,
         std::vector<MatrixCorner> pieceCorners
     ) : shape(myShape), cornerBlocks(pieceCorners){
-    
+
     width = myShape[0].size();
     height = myShape.size();
     id = myId;

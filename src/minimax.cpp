@@ -1,5 +1,5 @@
 #include <iostream>
-#include <minimax.h>
+#include "minimax.h"
 #include <board.h>
 
 int seen = 0;

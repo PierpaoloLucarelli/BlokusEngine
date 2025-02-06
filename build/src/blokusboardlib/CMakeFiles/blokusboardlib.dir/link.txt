@@ -1,0 +1,2 @@
+/usr/bin/ar qc libblokusboardlib.a CMakeFiles/blokusboardlib.dir/board.cpp.o CMakeFiles/blokusboardlib.dir/match.cpp.o CMakeFiles/blokusboardlib.dir/piece.cpp.o CMakeFiles/blokusboardlib.dir/pieceShapes.cpp.o
+/usr/bin/ranlib libblokusboardlib.a

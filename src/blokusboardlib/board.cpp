@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-
+#include <cstdint>
 #include <board.h>
 
 BlokusBoard::BlokusBoard(){
@@ -58,7 +58,7 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
             if(blockUsed && pieceBlockUsed){
                 return false;
             }
-            if(pieceBlockUsed) {  
+            if(pieceBlockUsed) {
                 if(isAdjacentOccupied(row+j, col+i, turn)){
                     return false;
                 }
@@ -110,7 +110,7 @@ bool BlokusBoard::isInCorner(BlokusPiece& piece, int row, int col, uint8_t rotat
         for(int j = 0 ; j < h; j++){
             bool pieceBlockUsed = rotated[j][i];
             int boardRow = row+j;
-            int boardCol = col+i; 
+            int boardCol = col+i;
             if (pieceBlockUsed && isCorner(boardRow, boardCol)){
                 return true;
             }
@@ -135,9 +135,9 @@ void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col, uint8_t rota
 
 bool BlokusBoard::isCorner(int row, int col){
     return (
-        (row == 0 && col == 0) || 
-        (row == 0 && col == WIDTH - 1) || 
-        (row == HEIGHT - 1 && col == 0) || 
+        (row == 0 && col == 0) ||
+        (row == 0 && col == WIDTH - 1) ||
+        (row == HEIGHT - 1 && col == 0) ||
         (row == HEIGHT - 1 && col == WIDTH - 1)
     );
 }
@@ -162,4 +162,25 @@ bool BlokusBoard::isDiagonalOccupied(int row, int col, int8_t turn){
 
 int8_t BlokusBoard::getBlock(int row, int col){
     return state[row*WIDTH+col];
+}
+
+void BlokusBoard::printBoardState(){
+
+    std::cout<< "*****************************************" << std::endl;
+    std::cout<< "****************BLOKUS*******************" << std::endl;
+    std::cout<< "*****************************************" << std::endl;
+
+    std::string colNums = "";
+    for(int i = 0 ; i < WIDTH ; i++){
+        colNums += " " + std::to_string(i%10) + "  ";
+    }
+    std::cout<<colNums<<std::endl;
+    std::string strRepr;
+    for(int i = 0; i < WIDTH * HEIGHT ; i++){
+        strRepr += std::string(getStrReprForBlock(i)) + " ";
+        if((i+1) % WIDTH == 0){
+            strRepr += std::to_string(i/WIDTH) + " \n";
+        }
+    }
+    std::cout<<strRepr;
 }

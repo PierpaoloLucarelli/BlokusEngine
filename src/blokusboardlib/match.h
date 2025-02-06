@@ -5,7 +5,7 @@
 
 #include <board.h>
 #include <pieceShapes.h>
-#include <gui.h>
+#include <cstdint>
 
 using BlokusMove = std::tuple<blokusShapeType, int, int, uint8_t>;
 
@@ -20,10 +20,9 @@ class BlokusMatch{
         bool p1Passed;
         bool p2Passed;
         int moveNum;
-        BlokusGUI gui;
 
     public:
-        BlokusMatch(BlokusBoard& aBoard, BlokusGUI& gui);
+        BlokusMatch(BlokusBoard& aBoard);
         BlokusMatch(BlokusMatch& otherMatch);
 
 
