@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <functional> 
+#include <functional>
+#include <cstdint> 
 
 using Matrix = std::vector<std::vector<bool>>;
 using MatrixCorner = std::vector<std::tuple<int, int>>;
@@ -32,7 +33,7 @@ class BlokusPiece{
         std::vector<std::tuple<int, int>> rotateCorners(std::vector<std::tuple<int, int>>& cornersToRot, int pieceWidth);
         std::vector<std::tuple<int, int>> getCornerBlocks(uint8_t rotation);
 
-        
+
         struct HashFunction{
             size_t operator()(const BlokusPiece& piece) const {
                 return std::hash<std::string>()(piece.getId());
