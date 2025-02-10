@@ -1,3 +1,5 @@
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 add_library(blokusboardlib STATIC
     board.cpp
     match.cpp

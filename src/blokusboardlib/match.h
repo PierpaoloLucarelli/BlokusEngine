@@ -7,18 +7,12 @@
 #include <pieceShapes.h>
 #include <cstdint>
 
+
 using BlokusMove = std::tuple<blokusShapeType, int, int, uint8_t>;
 
 class BlokusMatch{
     private:
-        // bool turn;
         BlokusBoard board;
-        // std::unordered_set<blokusShapeType> p1Pieces;
-        // std::unordered_set<blokusShapeType> p2Pieces;
-        // bool p1Played;
-        // bool p2Played;
-        // bool p1Passed;
-        // bool p2Passed;
         std::vector<std::unordered_set<blokusShapeType>> playerPieces;
         bool playersPlayed[4];
         bool playersPassed[4];
@@ -26,7 +20,7 @@ class BlokusMatch{
         int nPlayers;
 
     public:
-        BlokusMatch(BlokusBoard& aBoard, int nPlayers);
+        BlokusMatch(int nPlayers);
         BlokusMatch(BlokusMatch& otherMatch);
 
 
@@ -38,10 +32,13 @@ class BlokusMatch{
         bool gameOver();
         int evaluatePosition();
         const BlokusBoard& getBoard() const;
+        std::vector<uint8_t> getState();
         std::unordered_set<blokusShapeType>& getPiecesForPlayer(uint8_t turn);
         std::vector<BlokusMove> getMovesFromPos(uint8_t turn);
         bool hasMoves(uint8_t turn);
         void printGame();
         std::vector<std::tuple<int, int>> getCornersFromPos(uint8_t turn);
         std::tuple<int, int> getOffsetForCorner(std::tuple<int,int> boardCorner, std::tuple<int,int> pieceCorner);
+
+
 };

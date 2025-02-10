@@ -3,8 +3,6 @@
 #include <pieceShapes.h>
 #include <match.h>
 #include "minimax.h"
-#include <chrono>
-#include <thread>
 
 void waitForExit() {
     int t;
@@ -20,9 +18,8 @@ void printMoves(std::vector<BlokusMove> moves){
 
 int main(){
     int nPlayers = 2;
-    BlokusBoard board;
-    initializePieceMap();
-    BlokusMatch match(board, nPlayers);
+    // BlokusBoard board;
+    BlokusMatch match(nPlayers);
     match.newGame();
     match.printGame();
 

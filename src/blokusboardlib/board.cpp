@@ -14,10 +14,13 @@ BlokusBoard::BlokusBoard(const BlokusBoard& otherBoard){
 
 
 void BlokusBoard::reset(){
-    // std::cout << "Resetting the board of size: (" << WIDTH << ", " << HEIGHT << ")"<<std::endl;
     for(int i = 0; i < WIDTH*HEIGHT ; i++){
         state[i] = 7;
     }
+}
+
+std::vector<uint8_t> BlokusBoard::getState(){
+    return std::vector<uint8_t>(std::begin(state), std::end(state));
 }
 
 bool BlokusBoard::placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, uint8_t turn){

@@ -18,6 +18,7 @@ class BlokusBoard{
         BlokusBoard(const BlokusBoard& otherBoard);
 
         void reset();
+        std::vector<uint8_t> getState();
         bool placePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, uint8_t turn);
         bool canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove);
         int getWidth() const;

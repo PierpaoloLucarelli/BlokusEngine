@@ -25,11 +25,13 @@ namespace {
 
 }
 
-BlokusMatch::BlokusMatch(BlokusBoard& aBoard, int nPlayers): board(aBoard){
+BlokusMatch::BlokusMatch(int nPlayers): board(){
     // p1Played = false;
     // p2Played = false;
     // p1Passed = false;
     // p2Passed = false;
+
+    initializePieceMap();
 
     playerPieces.resize(4);
 
@@ -193,6 +195,10 @@ int BlokusMatch::evaluatePosition(){ // TODO: should not be part of the match cl
 
 const BlokusBoard& BlokusMatch::getBoard() const{
     return board;
+}
+
+std::vector<uint8_t> BlokusMatch::getState(){
+    return board.getState();
 }
 
 std::unordered_set<blokusShapeType>& BlokusMatch::getPiecesForPlayer(uint8_t turn){

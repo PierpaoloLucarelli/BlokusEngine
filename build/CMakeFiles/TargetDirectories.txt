@@ -1,6 +1,0 @@
-/home/pierpaolo/prj/BlokusEngine/build/CMakeFiles/BlokusEngine.dir
-/home/pierpaolo/prj/BlokusEngine/build/CMakeFiles/edit_cache.dir
-/home/pierpaolo/prj/BlokusEngine/build/CMakeFiles/rebuild_cache.dir
-/home/pierpaolo/prj/BlokusEngine/build/src/blokusboardlib/CMakeFiles/blokusboardlib.dir
-/home/pierpaolo/prj/BlokusEngine/build/src/blokusboardlib/CMakeFiles/edit_cache.dir
-/home/pierpaolo/prj/BlokusEngine/build/src/blokusboardlib/CMakeFiles/rebuild_cache.dir
