@@ -5,25 +5,14 @@
 #include <pieceShapes.h>
 #include <cstdint>
 
-namespace {
-    BlokusPiece& getPiece(blokusShapeType p){
-        auto it = piecesMap.find(p);
-        if(it == piecesMap.end()){
-            throw std::runtime_error("Piece not found in piece map");
-        }
-        return it->second;
+BlokusPiece& BlokusMatch::getPiece(blokusShapeType p){
+    auto it = piecesMap.find(p);
+    if(it == piecesMap.end()){
+        throw std::runtime_error("Piece not found in piece map");
     }
-
-    int evalPieces(std::unordered_set<blokusShapeType>& pieces){
-        int eval = 0;
-        for (const auto piece : pieces){
-            BlokusPiece& p = getPiece(piece);
-            eval += p.getSize();
-        }
-        return eval;
-    }
-
+    return it->second;
 }
+
 
 BlokusMatch::BlokusMatch(int nPlayers): board(), nPlayers(nPlayers){
     initializePieceMap();
@@ -69,6 +58,10 @@ void BlokusMatch::newGame(){
     }
     moveNum = 0;
     board.reset();
+}
+
+bool BlokusMatch::play_move_(BlokusMove& move, uint8_t turn){
+    return playMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), turn);
 }
 
 bool BlokusMatch::playMove(blokusShapeType p, int row, int col, uint8_t rotation, uint8_t turn){
@@ -147,11 +140,6 @@ bool BlokusMatch::gameOver(){
     return true;
 }
 
-int BlokusMatch::evaluatePosition(){ // TODO: should not be part of the match class
-    // return evalPieces(p2Pieces)-evalPieces(p1Pieces);
-    return 0; // todo
-}
-
 const BlokusBoard& BlokusMatch::getBoard() const{
     return board;
 }
@@ -228,7 +216,11 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(uint8_t turn) {
 
     for(const auto& p : playerPieces){
 
-        // if((moveNum < 14 && p > 8) || p == blokusShapeType::passShapeType){
+        if((moveNum < 14 && p > 8) || p == blokusShapeType::passShapeType){
+            continue;
+        }
+
+        //  if(p == blokusShapeType::passShapeType){
         //     continue;
         // }
 

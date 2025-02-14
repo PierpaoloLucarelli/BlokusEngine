@@ -7,3 +7,4 @@
 
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising); 
 BlokusMove getNextMove(BlokusMatch& match, int maxDepth, bool maximising);
+int evaluatePosition(BlokusMatch& match);

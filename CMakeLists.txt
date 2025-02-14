@@ -8,12 +8,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(pybind11 REQUIRED)
 
 # Set Debug as the default build type if not specified
-#if(NOT CMAKE_BUILD_TYPE)
-#    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
-# endif()
+if(NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+endif()
 
 # Enable debug symbols
-# set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
 

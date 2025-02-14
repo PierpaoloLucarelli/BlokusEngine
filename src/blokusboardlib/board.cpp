@@ -134,7 +134,7 @@ void BlokusBoard::removePiece(BlokusPiece& piece, int row, int col, uint8_t rota
         for(int j = 0 ; j < h; j++){
             bool pieceBlockUsed = rotated[j][i];
             if(pieceBlockUsed){
-                state[(row+j)*WIDTH + col+i] = 0;
+                state[(row+j)*WIDTH + col+i] = EMPTYCELL;
             }
         }
     }
