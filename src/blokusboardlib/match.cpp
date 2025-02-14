@@ -25,12 +25,7 @@ namespace {
 
 }
 
-BlokusMatch::BlokusMatch(int nPlayers): board(){
-    // p1Played = false;
-    // p2Played = false;
-    // p1Passed = false;
-    // p2Passed = false;
-
+BlokusMatch::BlokusMatch(int nPlayers): board(), nPlayers(nPlayers){
     initializePieceMap();
 
     playerPieces.resize(4);
@@ -44,7 +39,6 @@ BlokusMatch::BlokusMatch(int nPlayers): board(){
       }
     }
     moveNum = 0;
-    nPlayers = nPlayers;
 }
 
 BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){ // todo: other match might not have a new game, then pieces are None.
@@ -58,17 +52,8 @@ BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){ // t
           playerPieces[i].insert(p);
       }
     }
-    //
-    // playersPlayed = otherMatch.playersPlayed;
-    // p2Played = otherMatch.p2Played;
     moveNum = otherMatch.moveNum;
     nPlayers = otherMatch.nPlayers;
-    // for (blokusShapeType p : otherMatch.p1Pieces) {
-    //     p1Pieces.insert(p);
-    // }
-    // for (blokusShapeType p : otherMatch.p2Pieces) {
-    //     p2Pieces.insert(p);
-    // }
 }
 
 void BlokusMatch::newGame(){
@@ -82,11 +67,6 @@ void BlokusMatch::newGame(){
           playerPieces[i].insert(pair.first);
       }
     }
-
-    // p1Played = false;
-    // p2Played = false;
-    // p1Passed = false;
-    // p2Passed = false;
     moveNum = 0;
     board.reset();
 }
@@ -109,16 +89,8 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotatio
     }
 
     BlokusPiece& piece = getPiece(p);
-    // int8_t turnRep = turn == 1 ? 1 : -1;
         bool success = board.placePiece(piece, row, col, rotation, turn);
         if (success){
-            // if(turn){
-            //     p1Played = true;
-            //     p1Pieces.erase(p);
-            // } else{
-            //     p2Played = true;
-            //     p2Pieces.erase(p);
-            // }
             playersPlayed[turn] = true;
             playerPieces[turn].erase(p);
             moveNum++;
@@ -129,27 +101,11 @@ bool BlokusMatch::applyMove(blokusShapeType p, int row, int col, uint8_t rotatio
 void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotation, uint8_t turn){
     if(p == blokusShapeType::passShapeType){
         moveNum--;
-        // if(turn){
-        //     p1Passed = false;
-        // } else {
-        //     p2Passed = false;
-        // }
         playersPassed[turn] = false;
         return;
     }
     BlokusPiece& piece = getPiece(p);
     board.removePiece(piece, row, col, rotation);
-    // if(turn){
-    //     p1Pieces.insert(p);
-    //     if(p1Pieces.size() == 21){
-    //         p1Played = false;
-    //     }
-    // } else{
-    //     p2Pieces.insert(p);
-    //     if(p2Pieces.size() == 21){
-    //         p2Played = false;
-    //     }
-    // }
     playerPieces[turn].insert(p);
     if(playerPieces[turn].size() == 21){
       playersPlayed[turn] = false;
@@ -158,6 +114,10 @@ void BlokusMatch::removeMove(blokusShapeType p, int row, int col, uint8_t rotati
 }
 
 bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotation, uint8_t turn){
+
+    if(turn >= nPlayers){
+        return false;
+    }
 
     if(p == blokusShapeType::passShapeType){
         return row == 0 && col == 0 && rotation == 0;
@@ -175,7 +135,6 @@ bool BlokusMatch::canPlayMove(blokusShapeType p, int row, int col, uint8_t rotat
     if(!(playerPieces.find(p) != playerPieces.end())){
         return false;
     }
-    // int8_t turnRep = turn == 1 ? 1 : -1;
     return board.canPlacePiece(piece, row, col, rotation, turn, firstMove);
 }
 
@@ -253,7 +212,6 @@ std::vector<std::tuple<int, int>> BlokusMatch::getCornersFromPos(uint8_t turn){
         int row = i/w;
         int col = i%w;
         if(board.getBlock(row, col) == 7){ // empty
-            // int8_t turnRep = turn == 1 ? 1 : -1;
             if(!board.isAdjacentOccupied(row, col, turn) && board.isDiagonalOccupied(row, col, turn)){
                 corners.push_back(std::make_tuple(row, col));
             }
@@ -294,7 +252,6 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(uint8_t turn) {
      if(moves.size() == 0){
         moves.push_back(std::make_tuple(blokusShapeType::passShapeType, 0, 0, 0));
     }
-    // std::sort(moves.begin(), moves.end(), less_than_key());
     return moves;
 }
 

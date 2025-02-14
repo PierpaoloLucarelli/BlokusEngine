@@ -6,6 +6,7 @@
 
 const int WIDTH = 14;
 const int HEIGHT = 14;
+const uint8_t EMPTYCELL = 7;
 
 class BlokusBoard{
     private:

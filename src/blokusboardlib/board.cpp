@@ -15,7 +15,7 @@ BlokusBoard::BlokusBoard(const BlokusBoard& otherBoard){
 
 void BlokusBoard::reset(){
     for(int i = 0; i < WIDTH*HEIGHT ; i++){
-        state[i] = 7;
+        state[i] = EMPTYCELL;
     }
 }
 
@@ -56,7 +56,7 @@ bool BlokusBoard::canPlacePiece(BlokusPiece& piece, int row, int col, uint8_t ro
 
     for(int i = 0 ; i < w ; i++){
         for(int j = 0 ; j < h; j++){
-            bool blockUsed = state[(row+j)*WIDTH + col+i] != 7;
+            bool blockUsed = state[(row+j)*WIDTH + col+i] != EMPTYCELL;
             bool pieceBlockUsed = rotated[j][i];
             if(blockUsed && pieceBlockUsed){
                 return false;
