@@ -21,7 +21,7 @@ void printMoves(std::vector<BlokusMove>& moves){
 }
 
 int main(){
-    int nPlayers = 2;
+    int nPlayers = 4;
     // BlokusBoard board;
     BlokusMatch match(nPlayers);
     match.newGame();
@@ -40,7 +40,7 @@ int main(){
 
     // match.printGame();
 
-    BlokusMove move = getNextMove(match, 4, 1);
+    BlokusMove move = getNextMove(match, 2, 1);
     printMove(move);
 
     bool success = match.play_move_(move, 0);

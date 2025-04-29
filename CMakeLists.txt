@@ -35,6 +35,7 @@ target_link_libraries(pyblokus  PRIVATE pybind11::module blokusboardlib)
 set_target_properties(pyblokus PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_NAME "pyblokus"
+    PREFIX ""
 )
 
 target_include_directories(BlokusEngine PRIVATE include)

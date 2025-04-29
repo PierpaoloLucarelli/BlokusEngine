@@ -4,8 +4,8 @@
 #include <memory>
 #include <cstdint>
 
-const int WIDTH = 14;
-const int HEIGHT = 14;
+const int WIDTH = 20;
+const int HEIGHT = 20;
 const uint8_t EMPTYCELL = 7;
 
 class BlokusBoard{
