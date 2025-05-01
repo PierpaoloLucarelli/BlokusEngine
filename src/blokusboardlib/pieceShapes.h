@@ -102,3 +102,15 @@ extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
 void initializePieceMap();
 
 void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap);
+
+struct Block {
+    char name;
+    int width;
+    int height;
+    std::vector<std::vector<std::pair<int, int>>> coords;
+
+    Block(char name, int width, int height, const std::vector<std::vector<std::pair<int, int>>> & coords)
+        : name(name), width(width), height(height), coords(coords) {}
+};
+
+extern const Block rotatedPieces[21];
