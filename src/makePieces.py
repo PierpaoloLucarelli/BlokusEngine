@@ -109,6 +109,9 @@ def coords_to_js_string(coords) -> str:
 def coords_to_cpp_string(coords) -> str:
     return ','.join([f'{{{c[0]}, {c[1]}}}' for c in coords])
 
+def corners_to_cpp_str(piece_coords) -> str:
+    return "{" + ",".join([str(i) for i, pc in enumerate(piece_coords) if pc["corner"]]) + "}"
+
 def pieces_to_js(pieces: list[Piece]):
     js_str = "export const BLOCK_SET = [\n"
     pieces_str = ""
@@ -161,10 +164,13 @@ def save_svg_to_file(svg_content, filename):
 def pieces_to_cpp(pieces: list[Piece]) -> None:
     block_str = []
     for p in pieces:
-        rotated_coords = ','.join([f'{{{coords_to_cpp_string(r)}}}' for r in make_rotations(p.coords)])
-        block_str.append(f"\tBlock('{p.name}', {p.width}, {p.height}, {{{rotated_coords}}})")
+        rotated_coords = make_rotations(p.coords)
+        rotated_pieces = [Piece(coord, i, p.name) for i, coord in enumerate(rotated_coords)]
+        rotated_coords_str = ','.join([f'{{{coords_to_cpp_string(rp.coords)}}}' for rp in rotated_pieces])
+        corners = corners_to_cpp_str(p.piece_coords)
+        block_str.append(f"\tBlock('{p.name}', {len(p.coords)}, {p.width}, {p.height}, {{{rotated_coords_str}}}, {corners})")
 
-    cpp_str = f"Block blocks[20] = {{\n{",\n".join(block_str)}\n}}"
+    cpp_str = f"Block blocks[21] = {{\n{",\n".join(block_str)}\n}};"
     return cpp_str
 
     

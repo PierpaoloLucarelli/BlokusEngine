@@ -2,6 +2,7 @@
 #include <vector>
 #include <match.h>
 #include <pieceShapes.h>
+#include <unordered_map>
 
 // using BlokusMove = std::tuple<blokusShapeType, int, int>;
 

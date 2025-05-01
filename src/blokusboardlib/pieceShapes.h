@@ -2,10 +2,10 @@
 
 
 #include <vector>
-#include <unordered_map>
-#include <piece.h>
+// #include <unordered_map>
+// #include <piece.h>
 
-using Matrix = std::vector<std::vector<bool>>;
+// using Matrix = std::vector<std::vector<bool>>;
 
 enum blokusShapeType {
     iShapeType, // 0 (5)
@@ -31,86 +31,90 @@ enum blokusShapeType {
     passShapeType
 };
 
-extern const char* blokusShapeTypeNames[];
+// extern const char* blokusShapeTypeNames[];
 
-extern Matrix iShape;
-extern BlokusPiece iPiece;
+// extern Matrix iShape;
+// extern BlokusPiece iPiece;
 
-extern Matrix smallCornerShape;
-extern BlokusPiece smallCornerPiece;
+// extern Matrix smallCornerShape;
+// extern BlokusPiece smallCornerPiece;
 
-extern Matrix bigCornerShape;
-extern BlokusPiece bigCornerPiece;
+// extern Matrix bigCornerShape;
+// extern BlokusPiece bigCornerPiece;
 
-extern Matrix singleShape;
-extern BlokusPiece singlePiece;
+// extern Matrix singleShape;
+// extern BlokusPiece singlePiece;
 
-extern Matrix crossShape;
-extern BlokusPiece crossPiece;
+// extern Matrix crossShape;
+// extern BlokusPiece crossPiece;
 
-extern Matrix tShape;
-extern BlokusPiece tPiece;
+// extern Matrix tShape;
+// extern BlokusPiece tPiece;
 
-extern Matrix zShape;
-extern BlokusPiece izPiece;
+// extern Matrix zShape;
+// extern BlokusPiece izPiece;
 
-extern Matrix oShape;
-extern BlokusPiece oPiece;
+// extern Matrix oShape;
+// extern BlokusPiece oPiece;
 
-extern Matrix snakeShape;
-extern BlokusPiece snakePiece;
+// extern Matrix snakeShape;
+// extern BlokusPiece snakePiece;
 
-extern Matrix dinoShape;
-extern BlokusPiece dinoPiece;
+// extern Matrix dinoShape;
+// extern BlokusPiece dinoPiece;
 
-extern Matrix submarineShape;
-extern BlokusPiece submarinePiece;
+// extern Matrix submarineShape;
+// extern BlokusPiece submarinePiece;
 
-extern Matrix zigzagShape;
-extern BlokusPiece zigzagPiece;
+// extern Matrix zigzagShape;
+// extern BlokusPiece zigzagPiece;
 
-extern Matrix bigtShape;
-extern BlokusPiece bigtPiece;
+// extern Matrix bigtShape;
+// extern BlokusPiece bigtPiece;
 
-extern Matrix uShape;
-extern BlokusPiece uPiece;
+// extern Matrix uShape;
+// extern BlokusPiece uPiece;
 
-extern Matrix longlShape;
-extern BlokusPiece longlPiece;
+// extern Matrix longlShape;
+// extern BlokusPiece longlPiece;
 
-extern Matrix diggerShape;
-extern BlokusPiece diggerPiece;
+// extern Matrix diggerShape;
+// extern BlokusPiece diggerPiece;
 
-extern Matrix sixShape;
-extern BlokusPiece sixPiece;
+// extern Matrix sixShape;
+// extern BlokusPiece sixPiece;
 
-extern Matrix mediumlShape;
-extern BlokusPiece mediumlPiece;
+// extern Matrix mediumlShape;
+// extern BlokusPiece mediumlPiece;
 
-extern Matrix threeShape;
-extern BlokusPiece threePiece;
+// extern Matrix threeShape;
+// extern BlokusPiece threePiece;
 
-extern Matrix twoShape;
-extern BlokusPiece twoPiece;
+// extern Matrix twoShape;
+// extern BlokusPiece twoPiece;
 
-extern Matrix passShape;
-extern BlokusPiece passPiece;
+// extern Matrix passShape;
+// extern BlokusPiece passPiece;
 
 
-extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
+// extern std::unordered_map<blokusShapeType, BlokusPiece> piecesMap;
 
-void initializePieceMap();
+// void initializePieceMap();
 
-void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap);
+// void generateRotationsCached(std::unordered_map<blokusShapeType, BlokusPiece>& piecesMap);
 
 struct Block {
     char name;
     int width;
     int height;
+    int size;
+    std::vector<int> corners; 
     std::vector<std::vector<std::pair<int, int>>> coords;
 
-    Block(char name, int width, int height, const std::vector<std::vector<std::pair<int, int>>> & coords)
-        : name(name), width(width), height(height), coords(coords) {}
+    Block(char name, int size, int width, int height, const std::vector<std::vector<std::pair<int, int>>> & coords, const std::vector<int>& corners)
+        : name(name), size(size), width(width), height(height), coords(coords), corners(corners){}
+
+    
 };
 
 extern const Block rotatedPieces[21];

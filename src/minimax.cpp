@@ -5,11 +5,11 @@
 int seen = 0;
 std::unordered_map<BlokusBoard, int, BlokusBoardHashFunction> seenBoards;
 
-int evalPieces(std::unordered_set<blokusShapeType>& pieces, BlokusMatch& match){
+int evalPieces(std::unordered_set<int>& pieces, BlokusMatch& match){
     int eval = 0;
     for (const auto piece : pieces){
-        BlokusPiece& p = match.getPiece(piece);
-        eval += p.getSize();
+        const Block& p = match.getPiece(piece);
+        eval += p.size;
     }
     return eval;
 }
