@@ -39,3 +39,11 @@ set_target_properties(pyblokus PROPERTIES
 )
 
 target_include_directories(BlokusEngine PRIVATE include)
+
+
+add_executable(run_tests
+    test/test.cpp
+)
+
+target_include_directories(run_tests PRIVATE include)
+target_link_libraries(run_tests PRIVATE blokusboardlib)
