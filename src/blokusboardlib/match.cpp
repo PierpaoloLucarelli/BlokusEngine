@@ -20,10 +20,8 @@ const Block& BlokusMatch::getPiece(int piece_id){
 
 
 BlokusMatch::BlokusMatch(int nPlayers): board(), nPlayers(nPlayers){
-    // initializePieceMap();
-
     playerPieces.resize(4);
-
+    turnTracker = 0;
     for(int i = 0; i < 4 ; i++){
       playersPassed[i] = false;
       playersPlayed[i] = false;
@@ -48,6 +46,7 @@ BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){ // t
     }
     moveNum = otherMatch.moveNum;
     nPlayers = otherMatch.nPlayers;
+    turnTracker = otherMatch.turnTracker;
 }
 
 void BlokusMatch::newGame(){
@@ -62,6 +61,7 @@ void BlokusMatch::newGame(){
         }
     }
     moveNum = 0;
+    turnTracker = 0;
     board.reset();
 }
 
@@ -75,10 +75,17 @@ bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint
         return false;
     }
     bool success = applyMove(pieceId, row, col, rotation, turn);
+    if (success){
+        turnTracker = (turnTracker+1)%nPlayers;
+    }
     return success;
 }
 
 bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
+    if(turn != turnTracker){
+        std::cout << "Not your turn to play" << std::endl;
+        return false;
+    }
 
     if(pieceId == 22){
         playersPassed[turn] = true;
@@ -87,13 +94,13 @@ bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uin
     }
 
     const Block& piece = getPiece(pieceId);
-        bool success = board.placePiece(piece, row, col, rotation, turn);
-        if (success){
-            playersPlayed[turn] = true;
-            playerPieces[turn].erase(pieceId);
-            moveNum++;
-        }
-        return success;
+    bool success = board.placePiece(piece, row, col, rotation, turn);
+    if (success){
+        playersPlayed[turn] = true;
+        playerPieces[turn].erase(pieceId);
+        moveNum++;
+    }
+    return success;
 }
 
 void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){

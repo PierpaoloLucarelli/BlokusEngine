@@ -18,6 +18,7 @@ class BlokusMatch{
         bool playersPassed[4];
         int moveNum;
         int nPlayers;
+        uint8_t turnTracker;
 
     public:
         BlokusMatch(int nPlayers);

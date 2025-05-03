@@ -79,20 +79,20 @@ bool testFailToPlacePieceNegative(){
 
 bool testCanPlacePieceInsideOfBoundsOnEdge(){
     return (
-        _canPlacePiece(4, 1, 0, 0, 0, true) || // long 4 piece. 
-        _canPlacePiece(18, 1, 1, 0, 0, true) || // S shape.
-        _canPlacePiece(4, 1, 19, 0, 0, true)  || // long 4 piece. top right corner
-        _canPlacePiece(18, 18, 1, 0, 0, true) || // S shape. bottom right corner.
-        _canPlacePiece(15, 19, 0, 0, 0, true) // L shae bottom left corner.
+        _canPlacePiece(4, 1, 0, 0, 0, true) && // long 4 piece. 
+        _canPlacePiece(18, 1, 1, 0, 0, true) && // S shape.
+        _canPlacePiece(4, 1, 19, 0, 0, true)  && // long 4 piece. top right corner
+        _canPlacePiece(18, 18, 18, 0, 0, true) &&  // S shape. bottom right corner.
+        _canPlacePiece(16, 19, 0, 0, 0, true) // L shape bottom left corner.
     );
 }
 
 bool testCantPlacePieceOutsideOfBoundsOnEdge(){
     return (
-        !_canPlacePiece(4, 0, 0, 0, 0, true) ||  // long 4 piece. OOB on top.
-        !_canPlacePiece(18, 1, 0, 0, 0, true) || // S shape. OOB in  the left.
-        !_canPlacePiece(4, 0, 19, 0, 0, true) ||  // long 4 piece. OOB top right corner
-        !_canPlacePiece(18, 18, 19, 0, 0, true) || // S shape. OOB bottom right corner.
+        !_canPlacePiece(4, 0, 0, 0, 0, true) &&  // long 4 piece. OOB on top.
+        !_canPlacePiece(18, 1, 0, 0, 0, true) && // S shape. OOB in  the left.
+        !_canPlacePiece(4, 0, 19, 0, 0, true) &&  // long 4 piece. OOB top right corner
+        !_canPlacePiece(18, 18, 19, 0, 0, true) && // S shape. OOB bottom right corner.
         !_canPlacePiece(15, 19, 0, 0, 0, true) // T shape. OOB bottom left corner.
     );
 }
@@ -110,11 +110,44 @@ bool testCanPlayPieceTouchingSelfCorner(){
         return false;
     }
     return (
-        match.canPlayMove(0, 3, 3, 0, 0) || // Single shape on bottom corner. Can
-        match.canPlayMove(0, 1, 3, 0, 0) || // Single shape on top corner. Can
-        !match.canPlayMove(0, 4, 4, 0, 0) || // Single piece not touching any corner. Cant
-        !match.canPlayMove(0, 1, 2, 0, 0) || // Single piece touching corner but also adjacent. Cant 
+        match.canPlayMove(0, 3, 3, 0, 0) && // Single shape on bottom corner. Can
+        match.canPlayMove(0, 1, 3, 0, 0) && // Single shape on top corner. Can
+        !match.canPlayMove(0, 4, 4, 0, 0) && // Single piece not touching any corner. Cant
+        !match.canPlayMove(0, 1, 2, 0, 0) && // Single piece touching corner but also adjacent. Cant 
         !match.canPlayMove(0, 2, 2, 0, 0) // Single piece trying to replace the corner block. Cant.
+    );
+}
+
+bool testCantPlayTwoMovesInARow(){
+    BlokusMatch match(4);
+    match.newGame();
+    return (
+        match.playMove(16, 2, 0, 0, 0) && // L shape top left corner -> Creates two free corners.
+        !match.playMove(0, 3, 3, 0, 0) &&// Single shape on bottom corner. Legal move but not ps turn.
+        match.playMove(0, 19, 19, 0, 1) && // Single piece on bottom right but for p1.
+        !match.playMove(1, 0, 19, 0, 1) // double piece in top right corner. Cant bcs not p1 turn.
+    );
+}
+
+bool test2PlayerGameAlternatingTurns(){
+    BlokusMatch match(2);
+    match.newGame();
+    return (
+        match.playMove(0, 0, 0, 0, 0) && // p0 single in top right. Can
+        match.playMove(0, 19, 19, 0, 1) && // p1 single in bottom right corner. Can
+        match.playMove(1, 1, 1, 0, 0) && // p0 double touching corner of single. Can
+        match.playMove(1, 17, 18, 0, 1) // p1 touching corner of single in bottom right. Can.
+    );
+}
+
+bool testCantPlaySamePiece(){
+    BlokusMatch match(2);
+    match.newGame();
+    return (
+        match.playMove(0, 0, 0, 0, 0) && // p0 single in top right. Can
+        match.playMove(0, 19, 19, 0, 1) && // p1 single in bottom right corner. Can
+        !match.playMove(0, 1, 1, 0, 0) && // p0 single touching corner of single. Cant
+        !match.playMove(0, 18, 18, 0, 1) // p1 single corner of single in bottom right. Can.
     );
 }
 
@@ -125,5 +158,8 @@ int main(){
     runTest(testCanPlacePieceInsideOfBoundsOnEdge, "TEST: Can place piece within bounds (on the edge).");
     runTest(testCantPlacePieceOutsideOfBoundsOnEdge, "TEST: Cant place piece outside bounds (on the edge).");
     runTest(testCanPlayPieceTouchingSelfCorner, "TEST: Can place piece first in corner, then touching self corners (no other players).");
+    runTest(testCantPlayTwoMovesInARow, "TEST: Cannot play two moves in a row.");
+    runTest(test2PlayerGameAlternatingTurns, "TEST: Can play alternating in two player game.");
+    runTest(testCantPlaySamePiece, "TEST: Cant playsame piece twice even tho its legal move.");
     return 0;
 }
