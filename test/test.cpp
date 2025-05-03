@@ -6,6 +6,14 @@
 std::string PASSED = "TEST PASSED";
 std::string FAILED = "TEST FAILED";
 
+void runTest(bool (*testFunc)(), std::string name){
+    if(testFunc()){
+        std::cout << name + ": " + PASSED << std::endl;
+    } else{
+        std::cout << name + ": " +FAILED << std::endl;
+    }
+}
+
 int rowColToFlat(int row, int col, int width){
     return (row*width) + col;
 }
@@ -48,14 +56,11 @@ bool testCanPlaceAllPieces(){
     return true;
 }
 
+
+
 int main(){
     std::cout << "Running tests." << std::endl;
-
-    if(testCanPlaceAllPieces()){
-        std::cout << "testCanPlaceAllPieces(): " + PASSED << std::endl;
-    } else{
-        std::cout << "testCanPlaceAllPieces(): " + FAILED << std::endl;
-    }
+    runTest(testCanPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
     return 0;
 
 }
