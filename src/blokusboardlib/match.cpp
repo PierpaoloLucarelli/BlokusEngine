@@ -239,7 +239,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(uint8_t turn) {
         const Block& piece = getPiece(pieceId);
 
         for(std::tuple<int, int> corner : freeCorners){
-            for(int rotation = 0 ; rotation < 4 ; rotation++){
+            for(int rotation = 0 ; rotation < 8 ; rotation++){
 
                 std::vector<std::pair<int, int>> coords = piece.coords[rotation];
                 for(int cornerIndex : piece.corners){
@@ -274,7 +274,11 @@ std::tuple<int, int> BlokusMatch::getOffsetForCorner(
         std::tuple<int,int> boardCorner,
         std::pair<int,int> pieceCorner
 ){
-    int rowOffset = std::get<0>(boardCorner) - pieceCorner.first;
-    int colOffset = std::get<1>(boardCorner) - pieceCorner.second;
+    int rowOffset = std::get<0>(boardCorner) - pieceCorner.second;
+    int colOffset = std::get<1>(boardCorner) - pieceCorner.first;
     return std::make_tuple(rowOffset, colOffset);
+}
+
+void BlokusMatch::setPlayerPieces(std::unordered_set<int> pieces, uint8_t turn){
+    playerPieces[turn] = pieces;
 }

@@ -37,19 +37,6 @@ bool BlokusBoard::placePiece(const Block& piece, int row, int col, uint8_t rotat
         setState(row+coord.second, col+coord.first, turn);
     }
     return true;
-
-    // std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
-    // int w = static_cast<int>(rotated[0].size());
-    // int h = static_cast<int>(rotated.size());
-    // for(int i = 0 ; i < w ; i++){
-    //     for(int j = 0 ; j < h; j++){
-    //         bool pieceBlockUsed = rotated[j][i];
-    //         if(pieceBlockUsed){
-    //             state[(row+j)*WIDTH + col+i] = turn;
-    //         }
-    //     }
-    // }
-    // return true;
 }
 
 
@@ -96,39 +83,6 @@ bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t ro
         }
     }
     return hasDiagonal;
-
-
-    // std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
-    // int w = static_cast<int>(rotated[0].size());
-    // int h = static_cast<int>(rotated.size());
-
-    // if(row + h > HEIGHT || col + w > WIDTH){
-    //     return false;
-    // }
-
-    // bool touchesSelfCorner = firstMove;
-
-    // for(int i = 0 ; i < w ; i++){
-    //     for(int j = 0 ; j < h; j++){
-    //         bool blockUsed = state[(row+j)*WIDTH + col+i] != EMPTYCELL;
-    //         bool pieceBlockUsed = rotated[j][i];
-    //         if(blockUsed && pieceBlockUsed){
-    //             return false;
-    //         }
-    //         if(pieceBlockUsed) {
-    //             if(isAdjacentOccupied(row+j, col+i, turn)){
-    //                 return false;
-    //             }
-
-    //             if(!firstMove && !touchesSelfCorner && isDiagonalOccupied(row+j, col+i, turn)  // no need to check on first move or if already touching self
-    //             ){
-    //                 touchesSelfCorner = true;
-    //             }
-    //         }
-    //     }
-
-    // }
-    // return touchesSelfCorner;
 }
 
 const char* BlokusBoard::getStrReprForBlock(int i){
@@ -183,21 +137,6 @@ bool BlokusBoard::isInCorner(const Block& piece, int row, int col, uint8_t rotat
           }
     }
     return touchesCorner;
-
-    // std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
-    // int w = static_cast<int>(rotated[0].size());
-    // int h = static_cast<int>(rotated.size());
-    // for(int i = 0 ; i < w ; i++){
-    //     for(int j = 0 ; j < h; j++){
-    //         bool pieceBlockUsed = rotated[j][i];
-    //         int boardRow = row+j;
-    //         int boardCol = col+i;
-    //         if (pieceBlockUsed && isCorner(boardRow, boardCol)){
-    //             return true;
-    //         }
-    //     }
-    // }
-    // return false;
 }
 
 void BlokusBoard::removePiece(const Block& piece, int row, int col, uint8_t rotation){
@@ -209,29 +148,7 @@ void BlokusBoard::removePiece(const Block& piece, int row, int col, uint8_t rota
 
         setState(newRow, newCol, EMPTYCELL);
     }
-
-
-    // std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
-    // int w = static_cast<int>(rotated[0].size());
-    // int h = static_cast<int>(rotated.size());
-    // for(int i = 0 ; i < w ; i++){
-    //     for(int j = 0 ; j < h; j++){
-    //         bool pieceBlockUsed = rotated[j][i];
-    //         if(pieceBlockUsed){
-    //             state[(row+j)*WIDTH + col+i] = EMPTYCELL;
-    //         }
-    //     }
-    // }
 }
-
-// bool BlokusBoard::isCorner(int row, int col){
-//     return (
-//         (row == 0 && col == 0) ||
-//         (row == 0 && col == WIDTH - 1) ||
-//         (row == HEIGHT - 1 && col == 0) ||
-//         (row == HEIGHT - 1 && col == WIDTH - 1)
-//     );
-// }
 
 bool BlokusBoard::isAdjacentOccupied(int row, int col, uint8_t turn){
     return (

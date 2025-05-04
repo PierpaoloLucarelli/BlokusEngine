@@ -163,13 +163,24 @@ bool testCantPlaySamePiece(){
     );
 }
 
-// bool testGetMovesFromPos(){
-//     BlokusMatch match(2);
-//     match.newGame();
-//     bool success = true;
-//     success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
-//     success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
-// }
+bool testGetMovesFromPos(){
+    BlokusMatch match(4);
+    match.newGame();
+    bool success = true;
+    success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
+    success = success && match.playMove(16, 17, 0, 1, 1); // p1 puts L in corner
+    success = success && match.playMove(16, 17, 19, 2, 2); // p3 puts L in bottom right.
+    success = success && match.playMove(16, 0, 17, 1, 3); // p4 puts L in top right.
+    for(int p = 0 ; p < 4 ; p++){
+        std::unordered_set<int> pieces = {0, 1};
+        match.setPlayerPieces(pieces, p);
+        std::vector<BlokusMove> movesForP = match.getMovesFromPos(p);
+        if(movesForP.size() != 2 * 2 * 8) { // two corners and 8 rotations for each piece
+            return false;
+        }
+    }
+    return success;
+}
 
 int main(){
     std::cout << "Running tests." << std::endl;
@@ -182,5 +193,7 @@ int main(){
     runTest(test2PlayerGameAlternatingTurns, "TEST: Can play alternating in two player game.");
     runTest(testCantPlaySamePiece, "TEST: Cant playsame piece twice even tho its legal move.");
     runTest(testCanPlaceRotatedPieceInsideOfBoundsOnEdge, "TEST: Can place rotated pieces in corner.");
+    runTest(testGetMovesFromPos, "TEST: Check if get moves from pos returns correct.");
+    
     return 0;
 }

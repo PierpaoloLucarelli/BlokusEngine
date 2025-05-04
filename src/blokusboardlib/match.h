@@ -41,5 +41,6 @@ class BlokusMatch{
         std::vector<std::tuple<int, int>> getCornersFromPos(uint8_t turn);
         std::tuple<int, int> getOffsetForCorner(std::tuple<int,int> boardCorner, std::pair<int,int> pieceCorner);
         const Block& getPiece(int piece_id);
+        void setPlayerPieces(std::unordered_set<int> pieces, uint8_t turn);
 
 };
