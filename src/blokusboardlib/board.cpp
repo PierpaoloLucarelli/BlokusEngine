@@ -54,7 +54,7 @@ bool BlokusBoard::placePiece(const Block& piece, int row, int col, uint8_t rotat
 
 
 bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove){
-    if(col<0 || row <0){
+    if(col<0 || row <0 || row > HEIGHT-1 || col > WIDTH-1){
         return false;
     }
     std::vector<std::pair<int, int>> coords = piece.coords[rotation];
@@ -63,7 +63,7 @@ bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t ro
             for (const auto& coord : coords) {
                 int newRow = row + coord.second;
                 int newCol = col + coord.first;
-                if(isOccupied(newRow, newCol)){
+                if(isOccupied(newRow, newCol)){ // TODO: can maybe be combined into one loop.
                     return false;
                 }
             }
@@ -74,10 +74,14 @@ bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t ro
     }
 
     bool hasDiagonal = false;
-    // Maybe TODO: add boundary checks for row and col < 0
+
     for (const auto& coord : coords) {
         int newRow = row + coord.second;
         int newCol = col + coord.first;
+
+        if(newCol<0 || newRow <0 || newRow > HEIGHT-1 || newCol > WIDTH-1){ // out of bounds.
+            return false;
+        }
 
         if(isOccupied(newRow, newCol)){
             return false;
@@ -159,11 +163,15 @@ int BlokusBoard::getHeight() const{
 }
 
 bool BlokusBoard::isInCorner(const Block& piece, int row, int col, uint8_t rotation){
-
+    bool touchesCorner = false;
     std::vector<std::pair<int, int>> coords = piece.coords[rotation];
     for(const auto coord : coords){
         int newRow = row + coord.second;
         int newCol = col + coord.first;
+
+        if ((newRow < 0 || newRow > HEIGHT-1) || (newCol < 0 || newCol > WIDTH-1)){
+            return false;
+        }
 
         if (
             (newRow == 0 && newCol == 0) || 
@@ -171,10 +179,10 @@ bool BlokusBoard::isInCorner(const Block& piece, int row, int col, uint8_t rotat
             (newRow == WIDTH - 1 && newCol == 0) ||
             (newRow == WIDTH - 1 && newCol == HEIGHT - 1)
           ) {
-            return true;
+            touchesCorner = true;
           }
     }
-    return false;
+    return touchesCorner;
 
     // std::vector<std::vector<bool>> rotated = piece.rotate(rotation);
     // int w = static_cast<int>(rotated[0].size());

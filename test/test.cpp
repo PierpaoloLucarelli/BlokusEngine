@@ -93,7 +93,19 @@ bool testCantPlacePieceOutsideOfBoundsOnEdge(){
         !_canPlacePiece(18, 1, 0, 0, 0, true) && // S shape. OOB in  the left.
         !_canPlacePiece(4, 0, 19, 0, 0, true) &&  // long 4 piece. OOB top right corner
         !_canPlacePiece(18, 18, 19, 0, 0, true) && // S shape. OOB bottom right corner.
-        !_canPlacePiece(15, 19, 0, 0, 0, true) // T shape. OOB bottom left corner.
+        !_canPlacePiece(15, 19, 0, 0, 0, true) && // T shape. OOB bottom left corner.
+        !_canPlacePiece(11, 2, 0, 0, 0, true) // cant OOB on the left.
+    );
+}
+
+bool testCanPlaceRotatedPieceInsideOfBoundsOnEdge(){
+    return (
+        _canPlacePiece(17, 18, 1, 1, 0, true) && // S piece. Bottom left corner rotated once. Can
+        !_canPlacePiece(17, 18, 1, 0, 0, true) &&// Same piece but not rotated. Cant
+        _canPlacePiece(15, 1, 1, 2, 0, true) && // T piece rotated twice in top left corner. Can
+        !_canPlacePiece(15, 1, 1, 0, 0, true) && // Same piece but not rotated. Cant
+        _canPlacePiece(11, 2, 0, 4, 0, true) && // Can.
+        !_canPlacePiece(11, 2, 0, 0, 0, true) // Cant.
     );
 }
 
@@ -151,15 +163,24 @@ bool testCantPlaySamePiece(){
     );
 }
 
+// bool testGetMovesFromPos(){
+//     BlokusMatch match(2);
+//     match.newGame();
+//     bool success = true;
+//     success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
+//     success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
+// }
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
     runTest(testFailToPlacePieceNegative, "TEST: Cant place all pieces negative coords.");
     runTest(testCanPlacePieceInsideOfBoundsOnEdge, "TEST: Can place piece within bounds (on the edge).");
     runTest(testCantPlacePieceOutsideOfBoundsOnEdge, "TEST: Cant place piece outside bounds (on the edge).");
-    runTest(testCanPlayPieceTouchingSelfCorner, "TEST: Can place piece first in corner, then touching self corners (no other players).");
+    runTest(testCanPlayPieceTouchingSelfCorner, "TEST: Can place piece first in corner, then touching self corners.");
     runTest(testCantPlayTwoMovesInARow, "TEST: Cannot play two moves in a row.");
     runTest(test2PlayerGameAlternatingTurns, "TEST: Can play alternating in two player game.");
     runTest(testCantPlaySamePiece, "TEST: Cant playsame piece twice even tho its legal move.");
+    runTest(testCanPlaceRotatedPieceInsideOfBoundsOnEdge, "TEST: Can place rotated pieces in corner.");
     return 0;
 }
