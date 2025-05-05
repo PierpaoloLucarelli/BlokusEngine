@@ -282,3 +282,7 @@ std::tuple<int, int> BlokusMatch::getOffsetForCorner(
 void BlokusMatch::setPlayerPieces(std::unordered_set<int> pieces, uint8_t turn){
     playerPieces[turn] = pieces;
 }
+
+uint8_t BlokusMatch::getTurn(){
+    return turnTracker;
+}
