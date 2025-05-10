@@ -35,7 +35,7 @@ class BlokusMatch{
         const BlokusBoard& getBoard() const;
         std::vector<uint8_t> getState();
         std::unordered_set<int>& getPiecesForPlayer(uint8_t turn);
-        std::vector<std::unordered_set<int>> getPlayerPieces();
+        std::vector<std::vector<bool>> getPlayerPieces();
         std::vector<BlokusMove> getMovesFromPos(uint8_t turn);
         bool hasMoves(uint8_t turn);
         void printGame();

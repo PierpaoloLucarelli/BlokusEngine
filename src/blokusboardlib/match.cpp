@@ -164,8 +164,16 @@ std::unordered_set<int>& BlokusMatch::getPiecesForPlayer(uint8_t turn){
     return playerPieces[turn];
 }
 
-std::vector<std::unordered_set<int>> BlokusMatch::getPlayerPieces(){
-    return playerPieces;
+std::vector<std::vector<bool>> BlokusMatch::getPlayerPieces(){
+    std::vector<std::vector<bool>> res;
+    for(int i = 0 ; i < nPlayers ; i++){
+        std::vector<bool> vec(21, false);
+        for(int p : playerPieces[i]){
+            vec[p] = true;
+        }
+        res.push_back(vec);
+    }
+    return res;
 }
 
 std::array<bool, 4> BlokusMatch::getFirstTurns(){
