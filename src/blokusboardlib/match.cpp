@@ -177,7 +177,7 @@ std::vector<std::vector<bool>> BlokusMatch::getPlayerPieces(){
 }
 
 std::array<bool, 4> BlokusMatch::getFirstTurns(){
-    return {playersPlayed[0], playersPlayed[1], playersPlayed[2], playersPlayed[3]};
+    return {!playersPlayed[0], !playersPlayed[1], !playersPlayed[2], !playersPlayed[3]};
 }
 
 struct less_than_key
