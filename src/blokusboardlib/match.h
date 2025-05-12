@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <unordered_set>
-
+#include <array>
 #include <board.h>
 #include <pieceShapes.h>
 #include <cstdint>

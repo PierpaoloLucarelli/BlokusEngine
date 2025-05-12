@@ -6,11 +6,6 @@
 #include <cstdint>
 
 const Block& BlokusMatch::getPiece(int piece_id){
-    // auto it = piecesMap.find(p);
-    // if(it == piecesMap.end()){
-    //     throw std::runtime_error("Piece not found in piece map");
-    // }
-    // return it->second;
     if(piece_id < 0 || piece_id > 22){
         throw std::runtime_error("Piece not found in piece map.");
     } else {
