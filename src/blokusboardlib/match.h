@@ -45,5 +45,6 @@ class BlokusMatch{
         void setPlayerPieces(std::unordered_set<int> pieces, uint8_t turn);
         uint8_t getTurn();
         std::array<bool, 4> getFirstTurns();
-
+        std::array<bool, 4> getPlayersPassed();
+        void resign(uint8_t turn);
 };

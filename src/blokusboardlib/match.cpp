@@ -175,6 +175,10 @@ std::array<bool, 4> BlokusMatch::getFirstTurns(){
     return {!playersPlayed[0], !playersPlayed[1], !playersPlayed[2], !playersPlayed[3]};
 }
 
+std::array<bool, 4> BlokusMatch::getPlayersPassed(){
+    return {playersPassed[0], playersPassed[1], playersPassed[2], playersPassed[3]};
+}
+
 struct less_than_key
 {
     inline bool operator() (const BlokusMove& move1, const BlokusMove& move2)
@@ -296,4 +300,8 @@ void BlokusMatch::setPlayerPieces(std::unordered_set<int> pieces, uint8_t turn){
 
 uint8_t BlokusMatch::getTurn(){
     return turnTracker;
+}
+
+void BlokusMatch::resign(uint8_t turn){
+    playersPassed[turn] = true;
 }
