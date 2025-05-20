@@ -21,7 +21,7 @@ int evaluatePosition(BlokusMatch& match){
 
 int minimax(BlokusMatch& match, int depth, int alpha, int beta, bool maximising){
     seen++;
-    if(depth == 0 || match.gameOver()){
+    if(depth == 0 || match.getGameOver()){
         return evaluatePosition(match);
     }
     uint8_t turn = maximising? 0 : 1;

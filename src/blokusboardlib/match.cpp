@@ -17,6 +17,7 @@ const Block& BlokusMatch::getPiece(int piece_id){
 BlokusMatch::BlokusMatch(int nPlayers): board(), nPlayers(nPlayers){
     playerPieces.resize(4);
     turnTracker = 0;
+    gameOver = false;
     for(int i = 0; i < 4 ; i++){
       playersPassed[i] = false;
       playersPlayed[i] = false;
@@ -42,6 +43,7 @@ BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){ // t
     moveNum = otherMatch.moveNum;
     nPlayers = otherMatch.nPlayers;
     turnTracker = otherMatch.turnTracker;
+    gameOver = otherMatch.gameOver;
 }
 
 void BlokusMatch::newGame(){
@@ -57,6 +59,7 @@ void BlokusMatch::newGame(){
     }
     moveNum = 0;
     turnTracker = 0;
+    gameOver = false;
     board.reset();
 }
 
@@ -70,22 +73,30 @@ bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint
         return false;
     }
     bool success = applyMove(pieceId, row, col, rotation, turn);
-    if (success){
-        turnTracker = (turnTracker+1)%nPlayers;
+    if (success) {
+        if (pieceId == 22 && turnTracker != turn) {
+            return true; // async resign
+        }
+        int8_t nextTurn = getNextTurn();
+        if(nextTurn == -1){
+            gameOver = true;
+        } else {
+            turnTracker = nextTurn;
+        }
+        moveNum++;
     }
     return success;
 }
 
 bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
+    if(pieceId == 22){
+        playersPassed[turn] = true;
+        return true;
+    }
+
     if(turn != turnTracker){
         std::cout << "Not your turn to play" << std::endl;
         return false;
-    }
-
-    if(pieceId == 22){
-        playersPassed[turn] = true;
-        moveNum++;
-        return true;
     }
 
     const Block& piece = getPiece(pieceId);
@@ -93,9 +104,19 @@ bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uin
     if (success){
         playersPlayed[turn] = true;
         playerPieces[turn].erase(pieceId);
-        moveNum++;
     }
     return success;
+}
+
+int8_t BlokusMatch::getNextTurn(){
+    uint8_t nextTurn = (turnTracker+1)%nPlayers;
+    while(nextTurn != turnTracker){
+        if(!playersPassed[nextTurn]){
+            return nextTurn;
+        }
+        nextTurn = (nextTurn+1)%nPlayers;
+    }
+    return -1;
 }
 
 void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
@@ -115,13 +136,13 @@ void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, ui
 
 bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
 
-    if(turn >= nPlayers){
+    if(turn >= nPlayers || playersPassed[turn] == true){
         return false;
     }
 
     if(pieceId == 22){
-        return row == 0 && col == 0 && rotation == 0;
-    } // todo: this might be wrong.
+        return true;
+    }
 
     bool firstMove = !playersPlayed[turn];
     const Block& piece = getPiece(pieceId);
@@ -136,15 +157,6 @@ bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, u
         return false;
     }
     return board.canPlacePiece(piece, row, col, rotation, turn, firstMove);
-}
-
-bool BlokusMatch::gameOver(){
-    for(int i = 0 ; i < nPlayers ; i++){
-      if(playersPassed[i] == false){
-        return false;
-      }
-    }
-    return true;
 }
 
 const BlokusBoard& BlokusMatch::getBoard() const{
@@ -265,16 +277,6 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(uint8_t turn) {
                         moves.push_back(std::make_tuple(pieceId, row, col, rotation));
                     };
                 }
-
-                // for(auto pieceCorner : piece.getCornerBlocks(rotation)){
-                //     std::tuple<int, int> placementOffset = getOffsetForCorner(corner, pieceCorner);
-                //     int row = std::get<0>(placementOffset);
-                //     int col = std::get<1>(placementOffset);
-                //     if(canPlayMove(pieceId, row, col, rotation, turn)){ // can play move
-                //         moves.push_back(std::make_tuple(p, row, col, rotation));
-                //     };
-                // }
-
             }
         }
     }
@@ -302,6 +304,6 @@ uint8_t BlokusMatch::getTurn(){
     return turnTracker;
 }
 
-void BlokusMatch::resign(uint8_t turn){
-    playersPassed[turn] = true;
+bool BlokusMatch::getGameOver(){
+    return gameOver;
 }

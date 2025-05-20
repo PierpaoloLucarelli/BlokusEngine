@@ -19,6 +19,7 @@ class BlokusMatch{
         int moveNum;
         int nPlayers;
         uint8_t turnTracker;
+        bool gameOver;
 
     public:
         BlokusMatch(int nPlayers);
@@ -31,7 +32,6 @@ class BlokusMatch{
         bool applyMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         void removeMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         bool canPlayMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
-        bool gameOver();
         const BlokusBoard& getBoard() const;
         std::vector<uint8_t> getState();
         std::unordered_set<int>& getPiecesForPlayer(uint8_t turn);
@@ -46,5 +46,6 @@ class BlokusMatch{
         uint8_t getTurn();
         std::array<bool, 4> getFirstTurns();
         std::array<bool, 4> getPlayersPassed();
-        void resign(uint8_t turn);
+        int8_t getNextTurn();
+        bool getGameOver();
 };

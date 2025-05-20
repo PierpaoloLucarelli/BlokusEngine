@@ -182,6 +182,64 @@ bool testGetMovesFromPos(){
     return success;
 }
 
+bool testGetTurn(){
+    BlokusMatch match(4);
+    match.newGame();
+    if (match.getTurn() != 0){
+        return false;
+    }
+    match.playMove(0, 4, 4, 0, 0); // Single piece not touching any corner. Cant  
+    if (match.getTurn() != 0){\
+        return false;
+    }
+    bool success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
+    if(match.getTurn() != 1){
+        return false;
+    }
+    success = success && match.playMove(16, 17, 0, 1, 1); // p1 puts L in corner
+    if(match.getTurn() != 2){
+        return false;
+    }
+    success = success && match.playMove(16, 17, 19, 2, 2); // p2 puts L in bottom right.
+    if(match.getTurn() != 3){
+        return false;
+    }
+    success = success && match.playMove(16, 0, 17, 1, 3); // p3 puts L in top right.
+    if(match.getTurn() != 0){
+        return false;
+    }
+    return success;
+}
+
+bool testPlayerResigned(){
+    BlokusMatch match(4);
+    match.newGame();
+    bool success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
+    success = success && match.playMove(22, 0, 0, 0, 1); // p1 resigns while its their turn.
+    if(match.getTurn() != 2){
+        return false;
+    }
+    success = success && match.playMove(16, 17, 19, 2, 2); // p2 puts L in bottom right.
+    if(match.getTurn() != 3){
+        return false;
+    }
+    success = success && match.playMove(22, 0, 0, 0, 0); // p1 resigns while its not their turn.
+    if(match.getTurn() != 3){ // still p3s turn
+        return false;
+    }
+    success = success && match.playMove(16, 0, 17, 1, 3); // p3 puts L in top right.
+    if(match.getTurn() != 2){ // p0 and p1 have resigned so it should be p2s turn.
+        return false;
+    }
+    std::array<bool, 4> playersPassed = match.getPlayersPassed();
+    return success && (
+        playersPassed[0] &&
+        playersPassed[1] &&
+       !playersPassed[2] &&
+       !playersPassed[3]
+    );
+}
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -194,6 +252,8 @@ int main(){
     runTest(testCantPlaySamePiece, "TEST: Cant playsame piece twice even tho its legal move.");
     runTest(testCanPlaceRotatedPieceInsideOfBoundsOnEdge, "TEST: Can place rotated pieces in corner.");
     runTest(testGetMovesFromPos, "TEST: Check if get moves from pos returns correct.");
-    
+    runTest(testGetTurn, "TEST: test if turn is correctly changing.");
+    runTest(testPlayerResigned, "TEST: if player resigning works correct on getTurn().");
+
     return 0;
 }
