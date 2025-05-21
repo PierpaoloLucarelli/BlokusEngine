@@ -307,3 +307,30 @@ uint8_t BlokusMatch::getTurn(){
 bool BlokusMatch::getGameOver(){
     return gameOver;
 }
+
+// std::array<int, 4> BlokusMatch::getScoreRanking(){
+//     std::array<int, 4> result = {0,0,0,0};
+//     std::vector<std::pair<int, int>> ranking;
+//     for (int i = 0; i < nPlayers; i++) {
+//         ranking.emplace_back(i, evaluatePlayerBlocks[i]);
+//     }
+
+//     std::sort(ranking.begin(), ranking.end(),
+//               [](const auto& a, const auto& b) {
+//                   return a.second > b.second;
+//               });
+
+//     int prev = ranking[0].first;
+//     for (int rank = 0; rank < ranking.size(); ++rank) {
+
+//     }
+// }
+
+int BlokusMatch::evaluatePlayerBlocks(uint8_t turn){
+    int playerBlocks = 0;
+    for(int pieceId : playerPieces[turn]){
+        const Block& piece = getPiece(pieceId);
+        playerBlocks += piece.size;
+    }
+    return playerBlocks;
+}

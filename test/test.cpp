@@ -214,7 +214,7 @@ bool testGetTurn(){
 bool testPlayerResigned(){
     BlokusMatch match(4);
     match.newGame();
-    bool success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
+    bool success = match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
     success = success && match.playMove(22, 0, 0, 0, 1); // p1 resigns while its their turn.
     if(match.getTurn() != 2){
         return false;
@@ -240,6 +240,25 @@ bool testPlayerResigned(){
     );
 }
 
+bool testEvaluatePlayerBlocks(){
+    int totalBlocks = 0;
+    for(const Block& b : rotatedPieces){
+        totalBlocks += b.size;
+    }
+    BlokusMatch match(4);
+    match.newGame();
+    int playedPieceId = 16;
+    const Block& playerPiece = rotatedPieces[playedPieceId];
+    bool success = match.playMove(playedPieceId, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
+    if(match.evaluatePlayerBlocks(0) != totalBlocks - playerPiece.size){
+        return false;
+    }
+    if(match.evaluatePlayerBlocks(1) != totalBlocks){
+        return false;
+    }
+    return success;
+}
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -254,6 +273,7 @@ int main(){
     runTest(testGetMovesFromPos, "TEST: Check if get moves from pos returns correct.");
     runTest(testGetTurn, "TEST: test if turn is correctly changing.");
     runTest(testPlayerResigned, "TEST: if player resigning works correct on getTurn().");
+    runTest(testEvaluatePlayerBlocks, "TEST: if count of player blocks is correct..");
 
     return 0;
 }
