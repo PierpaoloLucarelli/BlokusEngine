@@ -49,5 +49,4 @@ class BlokusMatch{
         int8_t getNextTurn();
         bool getGameOver();
         int evaluatePlayerBlocks(uint8_t turn);
-        std::array<int, 4> getScoreRanking();
 };

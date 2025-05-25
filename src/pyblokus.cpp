@@ -17,6 +17,7 @@ PYBIND11_MODULE(pyblokus, m) {
         .def("getPlayerPieces", &BlokusMatch::getPlayerPieces)
         .def("getFirstTurns", &BlokusMatch::getFirstTurns)
         .def("getPlayersPassed", &BlokusMatch::getPlayersPassed)
+        .def("getGameOver", &BlokusMatch::getGameOver)
         .def("getState", &BlokusMatch::getState, "Returns the state of the board as a list of integers");
         
     // Expose the BlokusMove as a tuple (shape, row, col, rotation)

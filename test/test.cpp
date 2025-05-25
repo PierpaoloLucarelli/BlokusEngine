@@ -259,6 +259,22 @@ bool testEvaluatePlayerBlocks(){
     return success;
 }
 
+bool testGamOver(){
+    BlokusMatch match(4);
+    match.newGame();
+    bool success = match.playMove(22, 0, 0, 0, 0); // p0 resigns while its their turn.
+    success = success &&  match.playMove(22, 0, 0, 0, 1); // p0 resigns while its their turn.
+    if(match.getGameOver()){
+        return false;
+    }
+    success = success &&  match.playMove(22, 0, 0, 0, 2); // p0 resigns while its their turn.
+    success = success &&  match.playMove(22, 0, 0, 0, 3); // p0 resigns while its their turn.
+    if(!match.getGameOver()){
+        return false;
+    }
+    return success;
+}
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -273,7 +289,7 @@ int main(){
     runTest(testGetMovesFromPos, "TEST: Check if get moves from pos returns correct.");
     runTest(testGetTurn, "TEST: test if turn is correctly changing.");
     runTest(testPlayerResigned, "TEST: if player resigning works correct on getTurn().");
-    runTest(testEvaluatePlayerBlocks, "TEST: if count of player blocks is correct..");
-
+    runTest(testEvaluatePlayerBlocks, "TEST: if count of player blocks is correct.");
+    runTest(testGamOver, "TEST: if all players resign that the game over flag is true.");
     return 0;
 }
