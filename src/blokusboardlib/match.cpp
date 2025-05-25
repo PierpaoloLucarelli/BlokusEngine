@@ -316,3 +316,26 @@ int BlokusMatch::evaluatePlayerBlocks(uint8_t turn){
     }
     return playerBlocks;
 }
+
+std::array<int, 4> BlokusMatch::getFinalRanking(){
+    std::array<int, 4> result;
+    std::array<std::pair<int, int>, 4> playerRanks; 
+    for(int i = 0 ; i < nPlayers ; i++){
+        playerRanks[i] = std::make_pair(i, evaluatePlayerBlocks(i));
+    }
+
+    std::sort(playerRanks.begin(), playerRanks.end(), [](const auto& a, const auto& b) {
+        return a.second < b.second;
+    });
+
+    int rank = 0;
+    int lastScore = -100;
+    for(std::pair<int, int> p: playerRanks){
+        if(p.second != lastScore){
+            rank=rank+1;
+        }
+        result[p.first] = rank;
+        lastScore = p.second;
+    }
+    return result;
+}

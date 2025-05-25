@@ -223,7 +223,7 @@ bool testPlayerResigned(){
     if(match.getTurn() != 3){
         return false;
     }
-    success = success && match.playMove(22, 0, 0, 0, 0); // p1 resigns while its not their turn.
+    success = success && match.playMove(22, 0, 0, 0, 0); // p0 resigns while its not their turn.
     if(match.getTurn() != 3){ // still p3s turn
         return false;
     }
@@ -231,12 +231,25 @@ bool testPlayerResigned(){
     if(match.getTurn() != 2){ // p0 and p1 have resigned so it should be p2s turn.
         return false;
     }
+    success = success && match.playMove(0, 16, 16, 0, 2); // p2 puts Single in available corner.
     std::array<bool, 4> playersPassed = match.getPlayersPassed();
-    return success && (
+    success && (
         playersPassed[0] &&
         playersPassed[1] &&
        !playersPassed[2] &&
        !playersPassed[3]
+    );
+    success = success && match.playMove(22, 0, 0, 0, 2); // p2 resigns while its not their turn.
+    success = success && match.playMove(22, 0, 0, 0, 3); // p3 resigns while its not their turn.
+
+    if(!match.getGameOver()){
+        return false;
+    }
+
+    std::array<int, 4> ranks = match.getFinalRanking();
+
+    return success && (
+        ranks[2] == 1 && ranks[0] == 2 && ranks[3] == 2 && ranks[1] == 3
     );
 }
 
