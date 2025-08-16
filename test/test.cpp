@@ -288,6 +288,19 @@ bool testGamOver(){
     return success;
 }
 
+bool testCopyConstructor(){
+    BlokusMatch match(4);
+    match.newGame();
+
+    BlokusMatch copyMatch = match.copy();
+    bool success = match.playMove(22, 0, 0, 0, 0); // p0 resigns while its their turn.
+
+    std::array<bool, 4> playersPassedCopy = copyMatch.getPlayersPassed();
+    std::array<bool, 4> playersPassed = match.getPlayersPassed();
+    success = success && playersPassedCopy[0] == 0;
+    return success && playersPassed[0] == 1;
+}
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -304,5 +317,6 @@ int main(){
     runTest(testPlayerResigned, "TEST: if player resigning works correct on getTurn().");
     runTest(testEvaluatePlayerBlocks, "TEST: if count of player blocks is correct.");
     runTest(testGamOver, "TEST: if all players resign that the game over flag is true.");
+    runTest(testCopyConstructor, "TEST: if modifying the copied keeps the copy unchanged..");
     return 0;
 }

@@ -23,7 +23,9 @@ class BlokusMatch{
 
     public:
         BlokusMatch(int nPlayers);
-        BlokusMatch(BlokusMatch& otherMatch);
+        BlokusMatch(const BlokusMatch& otherMatch);
+        BlokusMatch copy() const;
+
 
 
         void newGame();
@@ -50,4 +52,5 @@ class BlokusMatch{
         bool getGameOver();
         int evaluatePlayerBlocks(uint8_t turn);
         std::array<int, 4> getFinalRanking();
+
 };

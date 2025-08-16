@@ -29,21 +29,18 @@ BlokusMatch::BlokusMatch(int nPlayers): board(), nPlayers(nPlayers){
     moveNum = 0;
 }
 
-BlokusMatch::BlokusMatch(BlokusMatch& otherMatch): board(otherMatch.board){ // todo: other match might not have a new game, then pieces are None.
-
-    for(int i = 0 ; i < 4 ; i++){
-      playersPlayed[i] = otherMatch.playersPlayed[i];
-      playersPassed[i] = otherMatch.playersPassed[i];
-
-      playerPieces[i].clear();
-      for (int pieceId : otherMatch.playerPieces[i]) {
-          playerPieces[i].insert(pieceId);
-      }
-    }
-    moveNum = otherMatch.moveNum;
-    nPlayers = otherMatch.nPlayers;
-    turnTracker = otherMatch.turnTracker;
-    gameOver = otherMatch.gameOver;
+BlokusMatch::BlokusMatch(const BlokusMatch& other)
+    : board(other.board),
+      playerPieces(other.playerPieces),   // copies vector + each unordered_set<int>
+      moveNum(other.moveNum),
+      nPlayers(other.nPlayers),
+      turnTracker(other.turnTracker),
+      gameOver(other.gameOver)
+{
+    std::copy(std::begin(other.playersPlayed), std::end(other.playersPlayed),
+              std::begin(playersPlayed));
+    std::copy(std::begin(other.playersPassed), std::end(other.playersPassed),
+              std::begin(playersPassed));
 }
 
 void BlokusMatch::newGame(){
@@ -338,4 +335,8 @@ std::array<int, 4> BlokusMatch::getFinalRanking(){
         lastScore = p.second;
     }
     return result;
+}
+
+BlokusMatch BlokusMatch::copy() const {
+    return BlokusMatch(*this);
 }
