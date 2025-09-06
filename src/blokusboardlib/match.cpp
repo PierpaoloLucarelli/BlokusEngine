@@ -314,6 +314,15 @@ int BlokusMatch::evaluatePlayerBlocks(uint8_t turn){
     return playerBlocks;
 }
 
+std::array<int, 4> BlokusMatch::getPlayerScores(){
+    std::array<int, 4> playerScores; 
+    for(int i = 0 ; i < nPlayers ; i++){
+        playerScores[i] = evaluatePlayerBlocks(i);
+    }
+    return playerScores;
+}
+
+
 std::array<int, 4> BlokusMatch::getFinalRanking(){
     std::array<int, 4> result;
     std::array<std::pair<int, int>, 4> playerRanks; 

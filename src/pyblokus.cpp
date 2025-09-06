@@ -19,6 +19,7 @@ PYBIND11_MODULE(pyblokus, m) {
         .def("getPlayersPassed", &BlokusMatch::getPlayersPassed)
         .def("getGameOver", &BlokusMatch::getGameOver)
         .def("getFinalRanking", &BlokusMatch::getFinalRanking)
+        .def("getPlayerScores", &BlokusMatch::getPlayerScores)
         .def("getState", &BlokusMatch::getState, "Returns the state of the board as a list of integers")
         .def("copy", &BlokusMatch::copy, py::return_value_policy::move, "Return a deep copy of this match");
         
