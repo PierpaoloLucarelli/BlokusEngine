@@ -276,16 +276,30 @@ bool testGamOver(){
     BlokusMatch match(4);
     match.newGame();
     bool success = match.playMove(22, 0, 0, 0, 0); // p0 resigns while its their turn.
-    success = success &&  match.playMove(22, 0, 0, 0, 1); // p0 resigns while its their turn.
+    success = success &&  match.playMove(22, 0, 0, 0, 1); // p1 resigns while its their turn.
     if(match.getGameOver()){
         return false;
     }
-    success = success &&  match.playMove(22, 0, 0, 0, 2); // p0 resigns while its their turn.
-    success = success &&  match.playMove(22, 0, 0, 0, 3); // p0 resigns while its their turn.
-    if(!match.getGameOver()){
+    success = success &&  match.playMove(22, 0, 0, 0, 2); // p2 resigns while its their turn.
+    success = success &&  match.playMove(22, 0, 0, 0, 3); // p3 resigns while its their turn.
+    return match.getGameOver();
+}
+
+bool testGamOverMinusOnePlayer(){
+    BlokusMatch match(4);
+    match.newGame();
+    bool success = match.playMove(22, 0, 0, 0, 0); // p0 resigns while its their turn.
+    success = success &&  match.playMove(22, 0, 0, 0, 1); // p1 resigns while its their turn.
+    if(match.getGameOver()){
         return false;
     }
-    return success;
+    success = success &&  match.playMove(22, 0, 0, 0, 2); // p2 resigns while its their turn.
+    match.playMove(16, 2, 0, 0, 3); // L shape top left corner. Can
+    if(match.getTurn() != 3){ // 3s turn again.
+        return false;
+    }
+    success = success && match.playMove(0, 3, 3, 0, 3); // single piece in corner.
+    return success && !match.getGameOver() && match.getTurn() == 3;
 }
 
 bool testCopyConstructor(){
@@ -317,6 +331,7 @@ int main(){
     runTest(testPlayerResigned, "TEST: if player resigning works correct on getTurn().");
     runTest(testEvaluatePlayerBlocks, "TEST: if count of player blocks is correct.");
     runTest(testGamOver, "TEST: if all players resign that the game over flag is true.");
+    runTest(testGamOverMinusOnePlayer, "TEST: if all players -1 resign, the active player can still play.");
     runTest(testCopyConstructor, "TEST: if modifying the copied keeps the copy unchanged..");
     return 0;
 }

@@ -113,7 +113,11 @@ int8_t BlokusMatch::getNextTurn(){
         }
         nextTurn = (nextTurn+1)%nPlayers;
     }
-    return -1;
+    if(playersPassed[nextTurn]){
+        return -1;
+    } else{
+        return nextTurn;
+    }
 }
 
 void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
