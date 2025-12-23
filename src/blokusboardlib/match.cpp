@@ -85,16 +85,35 @@ bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint
     return success;
 }
 
+
+bool BlokusMatch::playBotMove(int pieceId, uint8_t turn, std::span<const uint8_t botBoard>){
+  if(_validateMetaMove(pieceId, turn)){
+    return false;
+  }
+  if(pieceId == 22){
+      playersPassed[turn] = true;
+      return true;
+  }
+  if(pieceId == 22){
+      return true;
+  }
+  board.applyBotBoard(botBoard); // TODO 
+
+};
+
 bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
     if(pieceId == 22){
         playersPassed[turn] = true;
         return true;
     }
-
-    if(turn != turnTracker){
-        std::cout << "Not your turn to play" << std::endl;
-        return false;
+    
+    if(pieceId == 22){
+        return true;
     }
+
+    bool firstMove = !playersPlayed[turn];
+    const Block& piece = getPiece(pieceId);
+
 
     const Block& piece = getPiece(pieceId);
     bool success = board.placePiece(piece, row, col, rotation, turn);
@@ -118,8 +137,8 @@ int8_t BlokusMatch::getNextTurn(){
     } else{
         return nextTurn;
     }
-}
 
+}
 void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
     if(pieceId == 22){
         moveNum--;
@@ -135,8 +154,7 @@ void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, ui
     moveNum--;
 }
 
-bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
-
+bool BlokusMatch::_validateMetaMove(int pieceId, uint8_t turn){
     if(turn >= nPlayers || playersPassed[turn] == true){
         return false;
     }
@@ -147,16 +165,23 @@ bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, u
 
     bool firstMove = !playersPlayed[turn];
     const Block& piece = getPiece(pieceId);
-    if (firstMove == true){
-        if (!board.isInCorner(piece, row, col, rotation)){
-            return false;
-        }
-    }
-
     std::unordered_set<int> playerPieces = getPiecesForPlayer(turn);
     if(!(playerPieces.find(pieceId) != playerPieces.end())){
         return false;
     }
+    if(turn != turnTracker){
+        std::cout << "Not your turn to play" << std::endl;
+        return false;
+    }
+    if(turn >= nPlayers || playersPassed[turn] == true){
+        return false;
+    }
+
+    return true;
+}
+
+bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
+    if (_validateMetaMove(pieceId, turn))
     return board.canPlacePiece(piece, row, col, rotation, turn, firstMove);
 }
 

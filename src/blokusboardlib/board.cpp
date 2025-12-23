@@ -44,6 +44,11 @@ bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t ro
     if(col<0 || row <0 || row > HEIGHT-1 || col > WIDTH-1){
         return false;
     }
+    if (firstMove == true){
+        if (isInCorner(piece, row, col, rotation)){
+            return false;
+        }
+    }
     std::vector<std::pair<int, int>> coords = piece.coords[rotation];
     if(firstMove){
         if(isInCorner(piece, row, col, rotation)){

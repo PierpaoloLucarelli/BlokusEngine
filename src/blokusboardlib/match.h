@@ -30,6 +30,8 @@ class BlokusMatch{
 
         void newGame();
         bool playMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
+        bool playBotMove(int piece_id,std::span<const uint8_t botBoard>);
+        bool _validateMetaMove(int pieceId, uint8_t turn); 
         bool play_move_(BlokusMove& move, uint8_t turn);
         bool applyMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         void removeMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
