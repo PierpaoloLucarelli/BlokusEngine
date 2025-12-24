@@ -301,7 +301,7 @@ std::vector<BlokusMove> BlokusMatch::getMovesFromPos(uint8_t turn) {
                     std::tuple<int, int> placementOffset = getOffsetForCorner(corner, coords[cornerIndex]);
                     int row = std::get<0>(placementOffset);
                     int col = std::get<1>(placementOffset);
-                    if(canPlayMove(pieceId, row, col, rotation, turn)){ // can play move
+                    if(canPlayMove(pieceId, row, col, rotation, turn, true)){ // can play move
                         moves.push_back(std::make_tuple(pieceId, row, col, rotation));
                     };
                 }

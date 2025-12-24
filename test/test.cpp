@@ -188,11 +188,12 @@ bool testGetTurn(){
     if (match.getTurn() != 0){
         return false;
     }
+    bool success = true;
     match.playMove(0, 4, 4, 0, 0); // Single piece not touching any corner. Cant  
     if (match.getTurn() != 0){\
         return false;
     }
-    bool success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
+    success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
     if(match.getTurn() != 1){
         return false;
     }
