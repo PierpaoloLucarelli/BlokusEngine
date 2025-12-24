@@ -94,9 +94,6 @@ bool BlokusMatch::playBotMove(int pieceId, uint8_t turn, std::span<const uint8_t
       playersPassed[turn] = true;
       return true;
   }
-  if(pieceId == 22){
-      return true;
-  }
   bool success = board.applyBotBoard(botBoard); 
   if (success){
       playersPlayed[turn] = true;
@@ -181,7 +178,9 @@ bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, u
     if (!_validateMetaMove(pieceId, turn, ignoreTurn)){
       return false;
     }
-    
+    if (pieceId == 22){
+      return true;
+    } 
     const Block& piece = getPiece(pieceId);
     bool firstMove = !playersPlayed[turn];
     return board.canPlacePiece(piece, row, col, rotation, turn, firstMove);
