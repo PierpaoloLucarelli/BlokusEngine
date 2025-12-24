@@ -40,6 +40,14 @@ bool BlokusBoard::placePiece(const Block& piece, int row, int col, uint8_t rotat
 }
 
 
+bool BlokusBoard::applyBotBoard(std::span<const uint8_t botBoard> board){
+   if (board.size() != state.size())
+        return false;
+
+    std::copy(board.begin(), board.end(), state.begin());
+    return true;    
+};
+
 bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove){
     if(col<0 || row <0 || row > HEIGHT-1 || col > WIDTH-1){
         return false;

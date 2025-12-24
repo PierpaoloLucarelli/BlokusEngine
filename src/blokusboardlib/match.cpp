@@ -97,8 +97,12 @@ bool BlokusMatch::playBotMove(int pieceId, uint8_t turn, std::span<const uint8_t
   if(pieceId == 22){
       return true;
   }
-  board.applyBotBoard(botBoard); // TODO 
-
+  bool success = board.applyBotBoard(botBoard); 
+  if (success){
+      playersPlayed[turn] = true;
+      playerPieces[turn].erase(pieceId);
+  }
+  return success;
 };
 
 bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){

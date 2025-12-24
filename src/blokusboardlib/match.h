@@ -6,7 +6,7 @@
 #include <board.h>
 #include <pieceShapes.h>
 #include <cstdint>
-
+#include <span>
 
 using BlokusMove = std::tuple<int, int, int, uint8_t>;
 
