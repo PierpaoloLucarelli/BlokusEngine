@@ -316,6 +316,23 @@ bool testCopyConstructor(){
     return success && playersPassed[0] == 1;
 }
 
+bool testPlayBotMove(){
+    BlokusMatch match(4);
+    int w = match.getBoard().getWidth();
+    int h = match.getBoard().getHeight();
+    int val = 1;
+    match.newGame();
+    std::vector<uint8_t> board(w*h, 1);
+    bool success = match.playBotMove(1, 1, board);
+    std::vector<uint8_t> state = match.getState();
+    for(int i = 0; i < w*h; i++){
+      if(state[i] != board[i]){
+        return false;
+      }
+    }
+    return success;
+}
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -334,5 +351,6 @@ int main(){
     runTest(testGamOver, "TEST: if all players resign that the game over flag is true.");
     runTest(testGamOverMinusOnePlayer, "TEST: if all players -1 resign, the active player can still play.");
     runTest(testCopyConstructor, "TEST: if modifying the copied keeps the copy unchanged..");
+    runTest(testPlayBotMove, "TEST: If play bot move sets the board to correct state.");
     return 0;
 }
