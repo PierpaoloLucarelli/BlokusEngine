@@ -86,7 +86,7 @@ bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint
 }
 
 
-bool BlokusMatch::playBotMove(int pieceId, uint8_t turn, std::span<const uint8_t botBoard>){
+bool BlokusMatch::playBotMove(int pieceId, uint8_t turn, std::span<const uint8_t> botBoard){
   if(_validateMetaMove(pieceId, turn)){
     return false;
   }
@@ -111,15 +111,9 @@ bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uin
         return true;
     }
     
-    if(pieceId == 22){
-        return true;
-    }
-
     bool firstMove = !playersPlayed[turn];
     const Block& piece = getPiece(pieceId);
 
-
-    const Block& piece = getPiece(pieceId);
     bool success = board.placePiece(piece, row, col, rotation, turn);
     if (success){
         playersPlayed[turn] = true;
@@ -158,7 +152,7 @@ void BlokusMatch::removeMove(int pieceId, int row, int col, uint8_t rotation, ui
     moveNum--;
 }
 
-bool BlokusMatch::_validateMetaMove(int pieceId, uint8_t turn){
+bool BlokusMatch::_validateMetaMove(int pieceId, uint8_t turn, bool ignoreTurn){
     if(turn >= nPlayers || playersPassed[turn] == true){
         return false;
     }
@@ -167,13 +161,12 @@ bool BlokusMatch::_validateMetaMove(int pieceId, uint8_t turn){
         return true;
     }
 
-    bool firstMove = !playersPlayed[turn];
     const Block& piece = getPiece(pieceId);
     std::unordered_set<int> playerPieces = getPiecesForPlayer(turn);
     if(!(playerPieces.find(pieceId) != playerPieces.end())){
         return false;
     }
-    if(turn != turnTracker){
+    if(!ignoreTurn && turn != turnTracker){
         std::cout << "Not your turn to play" << std::endl;
         return false;
     }
@@ -184,8 +177,13 @@ bool BlokusMatch::_validateMetaMove(int pieceId, uint8_t turn){
     return true;
 }
 
-bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
-    if (_validateMetaMove(pieceId, turn))
+bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn, bool ignoreTurn){
+    if (!_validateMetaMove(pieceId, turn, ignoreTurn)){
+      return false;
+    }
+    
+    const Block& piece = getPiece(pieceId);
+    bool firstMove = !playersPlayed[turn];
     return board.canPlacePiece(piece, row, col, rotation, turn, firstMove);
 }
 

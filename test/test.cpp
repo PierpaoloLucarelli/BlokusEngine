@@ -122,11 +122,11 @@ bool testCanPlayPieceTouchingSelfCorner(){
         return false;
     }
     return (
-        match.canPlayMove(0, 3, 3, 0, 0) && // Single shape on bottom corner. Can
-        match.canPlayMove(0, 1, 3, 0, 0) && // Single shape on top corner. Can
-        !match.canPlayMove(0, 4, 4, 0, 0) && // Single piece not touching any corner. Cant
-        !match.canPlayMove(0, 1, 2, 0, 0) && // Single piece touching corner but also adjacent. Cant 
-        !match.canPlayMove(0, 2, 2, 0, 0) // Single piece trying to replace the corner block. Cant.
+        match.canPlayMove(0, 3, 3, 0, 0, true) && // Single shape on bottom corner. Can
+        match.canPlayMove(0, 1, 3, 0, 0, true) && // Single shape on top corner. Can
+        !match.canPlayMove(0, 4, 4, 0, 0, true) && // Single piece not touching any corner. Cant
+        !match.canPlayMove(0, 1, 2, 0, 0, true) && // Single piece touching corner but also adjacent. Cant 
+        !match.canPlayMove(0, 2, 2, 0, 0, true) // Single piece trying to replace the corner block. Cant.
     );
 }
 

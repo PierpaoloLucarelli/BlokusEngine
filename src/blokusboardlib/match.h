@@ -30,12 +30,12 @@ class BlokusMatch{
 
         void newGame();
         bool playMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
-        bool playBotMove(int piece_id,std::span<const uint8_t botBoard>);
-        bool _validateMetaMove(int pieceId, uint8_t turn); 
+        bool playBotMove(int piece_id, uint8_t turn, std::span<const uint8_t> board);
+        bool _validateMetaMove(int pieceId, uint8_t turn, bool ignoreTurn = false); 
         bool play_move_(BlokusMove& move, uint8_t turn);
         bool applyMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         void removeMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
-        bool canPlayMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
+        bool canPlayMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn, bool ignoreTurn = false);
         const BlokusBoard& getBoard() const;
         std::vector<uint8_t> getState();
         std::unordered_set<int>& getPiecesForPlayer(uint8_t turn);
