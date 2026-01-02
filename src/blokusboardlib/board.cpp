@@ -43,10 +43,13 @@ std::vector<std::string> BlokusBoard::getPlacedCoords(const Block& piece, int ro
     std::vector<std::pair<int, int>> coords = piece.coords[rotation];
     std::vector<std::string> placed;
     for (const auto& coord : coords) {
-      int r = row + coord.second;
-      int c = c + coord.first;
+      int r = 20-(row + coord.second);
+      int c = col + coord.first;
       char c_char = 'a' + c;
-      placed.push_back(std::to_string(c_char)+std::to_string(r));
+      std::string _coord;
+      _coord += c_char;
+      _coord += std::to_string(r);
+      placed.push_back(_coord);
     }
     return placed;
 }

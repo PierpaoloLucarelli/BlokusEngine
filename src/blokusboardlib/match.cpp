@@ -64,15 +64,20 @@ bool BlokusMatch::play_move_(BlokusMove& move, uint8_t turn){
     return playMove(std::get<0>(move), std::get<1>(move), std::get<2>(move), std::get<3>(move), turn);
 }
 
-
-std::vector<std::string> BlokusMatch::playMoveExternal(int piece_id, int row, int col, uint8_t rotation, uint8_t turn){
-    bool success = playMove(piece_id, row, col, rotation, turn); 
-    if(success){
-      const Block& piece = getPiece(piece_id);
-      return board.getPlacedCoords(piece, row, col, rotation);
+std::tuple<bool, std::vector<std::string>>
+BlokusMatch::playMoveExternal(int piece_id, int row, int col,
+                              uint8_t rotation, uint8_t turn)
+{
+    if (!playMove(piece_id, row, col, rotation, turn)) {
+        return {false, {}};
     }
-    return {};
-};
+
+    const Block& piece = getPiece(piece_id);
+    return {
+        true,
+        board.getPlacedCoords(piece, row, col, rotation)
+    };
+}
 
 bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
     bool canPlay = canPlayMove(pieceId, row, col, rotation, turn);

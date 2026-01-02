@@ -9,7 +9,7 @@ PYBIND11_MODULE(pyblokus, m) {
     py::class_<BlokusMatch>(m, "BlokusMatch")
         .def(py::init<int>())  // Constructor that takes nPlayers
         .def("newGame", &BlokusMatch::newGame)
-        .def("playMove", &BlokusMatch::playMove)
+        .def("playMove", &BlokusMatch::playMoveExternal)
         .def("removeMove", &BlokusMatch::removeMove)
         .def("getMovesFromPos", &BlokusMatch::getMovesFromPos)
         .def("getCornersFromPos", &BlokusMatch::getCornersFromPos)
