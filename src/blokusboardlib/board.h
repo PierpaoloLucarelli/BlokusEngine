@@ -23,6 +23,7 @@ class BlokusBoard{
         std::vector<uint8_t> getState();
         bool placePiece(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn);
         bool canPlacePiece(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove);
+        std::vector<std::string> getPlacedCoords(const Block& piece, int row, int col, uint8_t rotation);
         int getWidth() const;
         int getHeight() const;
         const char* getStrReprForBlock(int i);

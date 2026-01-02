@@ -39,6 +39,17 @@ bool BlokusBoard::placePiece(const Block& piece, int row, int col, uint8_t rotat
     return true;
 }
 
+std::vector<std::string> BlokusBoard::getPlacedCoords(const Block& piece, int row, int col, uint8_t rotation){
+    std::vector<std::pair<int, int>> coords = piece.coords[rotation];
+    std::vector<std::string> placed;
+    for (const auto& coord : coords) {
+      int r = row + coord.second;
+      int c = c + coord.first;
+      char c_char = 'a' + c;
+      placed.push_back(std::to_string(c_char)+std::to_string(r));
+    }
+    return placed;
+}
 
 bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstMove){
     if(col<0 || row <0 || row > HEIGHT-1 || col > WIDTH-1){
