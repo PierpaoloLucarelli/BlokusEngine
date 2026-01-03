@@ -326,6 +326,18 @@ bool testGetPlacedCoords(){
     return coords.size() == 1 && coords[0] == "a20";;
 }
 
+bool testResignExternal(){
+    BlokusMatch match(4);
+    match.newGame();
+    std::tuple<bool, std::vector<std::string>> res = match.playMoveExternal(22, 0, 0, 0, 0);
+    if (!std::get<0>(res)){
+      return false;
+    }
+    const auto& coords = std::get<1>(res);
+    return coords.size() == 0;
+}
+
+
 int main(){
     std::cout << "Running tests." << std::endl;
     runTest(testPlaceAllPieces, "TEST: Place all pieces with no rule checks.");
@@ -345,5 +357,6 @@ int main(){
     runTest(testGamOverMinusOnePlayer, "TEST: if all players -1 resign, the active player can still play.");
     runTest(testCopyConstructor, "TEST: if modifying the copied keeps the copy unchanged..");
     runTest(testGetPlacedCoords, "TEST: if getPlacedCoords returns the correct coords and correct format.");
+    runTest(testResignExternal, "TEST: Check if resigning fails the external move player.");
     return 0;
 }

@@ -71,7 +71,9 @@ BlokusMatch::playMoveExternal(int piece_id, int row, int col,
     if (!playMove(piece_id, row, col, rotation, turn)) {
         return {false, {}};
     }
-
+    if(piece_id == 22){
+      return {true, {}};
+    }
     const Block& piece = getPiece(piece_id);
     return {
         true,
