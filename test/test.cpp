@@ -147,13 +147,15 @@ bool testCantPlayTwoMovesInARow(){
 bool test2PlayerGameAlternatingTurns(){
     BlokusMatch match(2);
     match.newGame();
-    return (
-        match.playMove(0, 0, 0, 0, 0) && // p0 single in top right. Can
-        match.playMove(0, 0, 19, 0, 1) && // p1 single in top right corner. Can
-        match.playMove(1, 1, 1, 0, 0) && // p0 double touching corner of single. Can
-        match.playMove(1, 17, 18, 0, 1) // p1 touching corner of single in bottom right. Can.
-    );
+
+    bool r1 = match.playMove(0, 0, 0, 0, 0);    // p0 single in top right. Can
+    bool r2 = match.playMove(0, 0, 19, 0, 1);   // p1 single in top right corner. Can
+    bool r3 = match.playMove(1, 1, 1, 0, 0);    // p0 double touching corner of single. Can
+    bool r4 = match.playMove(1, 1, 18, 0, 1);  // p1 touching corner of single in top right. Can.
+
+    return r1 && r2 && r3 && r4;
 }
+
 
 bool testCantPlaySamePiece(){
     BlokusMatch match(2);
