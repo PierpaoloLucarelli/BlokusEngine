@@ -78,14 +78,15 @@ bool testFailToPlacePieceNegative(){
 }
 
 bool testCanPlacePieceInsideOfBoundsOnEdge(){
-    return (
-        _canPlacePiece(4, 1, 0, 0, 0, true) && // long 4 piece. 
-        _canPlacePiece(18, 1, 1, 0, 0, true) && // S shape.
-        _canPlacePiece(4, 1, 19, 0, 0, true)  && // long 4 piece. top right corner
-        _canPlacePiece(18, 18, 18, 0, 0, true) &&  // S shape. bottom right corner.
-        _canPlacePiece(16, 19, 0, 0, 0, true) // L shape bottom left corner.
-    );
+    bool r1 = _canPlacePiece(4, 1, 0, 0, 0, true);   // long 4 piece.
+    bool r2 = _canPlacePiece(18, 1, 1, 0, 0, true); // S shape.
+    bool r3 = _canPlacePiece(4, 1, 19, 0, 1, true); // long 4 piece. top right corner
+    bool r4 = _canPlacePiece(18, 18, 18, 0, 2, true); // S shape. bottom right corner.
+    bool r5 = _canPlacePiece(16, 19, 0, 0, 3, true); // L shape bottom left corner.
+
+    return r1 && r2 && r3 && r4 && r5;
 }
+
 
 bool testCantPlacePieceOutsideOfBoundsOnEdge(){
     return (
@@ -99,15 +100,16 @@ bool testCantPlacePieceOutsideOfBoundsOnEdge(){
 }
 
 bool testCanPlaceRotatedPieceInsideOfBoundsOnEdge(){
-    return (
-        _canPlacePiece(17, 18, 1, 1, 0, true) && // S piece. Bottom left corner rotated once. Can
-        !_canPlacePiece(17, 18, 1, 0, 0, true) &&// Same piece but not rotated. Cant
-        _canPlacePiece(15, 1, 1, 2, 0, true) && // T piece rotated twice in top left corner. Can
-        !_canPlacePiece(15, 1, 1, 0, 0, true) && // Same piece but not rotated. Cant
-        _canPlacePiece(11, 2, 0, 4, 0, true) && // Can.
-        !_canPlacePiece(11, 2, 0, 0, 0, true) // Cant.
-    );
+    bool r1 = _canPlacePiece(17, 18, 1, 1, 3, true);  // S piece. Bottom left corner rotated once. Can
+    bool r2 = !_canPlacePiece(17, 18, 1, 0, 3, true); // Same piece but not rotated. Cant
+    bool r3 = _canPlacePiece(15, 1, 1, 2, 0, true);   // T piece rotated twice in top left corner. Can
+    bool r4 = !_canPlacePiece(15, 1, 1, 0, 0, true);  // Same piece but not rotated. Cant
+    bool r5 = _canPlacePiece(11, 2, 0, 4, 0, true);   // Can.
+    bool r6 = !_canPlacePiece(11, 2, 0, 0, 0, true);  // Cant.
+
+    return r1 && r2 && r3 && r4 && r5 && r6;
 }
+
 
 bool testCanPlayPieceTouchingSelfCorner(){
     BlokusMatch match(4);
@@ -133,12 +135,13 @@ bool testCanPlayPieceTouchingSelfCorner(){
 bool testCantPlayTwoMovesInARow(){
     BlokusMatch match(4);
     match.newGame();
-    return (
-        match.playMove(16, 2, 0, 0, 0) && // L shape top left corner -> Creates two free corners.
-        !match.playMove(0, 3, 3, 0, 0) &&// Single shape on bottom corner. Legal move but not ps turn.
-        match.playMove(0, 19, 19, 0, 1) && // Single piece on bottom right but for p1.
-        !match.playMove(1, 0, 19, 0, 1) // double piece in top right corner. Cant bcs not p1 turn.
-    );
+
+    bool r1 = match.playMove(16, 2, 0, 0, 0);   // L shape top left corner -> Creates two free corners.
+    bool r2 = !match.playMove(0, 3, 3, 0, 0);   // Single shape on bottom corner. Legal move but not ps turn.
+    bool r3 = match.playMove(0, 0, 19, 0, 1);  // Single piece on bottom right but for p2.
+    bool r4 = !match.playMove(1, 1, 18, 0, 1);  // double piece in top right corner. Cant bcs not p1 turn.
+
+    return r1 && r2 && r3 && r4;
 }
 
 bool test2PlayerGameAlternatingTurns(){
@@ -146,7 +149,7 @@ bool test2PlayerGameAlternatingTurns(){
     match.newGame();
     return (
         match.playMove(0, 0, 0, 0, 0) && // p0 single in top right. Can
-        match.playMove(0, 19, 19, 0, 1) && // p1 single in bottom right corner. Can
+        match.playMove(0, 0, 19, 0, 1) && // p1 single in top right corner. Can
         match.playMove(1, 1, 1, 0, 0) && // p0 double touching corner of single. Can
         match.playMove(1, 17, 18, 0, 1) // p1 touching corner of single in bottom right. Can.
     );
@@ -157,9 +160,9 @@ bool testCantPlaySamePiece(){
     match.newGame();
     return (
         match.playMove(0, 0, 0, 0, 0) && // p0 single in top right. Can
-        match.playMove(0, 19, 19, 0, 1) && // p1 single in bottom right corner. Can
-        !match.playMove(0, 1, 1, 0, 0) && // p0 single touching corner of single. Cant
-        !match.playMove(0, 18, 18, 0, 1) // p1 single corner of single in bottom right. Can.
+        match.playMove(0, 0, 19, 0, 1) && // p1 single in top right corner. Can
+        !match.playMove(0, 1, 1, 0, 0, false) && // p0 single touching corner of single. Cant
+        !match.playMove(0, 18, 18, 0, 1, false) // p1 single corner of single in bottom right. Can.
     );
 }
 
@@ -168,9 +171,9 @@ bool testGetMovesFromPos(){
     match.newGame();
     bool success = true;
     success = success && match.playMove(16, 2, 0, 0, 0); // p0 puts L in corner
-    success = success && match.playMove(16, 17, 0, 1, 1); // p1 puts L in corner
-    success = success && match.playMove(16, 17, 19, 2, 2); // p3 puts L in bottom right.
-    success = success && match.playMove(16, 0, 17, 1, 3); // p4 puts L in top right.
+    success = success && match.playMove(16, 0, 17, 1, 1); // p1 puts L in top right.
+    success = success && match.playMove(16, 17, 19, 2, 2); // p2 puts L in bottom right.
+    success = success && match.playMove(16, 17, 0, 1, 3); // p3 puts L in corner, bottom left
     for(int p = 0 ; p < 4 ; p++){
         std::unordered_set<int> pieces = {0, 1};
         match.setPlayerPieces(pieces, p);
@@ -189,14 +192,14 @@ bool testGetTurn(){
         return false;
     }
     match.playMove(0, 4, 4, 0, 0); // Single piece not touching any corner. Cant  
-    if (match.getTurn() != 0){\
+    if (match.getTurn() != 0){
         return false;
     }
     bool success = success && match.playMove(16, 2, 0, 0, 0); // L shape top left corner -> Creates two free corners. Can
     if(match.getTurn() != 1){
         return false;
     }
-    success = success && match.playMove(16, 17, 0, 1, 1); // p1 puts L in corner
+    success = success && match.playMove(16, 0, 17, 1, 1); // p1 puts L in corner, top right
     if(match.getTurn() != 2){
         return false;
     }
@@ -204,7 +207,7 @@ bool testGetTurn(){
     if(match.getTurn() != 3){
         return false;
     }
-    success = success && match.playMove(16, 0, 17, 1, 3); // p3 puts L in top right.
+    success = success && match.playMove(16, 19, 0, 0, 3); // p3 puts L in bottom left.
     if(match.getTurn() != 0){
         return false;
     }
@@ -227,7 +230,7 @@ bool testPlayerResigned(){
     if(match.getTurn() != 3){ // still p3s turn
         return false;
     }
-    success = success && match.playMove(16, 0, 17, 1, 3); // p3 puts L in top right.
+    success = success && match.playMove(16, 19, 0, 0, 3); // p3 puts L in bottom left.
     if(match.getTurn() != 2){ // p0 and p1 have resigned so it should be p2s turn.
         return false;
     }
@@ -294,11 +297,11 @@ bool testGamOverMinusOnePlayer(){
         return false;
     }
     success = success &&  match.playMove(22, 0, 0, 0, 2); // p2 resigns while its their turn.
-    match.playMove(16, 2, 0, 0, 3); // L shape top left corner. Can
+    match.playMove(16, 19, 0, 0, 3); // L shape top left corner. Can
     if(match.getTurn() != 3){ // 3s turn again.
         return false;
     }
-    success = success && match.playMove(0, 3, 3, 0, 3); // single piece in corner.
+    success = success && match.playMove(0, 18, 3, 0, 3); // single piece in corner.
     return success && !match.getGameOver() && match.getTurn() == 3;
 }
 

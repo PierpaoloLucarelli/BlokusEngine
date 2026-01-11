@@ -29,10 +29,10 @@ class BlokusMatch{
 
 
         void newGame();
-        bool playMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
+        bool playMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn, bool checkTurn = true);
         bool play_move_(BlokusMove& move, uint8_t turn);
         std::tuple<bool, std::vector<std::string>> playMoveExternal(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
-        bool applyMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
+        bool applyMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn, bool checkTurn = true);
         void removeMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         bool canPlayMove(int piece_id, int row, int col, uint8_t rotation, uint8_t turn);
         const BlokusBoard& getBoard() const;

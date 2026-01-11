@@ -60,7 +60,7 @@ bool BlokusBoard::canPlacePiece(const Block& piece, int row, int col, uint8_t ro
     }
     std::vector<std::pair<int, int>> coords = piece.coords[rotation];
     if(firstMove){
-        if(isInCorner(piece, row, col, rotation)){
+        if(isInCorner(piece, row, col, rotation, turn, true)){
             for (const auto& coord : coords) {
                 int newRow = row + coord.second;
                 int newCol = col + coord.first;
@@ -130,28 +130,64 @@ int BlokusBoard::getHeight() const{
     return HEIGHT;
 }
 
-bool BlokusBoard::isInCorner(const Block& piece, int row, int col, uint8_t rotation){
-    bool touchesCorner = false;
-    std::vector<std::pair<int, int>> coords = piece.coords[rotation];
-    for(const auto coord : coords){
+bool BlokusBoard::isInCorner(
+    const Block& piece,
+    int row,
+    int col,
+    uint8_t rotation,
+    uint8_t turn,
+    bool firstTurn
+) {
+    int cornerRow = -1;
+    int cornerCol = -1;
+
+    // Only determine player corner if this is the first turn
+    if (firstTurn) {
+        switch (turn) {
+            case 0: // top-left
+                cornerRow = 0;
+                cornerCol = 0;
+                break;
+            case 1: // top-right
+                cornerRow = 0;
+                cornerCol = WIDTH - 1;
+                break;
+            case 2: // bottom-right
+                cornerRow = HEIGHT - 1;
+                cornerCol = WIDTH - 1;
+                break;
+            case 3: // bottom-left
+                cornerRow = HEIGHT - 1;
+                cornerCol = 0;
+                break;
+            default:
+                return false;
+        }
+    }
+
+    bool touchesRequiredCorner = false;
+    const auto& coords = piece.coords[rotation];
+
+    for (const auto& coord : coords) {
         int newRow = row + coord.second;
         int newCol = col + coord.first;
 
-        if ((newRow < 0 || newRow > HEIGHT-1) || (newCol < 0 || newCol > WIDTH-1)){
+        // Bounds check (always required)
+        if (newRow < 0 || newRow >= HEIGHT || newCol < 0 || newCol >= WIDTH) {
             return false;
         }
 
-        if (
-            (newRow == 0 && newCol == 0) || 
-            (newRow == 0 && newCol == WIDTH - 1) ||
-            (newRow == WIDTH - 1 && newCol == 0) ||
-            (newRow == WIDTH - 1 && newCol == HEIGHT - 1)
-          ) {
-            touchesCorner = true;
-          }
+        // Only enforce corner constraint on first turn
+        if (firstTurn && newRow == cornerRow && newCol == cornerCol) {
+            touchesRequiredCorner = true;
+        }
     }
-    return touchesCorner;
+
+    // If first turn → must touch the player's corner
+    // Otherwise → no corner constraint
+    return !firstTurn || touchesRequiredCorner;
 }
+
 
 void BlokusBoard::removePiece(const Block& piece, int row, int col, uint8_t rotation){
 

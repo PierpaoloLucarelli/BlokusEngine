@@ -28,7 +28,7 @@ class BlokusBoard{
         int getHeight() const;
         const char* getStrReprForBlock(int i);
         std::string getStrReprForBoard() const;
-        bool isInCorner(const Block& piece, int row, int col, uint8_t rotation);
+        bool isInCorner(const Block& piece, int row, int col, uint8_t rotation, uint8_t turn, bool firstTurn = false);
         void removePiece(const Block& piece, int row, int col, uint8_t rotation);
         // bool isCorner(int row, int col);
         bool isAdjacentOccupied(int row, int col, uint8_t turn);

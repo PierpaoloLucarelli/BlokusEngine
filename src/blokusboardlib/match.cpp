@@ -81,12 +81,12 @@ BlokusMatch::playMoveExternal(int piece_id, int row, int col,
     };
 }
 
-bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
+bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn, bool checkTurn){
     bool canPlay = canPlayMove(pieceId, row, col, rotation, turn);
     if (!canPlay){
         return false;
     }
-    bool success = applyMove(pieceId, row, col, rotation, turn);
+    bool success = applyMove(pieceId, row, col, rotation, turn, checkTurn);
     if (success) {
         if (pieceId == 22 && turnTracker != turn) {
             return true; // async resign
@@ -102,13 +102,13 @@ bool BlokusMatch::playMove(int pieceId, int row, int col, uint8_t rotation, uint
     return success;
 }
 
-bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn){
+bool BlokusMatch::applyMove(int pieceId, int row, int col, uint8_t rotation, uint8_t turn, bool checkTurn){
     if(pieceId == 22){
         playersPassed[turn] = true;
         return true;
     }
 
-    if(turn != turnTracker){
+    if(checkTurn && turn != turnTracker){
         std::cout << "Not your turn to play" << std::endl;
         return false;
     }
@@ -165,7 +165,7 @@ bool BlokusMatch::canPlayMove(int pieceId, int row, int col, uint8_t rotation, u
     bool firstMove = !playersPlayed[turn];
     const Block& piece = getPiece(pieceId);
     if (firstMove == true){
-        if (!board.isInCorner(piece, row, col, rotation)){
+        if (!board.isInCorner(piece, row, col, rotation, turn, true)){
             return false;
         }
     }
